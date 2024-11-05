@@ -1,5 +1,5 @@
 import ImageImport from "../data/ImageImport";
-import Team from "../data/Team";
+import Team from "../data/Team/Team";
 import CardTeam from "../components/Card/CardTeam";
 
 export default function TentangKamiPage() {
