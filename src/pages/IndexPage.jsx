@@ -7,8 +7,6 @@ import CardAlasan from "../components/Card/CardAlasan";
 export default function IndexPage() {
   return (
     <div className="bg-bg-body">
-      <Navbar />
-
       {/* Hero Section */}
       <section
         className="bg-brown-light pt-20 lg:pt-44 pb-14 lg:pb-32 flex items-center"
@@ -215,8 +213,6 @@ export default function IndexPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

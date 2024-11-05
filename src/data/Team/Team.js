@@ -1,4 +1,4 @@
-import ImageImport from "./ImageImport";
+import ImageImport from "../ImageImport";
 
 // input nama nama team
 const DataTeam = [

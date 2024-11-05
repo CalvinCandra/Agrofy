@@ -5,6 +5,7 @@ import _tentang_kami from "../assets/img/landing/tentang_kami.png";
 import _pemberdayaan from "../assets/img/landing/pemberdayaan.png";
 import _manajemen from "../assets/img/landing/manajemen.png";
 import _komunitas from "../assets/img/landing/komunitas.png";
+// tentang kami
 import _visimisi from "../assets/img/tentangkami/visimisi.png";
 import _sella from "../assets/img/tentangkami/sella.png";
 import _cindy from "../assets/img/tentangkami/cindy.png";
@@ -13,6 +14,12 @@ import _oka from "../assets/img/tentangkami/oka.png";
 import _willy from "../assets/img/tentangkami/willy.png";
 import _hani from "../assets/img/tentangkami/hani.png";
 import _rofi from "../assets/img/tentangkami/rofi.png";
+// artikel
+import _artikel1 from "../assets/img/artikel/1.png";
+import _artikel2 from "../assets/img/artikel/2.png";
+import _artikel3 from "../assets/img/artikel/3.png";
+import _artikel4 from "../assets/img/artikel/4.png";
+import _artikel5 from "../assets/img/artikel/5.png";
 
 const ImageImport = {
   // logo
@@ -37,6 +44,13 @@ const ImageImport = {
   willy: _willy,
   hani: _hani,
   rofi: _rofi,
+
+  // artikel
+  artikel1: _artikel1,
+  artikel2: _artikel2,
+  artikel3: _artikel3,
+  artikel4: _artikel4,
+  artikel5: _artikel5,
 };
 
 export default ImageImport;
