@@ -13,8 +13,8 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="fixed w-full z-20 top-0 start-0 shadow-md bg-white">
-        <div className="w-[90%] m-auto flex items-center justify-between p-3">
+      <nav className="fixed w-full z-50 top-0 start-0 shadow-md bg-white">
+        <div className="w-konten m-auto flex items-center justify-between py-3">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -28,25 +28,25 @@ export default function Navbar() {
 
           <div className="w-[31rem] ml-24 hidden md:flex justify-between text-black">
             <a
-              href=""
+              href="/#hero"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Home
             </a>
             <a
-              href=""
+              href="/#tentang_kami"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Tentang Kami
             </a>
             <a
-              href=""
+              href="/#pemberdayaan"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Pemberdayaan
             </a>
             <a
-              href=""
+              href="/#komunitas"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Komunitas

@@ -21,22 +21,22 @@ export default function Footer() {
               </h2>
               <ul className="text-white font-light md:font-medium">
                 <li className="mb-2">
-                  <a href="/" className="hover:underline">
+                  <a href="/#hero" className="hover:underline">
                     Home
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a href="#" className="hover:underline">
+                  <a href="/#tentang_kami" className="hover:underline">
                     Tentang Kami
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a href="#" className="hover:underline">
+                  <a href="/#pemberdayaan" className="hover:underline">
                     Pemberdayaan
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a href="#" className="hover:underline">
+                  <a href="/#komunitas" className="hover:underline">
                     Komunitas
                   </a>
                 </li>

@@ -12,8 +12,14 @@ export default {
       "main-green-hover": "#15803e",
       "bg-body": "#E5E7EB",
       "stroke-gray": "#9CA3AF",
+      "brown-light": "#FEFCEC",
     },
-    extend: {},
+
+    extend: {
+      spacing: {
+        konten: "90%",
+      },
+    },
   },
   plugins: [flowbite.plugin()],
 };
