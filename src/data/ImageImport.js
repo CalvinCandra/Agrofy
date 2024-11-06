@@ -14,8 +14,10 @@ import _oka from "../assets/img/tentangkami/oka.png";
 import _willy from "../assets/img/tentangkami/willy.png";
 import _hani from "../assets/img/tentangkami/hani.png";
 import _rofi from "../assets/img/tentangkami/rofi.png";
+import _reza from "../assets/img/tentangkami/reza.png";
+import _fitri from "../assets/img/tentangkami/fitri.png";
 // artikel
-import _artikel1 from "../assets/img/artikel/1.png";
+import _artikel1 from "../assets/img/artikel/1.jpg";
 import _artikel2 from "../assets/img/artikel/2.png";
 import _artikel3 from "../assets/img/artikel/3.png";
 import _artikel4 from "../assets/img/artikel/4.png";
@@ -52,6 +54,8 @@ const ImageImport = {
   willy: _willy,
   hani: _hani,
   rofi: _rofi,
+  reza: _reza,
+  fitri: _fitri,
 
   // artikel
   artikel1: _artikel1,
@@ -66,7 +70,7 @@ const ImageImport = {
   laporan: _sidebardash2,
   olahan: _sidebardash3,
   proses: _sidebardash4,
-  riwayat: _sidebardash5
+  riwayat: _sidebardash5,
 };
 
 export default ImageImport;
