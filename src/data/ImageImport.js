@@ -21,6 +21,14 @@ import _artikel3 from "../assets/img/artikel/3.png";
 import _artikel4 from "../assets/img/artikel/4.png";
 import _artikel5 from "../assets/img/artikel/5.png";
 
+//dashboard
+import _sidebardash from "../assets/img/dashboard/dashboard.png";
+import _sidebardash1 from "../assets/img/dashboard/limbah.png";
+import _sidebardash2 from "../assets/img/dashboard/laporan.png";
+import _sidebardash3 from "../assets/img/dashboard/olahan.png";
+import _sidebardash4 from "../assets/img/dashboard/proses.png";
+import _sidebardash5 from "../assets/img/dashboard/riwayat.png";
+
 const ImageImport = {
   // logo
   logo: _logo,
@@ -51,6 +59,14 @@ const ImageImport = {
   artikel3: _artikel3,
   artikel4: _artikel4,
   artikel5: _artikel5,
+
+  //
+  dashboard: _sidebardash,
+  limbah: _sidebardash1,
+  laporan: _sidebardash2,
+  olahan: _sidebardash3,
+  proses: _sidebardash4,
+  riwayat: _sidebardash5
 };
 
 export default ImageImport;
