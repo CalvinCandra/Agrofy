@@ -13,6 +13,7 @@ export default {
       "bg-body": "#E5E7EB",
       "stroke-gray": "#9CA3AF",
       "brown-light": "#FEFCEC",
+      "dashboard" : "#D9D9D9",
     },
 
     extend: {

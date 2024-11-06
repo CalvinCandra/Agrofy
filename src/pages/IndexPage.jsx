@@ -205,7 +205,7 @@ export default function IndexPage() {
             </p>
             <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
               <ButtonHref
-                href="#"
+                href="/dashboard"
                 text="Lihat Selengkapnya"
                 variant="primary"
               />
