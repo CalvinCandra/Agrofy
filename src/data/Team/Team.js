@@ -33,9 +33,9 @@ const DataTeam = [
     nama: "Willy Calvin Candra Lay",
   },
   {
-    img: ImageImport.sella,
+    img: ImageImport.reza,
     jabatan: "Scrum Master Mobile",
-    nama: "IDK",
+    nama: "Reza Febriyansyah",
   },
   {
     img: ImageImport.hani,
@@ -58,9 +58,9 @@ const DataTeam = [
     nama: "Muhammad Rofi’ul Arham",
   },
   {
-    img: ImageImport.sella,
+    img: ImageImport.fitri,
     jabatan: "Hacker Mobile",
-    nama: "IDK",
+    nama: "Fitri Reza",
   },
 ];
 

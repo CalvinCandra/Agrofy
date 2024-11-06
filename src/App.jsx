@@ -8,6 +8,8 @@ import TentangKamiPage from "./pages/TentangKamiPage";
 import ArtikelList from "./pages/Artikel/ArtikelList";
 import ArtikelDetail from "./pages/Artikel/ArtikelDetail";
 import Dashboard from "./pages/menejemen/Dashboard";
+import VideoDetail from "./pages/Video/VideoDetail";
+import VideoList from "./pages/Video/VideoList";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
         <Route path="/artikel_detail" element={<ArtikelDetail />} />
+        <Route path="/video" element={<VideoList />} />
+        <Route path="/video_detail" element={<VideoDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
