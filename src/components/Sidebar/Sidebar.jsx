@@ -13,37 +13,37 @@ export default function Sidebar() {
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.dashboard} alt="" /></span>
-                <span className="text-stroke-gray" >Dashboard</span>
+                <span className="text-stroke-gray hover:text-white" >Dashboard</span>
               </a>
             </li>
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.limbah} alt="" /></span>
-                <span className="text-stroke-gray" >Data Limbah</span>
+                <span className="text-stroke-gray hover:text-white" >Data Limbah</span>
               </a>
             </li>
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.proses} alt="" /></span>
-                <span className="text-stroke-gray" >Olah</span>
+                <span className="text-stroke-gray hover:text-white" >Olah</span>
               </a>
             </li>
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.riwayat} alt="" /></span>
-                <span className="text-stroke-gray" >Riwayat</span>
+                <span className="text-stroke-gray hover:text-white" >Riwayat</span>
               </a>
             </li>
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.olahan} alt="" /></span>
-                <span className="text-stroke-gray" >Hasil Olahan</span>
+                <span className="text-stroke-gray hover:text-white" >Hasil Olahan</span>
               </a>
             </li>
             <li>
               <a href="#" className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover">
                 <span><img src={ImageImport.laporan} alt="" /></span>
-                <span className="text-stroke-gray" >Laporan</span>
+                <span className="text-stroke-gray hover:text-white" >Laporan</span>
               </a>
             </li>
           </ul>
