@@ -30,6 +30,10 @@ import _sidebardash2 from "../assets/img/dashboard/laporan.png";
 import _sidebardash3 from "../assets/img/dashboard/olahan.png";
 import _sidebardash4 from "../assets/img/dashboard/proses.png";
 import _sidebardash5 from "../assets/img/dashboard/riwayat.png";
+import _indikator1 from "../assets/img/dashboard/limbahi.png";
+import _indikator2 from "../assets/img/dashboard/prosesi.png";
+import _indikator3 from "../assets/img/dashboard/selesais.png";
+import _indikator4 from "../assets/img/dashboard/olahani.png";
 
 const ImageImport = {
   // logo
@@ -71,6 +75,10 @@ const ImageImport = {
   olahan: _sidebardash3,
   proses: _sidebardash4,
   riwayat: _sidebardash5,
+  limbahi: _indikator1,
+  prosesi: _indikator2,
+  olahani: _indikator3,
+  selesais: _indikator4,
 };
 
 export default ImageImport;

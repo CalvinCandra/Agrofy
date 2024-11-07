@@ -4,7 +4,7 @@ export default function Sidebar() {
   return (
     <div>
         {/* Sidebar */}
-        <aside className=" w-70 bg-dashboard text-white h-screen p-5 lg:pt-28 ">
+        <aside className=" w-70 bg-dashboard text-white h-[1448px] p-5 lg:pt-28 ">
         <h2 className="pl-16 pr-14 text-base font-bold mb-6 flex flex-col text-black">
           <span>Dashboard</span>
           <span>Management</span>
