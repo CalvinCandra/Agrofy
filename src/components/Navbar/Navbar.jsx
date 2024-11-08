@@ -28,25 +28,25 @@ export default function Navbar() {
 
           <div className="w-[31rem] ml-24 hidden md:flex justify-between text-black">
             <a
-              href="/#hero"
+              href="/"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Home
             </a>
             <a
-              href="/#tentang_kami"
+              href="/tentang_kami"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Tentang Kami
             </a>
             <a
-              href="/#pemberdayaan"
+              href="/pemberdayaan"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Pemberdayaan
             </a>
             <a
-              href="/#komunitas"
+              href="/komunitas"
               className="px-3 py-2 hover:bg-main-green-hover hover:text-white rounded-lg transition-all duration-300 ease-linear"
             >
               Komunitas

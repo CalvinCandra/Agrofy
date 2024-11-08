@@ -5,6 +5,7 @@ import _tentang_kami from "../assets/img/landing/tentang_kami.png";
 import _pemberdayaan from "../assets/img/landing/pemberdayaan.png";
 import _manajemen from "../assets/img/landing/manajemen.png";
 import _komunitas from "../assets/img/landing/komunitas.png";
+
 // tentang kami
 import _visimisi from "../assets/img/tentangkami/visimisi.png";
 import _sella from "../assets/img/tentangkami/sella.png";
@@ -16,12 +17,19 @@ import _hani from "../assets/img/tentangkami/hani.png";
 import _rofi from "../assets/img/tentangkami/rofi.png";
 import _reza from "../assets/img/tentangkami/reza.png";
 import _fitri from "../assets/img/tentangkami/fitri.png";
+import _ananta from "../assets/img/tentangkami/ananta.png";
+import _raveliana from "../assets/img/tentangkami/raveliana.png";
+
 // artikel
 import _artikel1 from "../assets/img/artikel/1.jpg";
 import _artikel2 from "../assets/img/artikel/2.png";
 import _artikel3 from "../assets/img/artikel/3.png";
 import _artikel4 from "../assets/img/artikel/4.png";
 import _artikel5 from "../assets/img/artikel/5.png";
+
+// komunitas
+import _contoh1 from "../assets/img/komunitas/1.png";
+import _contoh2 from "../assets/img/komunitas/2.png";
 
 //dashboard
 import _sidebardash from "../assets/img/dashboard/dashboard.png";
@@ -60,6 +68,8 @@ const ImageImport = {
   rofi: _rofi,
   reza: _reza,
   fitri: _fitri,
+  ravenliana: _raveliana,
+  ananta: _ananta,
 
   // artikel
   artikel1: _artikel1,
@@ -68,7 +78,11 @@ const ImageImport = {
   artikel4: _artikel4,
   artikel5: _artikel5,
 
-  //
+  // komunitas
+  contoh1: _contoh1,
+  contoh2: _contoh2,
+
+  //dashboard
   dashboard: _sidebardash,
   limbah: _sidebardash1,
   laporan: _sidebardash2,

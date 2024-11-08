@@ -29,6 +29,7 @@ export default function VideoList() {
               img={Data.img}
               judul={Data.judul}
               deskirpsi={Data.deskirpsi}
+              href={Data.href}
             />
           ))}
         </div>

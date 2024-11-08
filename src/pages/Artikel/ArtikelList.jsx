@@ -29,6 +29,7 @@ export default function ArtikelList() {
               img={data.img}
               judul={data.judul}
               deskripsi={data.deskirpsi}
+              href={data.href}
             />
           ))}
         </div>

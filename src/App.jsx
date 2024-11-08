@@ -16,6 +16,8 @@ import OlahLimbah from "./pages/menejemen/OlahLimbah";
 import RiwayatLimbah from "./pages/menejemen/RiwayatLimbah";
 import HasilOlahan from "./pages/menejemen/HasilOlahan";
 import Laporan from "./pages/menejemen/Laporan";
+import Komunitas from "./pages/Komunitas/Komunitas";
+import PemberdayaanPage from "./pages/Pemberdayaan/PemberdayaanPage";
 
 function App() {
   return (
@@ -25,10 +27,12 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
+        <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
         <Route path="/artikel_detail" element={<ArtikelDetail />} />
         <Route path="/video" element={<VideoList />} />
         <Route path="/video_detail" element={<VideoDetail />} />
+        <Route path="/komunitas" element={<Komunitas />} />
 
         {/* route for dashboard management */}
         <Route path="/dashboard" element={<Dashboard />}>
