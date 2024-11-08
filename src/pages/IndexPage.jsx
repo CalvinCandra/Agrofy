@@ -68,7 +68,7 @@ export default function IndexPage() {
       </section>
 
       {/* Alasan Section */}
-      <section className="bg-[#F0FDF4] pt-30 p-2">
+      <section className="bg-brown-light pt-30 p-2">
         <div className="w-konten mx-auto p-2 mt-20">
           <h1 className="text-center text-2xl lg:text-3xl font-extrabold p-2 mb-5">
             Mengapa Mengelola Limbah itu penting?
@@ -129,7 +129,7 @@ export default function IndexPage() {
             </p>
             <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
               <ButtonHref
-                href="#"
+                href="/pemberdayaan"
                 text="Lihat Selengkapnya"
                 variant="primary"
               />
@@ -163,7 +163,11 @@ export default function IndexPage() {
               mudah dan menyenangkan. Yuk, sama-sama jaga lingkungan kita!
             </p>
             <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
-              <ButtonHref href="#" text="Gabung Sekarang" variant="primary" />
+              <ButtonHref
+                href="/komunitas"
+                text="Gabung Sekarang"
+                variant="primary"
+              />
             </div>
           </div>
 

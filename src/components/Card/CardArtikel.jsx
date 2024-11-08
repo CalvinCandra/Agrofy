@@ -1,7 +1,7 @@
 import ButtonHref from "../Button/ButtonHref";
 
 export default function CardArtikel(props) {
-  const { img, judul, deskripsi } = props;
+  const { img, judul, deskripsi, href } = props;
   return (
     <div className="bg-white border border-b-2 border-gray-400 p-2 flex flex-col lg:flex-row rounded-lg my-5">
       {/* Left */}
@@ -21,7 +21,7 @@ export default function CardArtikel(props) {
           {deskripsi}
         </h5>
         <div className="mt-7 lg:mt-10 lg:w-[30%] py-5 m-auto lg:m-0">
-          <ButtonHref href="#" text="Baca Sekarang" variant="primary" />
+          <ButtonHref href={href} text="Baca Sekarang" variant="primary" />
         </div>
       </div>
     </div>

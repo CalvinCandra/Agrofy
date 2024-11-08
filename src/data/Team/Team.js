@@ -13,9 +13,9 @@ const DataTeam = [
     nama: "Cindy Ayuna Putri",
   },
   {
-    img: ImageImport.sella,
+    img: ImageImport.ravenliana,
     jabatan: "Hipster Web",
-    nama: "IDK",
+    nama: "Raveliana",
   },
   {
     img: ImageImport.angga,
@@ -43,9 +43,9 @@ const DataTeam = [
     nama: "Hanifa Sophia Rani",
   },
   {
-    img: ImageImport.sella,
+    img: ImageImport.ananta,
     jabatan: "Hipster Mobile",
-    nama: "IDK",
+    nama: "Ananta Ziaurohman Az Zaki",
   },
   {
     img: ImageImport.sella,
