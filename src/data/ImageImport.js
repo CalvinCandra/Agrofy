@@ -42,6 +42,7 @@ import _indikator1 from "../assets/img/dashboard/limbahi.png";
 import _indikator2 from "../assets/img/dashboard/prosesi.png";
 import _indikator3 from "../assets/img/dashboard/selesais.png";
 import _indikator4 from "../assets/img/dashboard/olahani.png";
+import _sekam from "../assets/img/dashboard/sekam.jpeg";
 
 const ImageImport = {
   // logo
@@ -93,6 +94,7 @@ const ImageImport = {
   prosesi: _indikator2,
   olahani: _indikator3,
   selesais: _indikator4,
+  sekam: _sekam,
 };
 
 export default ImageImport;
