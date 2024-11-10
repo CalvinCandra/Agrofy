@@ -48,9 +48,9 @@ const DataTeam = [
     nama: "Ananta Ziaurohman Az Zaki",
   },
   {
-    img: ImageImport.sella,
+    img: ImageImport.nabila,
     jabatan: "Hipster Mobile",
-    nama: "Grassella Chindy Francisca L",
+    nama: "Nabila Apdika Khairunnisyah",
   },
   {
     img: ImageImport.rofi,
