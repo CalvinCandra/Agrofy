@@ -12,7 +12,7 @@ export default function HasilOlahan() {
           </div>
 
           {/* data limbah */}
-          <div className="limbah-box pt-32 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-28">
+          <div className="limbah-box pt-16 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-28">
             <CardLimbah
               img={ImageImport.sekam}
               judul="Jerami"

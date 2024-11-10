@@ -9,7 +9,7 @@ export default function Indikatordash() {
             <img src={ImageImport.limbahi} alt="" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
-            <h1 className="py-0 text-5xl overflow-hidden">2</h1>
+            <h1 className="py-0 text-5xl overflow-hidden">3</h1>
             <p className="text-2xl py-2 pr-4">Limbah</p>
           </div>
         </div>
@@ -20,7 +20,7 @@ export default function Indikatordash() {
             <img src={ImageImport.prosesi} alt="" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
-            <h1 className="py-0 text-5xl overflow-hidden">2</h1>
+            <h1 className="py-0 text-5xl overflow-hidden">3</h1>
             <p className="text-2xl py-2 pr-4">Proses</p>
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function Indikatordash() {
             <img src={ImageImport.olahani} alt="" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
-            <h1 className="py-0 text-5xl overflow-hidden">2</h1>
+            <h1 className="py-0 text-5xl overflow-hidden">1</h1>
             <p className="text-2xl py-2 pr-4">Selesai</p>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function Indikatordash() {
             <img src={ImageImport.selesais} alt="" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
-            <h1 className="py-0 text-5xl overflow-hidden">2</h1>
+            <h1 className="py-0 text-5xl overflow-hidden">1</h1>
             <p className="text-2xl py-2 pr-4">Olahan</p>
           </div>
         </div>

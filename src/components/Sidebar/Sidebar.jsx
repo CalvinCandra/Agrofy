@@ -4,7 +4,7 @@ export default function Sidebar() {
   return (
     <div>
       {/* Sidebar */}
-      <aside className=" w-70 bg-dashboard text-white h-full p-5 lg:pt-28 ">
+      <aside className=" w-70 bg-dashboard text-white h-[1448px] p-5 pt-28 ">
         <h2 className="pl-16 pr-14 text-base font-bold mb-6 flex flex-col text-black">
           <span>Dashboard</span>
           <span>Management</span>
@@ -75,19 +75,10 @@ export default function Sidebar() {
               </span>
             </a>
           </li>
-          <li>
-            <a
-              href="/dashboard/laporan"
-              className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover"
-            >
-              <span>
-                <img src={ImageImport.laporan} alt="" />
-              </span>
-              <span className="text-stroke-gray hover:text-white">Laporan</span>
-            </a>
-          </li>
+          
         </ul>
       </aside>
     </div>
   );
 }
+  
