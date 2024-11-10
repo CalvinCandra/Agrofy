@@ -1,11 +1,11 @@
-import Navbar from "./components/Navbar/Navbar";
+import NavbarLogin from "./components/Navbar/NavbarLogin";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 
 function AppShell() {
   return (
     <div>
-      <Navbar />
+      <NavbarLogin />
       <Outlet />
       <Footer />
     </div>

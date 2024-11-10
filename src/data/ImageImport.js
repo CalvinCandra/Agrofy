@@ -21,6 +21,10 @@ import _ananta from "../assets/img/tentangkami/ananta.png";
 import _raveliana from "../assets/img/tentangkami/raveliana.png";
 import _nabila from "../assets/img/tentangkami/nabila.png";
 
+// pemberdayaan
+import _artikel from "../assets/img/pemberdayaan/artikel.png";
+import _video from "../assets/img/pemberdayaan/video.png";
+
 // artikel
 import _artikel1 from "../assets/img/artikel/1.jpg";
 import _artikel2 from "../assets/img/artikel/2.png";
@@ -74,6 +78,10 @@ const ImageImport = {
   ravenliana: _raveliana,
   ananta: _ananta,
   nabila: _nabila,
+
+  // pemberdayan
+  artikel: _artikel,
+  video: _video,
 
   // artikel
   artikel1: _artikel1,
