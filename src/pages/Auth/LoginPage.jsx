@@ -1,3 +1,4 @@
+import ButtonHref from "../../components/Button/ButtonHref";
 import ButtonSubmit from "../../components/Button/ButtonSubmit";
 import ImageImport from "../../data/ImageImport";
 import React, { useState } from "react";
@@ -67,9 +68,18 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="w-full">
-                <ButtonSubmit text="Sign In" />
+              <div className="py-2 w-full flex">
+                <ButtonHref
+                  href="/"
+                  text="Sign In"
+                  variant="primary"
+                  onClick=""
+                />
               </div>
+
+              {/* <div className="w-full">
+                <ButtonSubmit text="Sign In" />
+              </div> */}
 
               <div className="flex justify-center">
                 <p className="text-sm font-light">

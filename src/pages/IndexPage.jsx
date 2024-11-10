@@ -14,7 +14,7 @@ export default function IndexPage() {
       >
         <div className="py-10 w-full lg:w-konten mx-auto flex justify-center items-center relative lg:h-[35rem]">
           {/* Kanan */}
-          <div className="p-2 pt-56 lg:pt-0 w-full lg:w-[70%] relative overflow-hidden z-10">
+          <div className="p-2 pt-56 lg:pt-0 w-full lg:w-[70%] overflow-hidden">
             <h1 className="text-3xl lg:text-6xl text-center lg:text-start font-extrabold text-black overflow-hidden">
               Ayo cari tau manfaat limbah pertanian.{" "}
             </h1>
@@ -36,7 +36,7 @@ export default function IndexPage() {
           <div className="lg:w-[60%]">
             <img
               src={ImageImport.hero}
-              className="w-[70%] lg:w-[40%] absolute lg:-top-6 lg:left-[50rem] top-0 left-1/2 transform -translate-x-1/2 lg:transform-none lg:-translate-x-0"
+              className="w-[55%] lg:w-[40%] absolute lg:-top-6 lg:left-[50rem] top-0 left-1/2 transform -translate-x-1/2 lg:transform-none lg:-translate-x-0"
             ></img>
           </div>
         </div>

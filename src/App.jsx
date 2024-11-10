@@ -24,8 +24,6 @@ function App() {
     <Routes>
       <Route path="/" element={<AppShell />}>
         <Route index element={<IndexPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
@@ -44,6 +42,12 @@ function App() {
           <Route path="laporan" element={<Laporan />} />
         </Route>
       </Route>
+
+      {/* auth */}
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* error page */}
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

@@ -15,7 +15,10 @@ export default function PemberdayaanPage() {
 
         <div className="w-full flex flex-col lg:flex-row justify-around items-center p-2 my-7 lg:my-10 ">
           <div className="lg:w-[45%] bg-white shadow-lg p-3 rounded-lg my-2 lg:my-0">
-            <img src={ImageImport.artikel1} className="w-full rounded-lg"></img>
+            <img
+              src={ImageImport.artikel}
+              className="w-full h-[300px] rounded-lg object-contain mb-10"
+            ></img>
 
             <div className="mt-5">
               <h3 className="font-bold text-xl">Artikel Pemberdayaan</h3>
@@ -35,7 +38,10 @@ export default function PemberdayaanPage() {
           </div>
 
           <div className="lg:w-[45%] bg-white shadow-lg p-3 rounded-lg my-2 lg:my-0">
-            <img src={ImageImport.artikel1} className="w-full rounded-lg"></img>
+            <img
+              src={ImageImport.video}
+              className="w-full h-[300px] rounded-lg object-contain mb-10"
+            ></img>
 
             <div className="mt-5">
               <h3 className="font-bold text-xl">Video Pemberdayaan</h3>
