@@ -1,37 +1,22 @@
-import ImageImport from "../../data/ImageImport";
-import ButtonHref from "../../components/Button/ButtonHref";
+import { useState } from "react";
+import DetailOlahan from "../../components/Modal/DetailOlahan";
 
-export default function RiwayatLimbah() {
+
+
+export default function Tabledash() {
+  const [isModalOpenolahan, setIsModalOpenolahan] = useState(false);
+
+  const handleOpenModalolahan = () => {
+    setIsModalOpenolahan(true);
+  };
+
+  const handleCloseModalolahan = () => {
+    setIsModalOpenolahan(false);
+  };
+  
   return (
     <div>
-      <div className="bg-dashboard w-full h-auto rounded-md py-5 px-5 space-y-5">
-      <div className="bg-white  w-full h-[100%] rounded-md   ">
-          <div class=" lg:p-5 ">
-          <div className="flex justify-between pb-10">
-            <h1 className="font-bold text-3xl py-2">Riwayat</h1>
-          </div>
-          <div className="flex lg:flex-row sm:flex-col  ">
-            <div className="flex lg:flex-row sm:flex-col lg: space-x-3 pb-10 lg:w-[70%]">
-              <div className="lg:w-[20%]">
-              <input
-              type="date"
-              className="h-14 w-full rounded-lg border border-gray-300 p-2"
-              placeholder="Masukkan Tanggal Masuk"
-            />
-              </div>
-              <div className="lg:w-[20%]">
-              <input
-              type="date"
-              className="h-14 w-full rounded-lg border border-gray-300 p-2"
-              placeholder="Masukkan Tanggal Masuk"
-            />
-              </div>
-              <p className="py-1">Pilih tanggal periode awal dan akhir lalu klik cetak laporan</p>
-            
-            
-            </div>
-          </div>
-            <div class="bg-main-green overflow-x-auto rounded-lg" >
+      <div class="bg-main-green overflow-x-auto rounded-lg" >
               <table class="min-w-full bg-white border border-gray-300 ">
                 <thead>
                   <tr>
@@ -48,11 +33,11 @@ export default function RiwayatLimbah() {
                     <td class="px-4 py-3 border-b text-gray-600">Jerami</td>
                     <td class="px-4 py-3 border-b text-gray-600">Tirai</td>
                     <td class="px-4 py-3 border-b">
-                    <span class="px-2 py-1 text-sm font-medium text-green-800 flex justify-center bg-green-200 rounded-xl">Sukses</span>
+                      <span class="px-2 py-1  flex justify-center text-sm font-medium text-yellow-800 bg-yellow-200 rounded-xl">Proses</span>
                     </td>
                     <td class="px-4 py-3 border-b flex justify-center space-x-2">
-                      <button class="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-xl hover:bg-green-600">Lihat</button>
-                      
+                      <button class="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-xl hover:bg-green-600"onClick={handleOpenModalolahan}>Lihat</button>
+                      <button class="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-xl hover:bg-red-600">Hapus</button>
                     </td>
                   </tr>
                   <tr>
@@ -64,7 +49,7 @@ export default function RiwayatLimbah() {
                     </td>
                     <td class="px-4 py-3 border-b flex justify-center space-x-2">
                       <button class="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-xl hover:bg-green-600">Lihat</button>
-                  
+                      <button class="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-xl hover:bg-red-600">Hapus</button>
                     </td>
                   </tr>
                   <tr>
@@ -76,26 +61,19 @@ export default function RiwayatLimbah() {
                     </td>
                     <td class="px-4 py-3 flex justify-center space-x-2">
                       <button class="px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-xl hover:bg-green-600">Lihat</button>
-                    
+                      <button class="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-xl hover:bg-red-600">Hapus</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              
             </div>
-            <div className="py-10 overflow-hidden ">
-              <ButtonHref
-                href="#"
-                text="Cetak Laporan"
-                variant="primary"
-                onClick=""
-              />
-            </div>
-          </div>
-
-
-        </div>
-      </div>
+      <DetailOlahan
+        isOpen={isModalOpenolahan}
+        onClose={handleCloseModalolahan}
+        title="Sekam"
+        jumlah={12}
+        deskripsi="Ini limbah padi"
+      />
     </div>
   );
 }
