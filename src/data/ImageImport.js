@@ -19,6 +19,7 @@ import _reza from "../assets/img/tentangkami/reza.png";
 import _fitri from "../assets/img/tentangkami/fitri.png";
 import _ananta from "../assets/img/tentangkami/ananta.png";
 import _raveliana from "../assets/img/tentangkami/raveliana.png";
+import _nabila from "../assets/img/tentangkami/nabila.png";
 
 // artikel
 import _artikel1 from "../assets/img/artikel/1.jpg";
@@ -71,6 +72,7 @@ const ImageImport = {
   fitri: _fitri,
   ravenliana: _raveliana,
   ananta: _ananta,
+  nabila: _nabila,
 
   // artikel
   artikel1: _artikel1,
