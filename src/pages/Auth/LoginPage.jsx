@@ -49,6 +49,7 @@ export default function LoginPage() {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("Nama", response.data.nama);
         localStorage.setItem("Foto", response.data.foto);
+        localStorage.setItem("Role", response.data.role);
 
         // Tampilkan alert untuk login sukses
         showAlert({

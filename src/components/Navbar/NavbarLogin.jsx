@@ -37,6 +37,7 @@ export default function NavbarLogin() {
   const [user, setUser] = useState({
     name: localStorage.getItem("Nama"),
     profilePicture: localStorage.getItem("Foto"),
+    role: localStorage.getItem("Role"),
   });
   const navigate = useNavigate(); // Hook untuk navigasi
 
@@ -166,7 +167,7 @@ export default function NavbarLogin() {
               Profile
             </a>
             <a
-              href="/dashboard"
+              href={user.role === "admin" ? "/dashboard-admin" : "/dashboard"}
               className="px-3 py-2 hover:bg-main-brown hover:text-white transition-all duration-300 ease-linear border-b"
             >
               Manajemen

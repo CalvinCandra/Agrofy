@@ -18,6 +18,10 @@ import HasilOlahan from "./pages/menejemen/HasilOlahan";
 import Laporan from "./pages/menejemen/Laporan";
 import Komunitas from "./pages/Komunitas/Komunitas";
 import PemberdayaanPage from "./pages/Pemberdayaan/PemberdayaanPage";
+import DashboardAdmin from "./pages/dashboardAdmin/DashboardAdmin";
+import DashboardArtikel from "./pages/dashboardAdmin/DashboardArtikel";
+import DashboardVideo from "./pages/dashboardAdmin/DashboardVideo";
+import MainDashboardAdmin from "./pages/dashboardAdmin/MainDashboardAdmin";
 
 function App() {
   return (
@@ -40,6 +44,12 @@ function App() {
           <Route path="riwayat" element={<RiwayatLimbah />} />
           <Route path="hasil_olahan" element={<HasilOlahan />} />
           <Route path="laporan" element={<Laporan />} />
+        </Route>
+
+        <Route path="/dashboard-admin" element={<MainDashboardAdmin />}>
+          <Route path="" element={<DashboardAdmin />} />
+          <Route path="artikel-admin" element={<DashboardArtikel />} />
+          <Route path="video-admin" element={<DashboardVideo />} />
         </Route>
       </Route>
 
