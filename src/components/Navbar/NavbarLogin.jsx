@@ -1,27 +1,24 @@
 import ImageImport from "../../data/ImageImport";
-import ButtonHref from "../Button/ButtonHref";
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function NavbarLogin() {
   // State untuk mengontrol tampilan modal menu bar
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // State untuk mengontrol tampilan modal profil
+  const [isModalVisibleProfil, setIsModalVisibleProfil] = useState(false);
+  // State untuk mengontrol tampilan modal notif
+  const [isModalVisibleNotif, setIsModalVisibleNotif] = useState(false);
 
   // Fungsi untuk toggle modal menu bar
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  // State untuk mengontrol tampilan modal profil
-  const [isModalVisibleProfil, setIsModalVisibleProfil] = useState(false);
-
   // Fungsi untuk toggle modal profil
   const toggleModalProfil = () => {
     setIsModalVisibleProfil(!isModalVisibleProfil);
   };
-
-  // State untuk mengontrol tampilan modal notif
-  const [isModalVisibleNotif, setIsModalVisibleNotif] = useState(false);
 
   // Fungsi untuk toggle modal Notif
   const toggleModalNotif = () => {
@@ -34,6 +31,26 @@ export default function NavbarLogin() {
         ? "border-b-2 border-main-brown text-main-brown"
         : "hover:text-main-brown"
     }`;
+
+  // ========================================================================================================= cek user
+  // State untuk menyimpan informasi user
+  const [user, setUser] = useState({
+    name: localStorage.getItem("Nama"),
+    profilePicture: localStorage.getItem("Foto"),
+  });
+  const navigate = useNavigate(); // Hook untuk navigasi
+
+  // ========================================================================================================== LOGOUT
+  const handleLogout = () => {
+    // Hapus data user dari localStorage dan lakukan logout
+    localStorage.removeItem("Nama");
+    localStorage.removeItem("Foto");
+    setUser(null);
+    // Set status isLoggedIn menjadi false di localStorage
+    localStorage.setItem("isLoggedIn", "false");
+    navigate("/");
+    window.location.reload(); // Refresh halaman utama untuk memperbarui tampilan
+  };
 
   return (
     <div>
@@ -61,20 +78,20 @@ export default function NavbarLogin() {
             </a>
           </div>
 
-          <div className="hidden md:flex justify-between items-center w-[14.5rem]">
+          <div className="hidden md:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
             <button onClick={toggleModalNotif} className="pt-2">
-              <i className="fa-solid fa-bell text-xl"></i>
+              <i className="fa-solid fa-bell text-xl text-gray-400 lg:me-5"></i>
             </button>
             <button onClick={toggleModalProfil}>
-              <div className="flex items-center">
-                <div className="w-10 h-10 overflow-hidden rounded-full">
+              <div className="flex items-center justify-between">
+                <div className="w-10 overflow-hidden rounded-full">
                   <img
-                    src={ImageImport.willy}
+                    src={ImageImport.default || user?.profilePicture}
                     className="w-full"
                     alt="Foto Profile"
                   />
                 </div>
-                <h5 className="ml-3">Willy Candra</h5>
+                <h5 className="ml-3 text-sm w-auto">{user.name}</h5>
                 <i className="fa-solid fa-angle-down ml-4"></i>
               </div>
             </button>
@@ -154,12 +171,12 @@ export default function NavbarLogin() {
             >
               Manajemen
             </a>
-            <a
-              href="/login"
-              className="px-3 py-2 text-red-500 hover:bg-main-brown hover:text-white transition-all duration-300 ease-linear border-b"
+            <button
+              onClick={handleLogout}
+              className="px-3 py-2 text-left text-red-500 hover:bg-main-brown hover:text-white transition-all duration-300 ease-linear border-b"
             >
               Keluar
-            </a>
+            </button>
           </div>
         </div>
       )}
@@ -168,25 +185,25 @@ export default function NavbarLogin() {
       {isModalVisible && (
         <div className="fixed top-[3.3rem] left-0 bg-white w-full flex flex-col px-3 border-2 shadow-lg pt-2 pb-2 text-white transition-all duration-300 z-30">
           <a
-            href=""
+            href="/"
             className="px-3 py-2 text-black hover:bg-main-brown hover:text-white rounded-lg transition-all duration-300 ease-linear"
           >
             Home
           </a>
           <a
-            href=""
+            href="/tentang_kami"
             className="px-3 py-2 text-black hover:bg-main-brown hover:text-white rounded-lg transition-all duration-300 ease-linear"
           >
             Tentang Kami
           </a>
           <a
-            href=""
+            href="/pemberdayaan"
             className="px-3 py-2 text-black hover:bg-main-brown hover:text-white rounded-lg transition-all duration-300 ease-linear"
           >
             Pemberdayaan
           </a>
           <a
-            href=""
+            href="/komunitas"
             className="px-3 py-2 text-black hover:bg-main-brown hover:text-white rounded-lg transition-all duration-300 ease-linear"
           >
             Komunitas
@@ -197,18 +214,18 @@ export default function NavbarLogin() {
               <div className="flex items-center">
                 <div className="w-10 h-10 overflow-hidden rounded-full">
                   <img
-                    src={ImageImport.willy}
+                    src={ImageImport.default || user?.profilePicture}
                     className="w-full"
                     alt="Foto Profile"
                   />
                 </div>
-                <h5 className="ml-3 text-black">Willy Candra</h5>
+                <h5 className="ml-3 text-black">{user.name}</h5>
                 <i className="fa-solid fa-angle-down ml-4 text-black"></i>
               </div>
             </button>
 
             <button onClick={toggleModalNotif} className="pt-2">
-              <i className="fa-solid fa-bell text-xl text-black"></i>
+              <i className="fa-solid fa-bell text-xl text-gray-400"></i>
             </button>
           </div>
         </div>

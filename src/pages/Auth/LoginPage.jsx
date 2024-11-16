@@ -1,15 +1,86 @@
-import ButtonHref from "../../components/Button/ButtonHref";
+import axios from "axios";
 import ButtonSubmit from "../../components/Button/ButtonSubmit";
 import ImageImport from "../../data/ImageImport";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import config from "../../config/config";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import Loading from "../../components/Loading/Loading.jsx";
 
 export default function LoginPage() {
+  // ============================================================================================= Loading
+  // State untuk loading
+  const [loading, setLoading] = useState(false);
+
+  // Menangani loading saat halaman dimuat
+  useEffect(() => {
+    setLoading(true); // Mulai loading saat halaman dimuat
+    setTimeout(() => {
+      setLoading(false); // Berhenti loading setelah 1 detik
+    }, 1000); // Durasi loading bisa disesuaikan
+  }, []);
+
+  // ============================================================================================= Fungsi Input Password (eye)
   // State untuk menyimpan tipe input (password atau text)
   const [Password, setPassword] = useState(true);
 
   // Fungsi untuk toggle tipe input
   const togglePasswordVisibility = () => {
     setPassword((prevPassword) => !prevPassword);
+  };
+
+  //============================================================================================== fungsi Backend
+  // set variabel
+  const [email, setEmail] = useState("");
+  const [password, setPasswordInput] = useState("");
+
+  // fungsi
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${config.apiUrl}/login`, {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        // Set localStorage ke true saat login sukses
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("Nama", response.data.nama);
+        localStorage.setItem("Foto", response.data.foto);
+
+        // Tampilkan alert untuk login sukses
+        showAlert({
+          title: `Halo ${response.data.role}`,
+          text: response.data.msg,
+          iconType: "success",
+          didClose: () => {
+            // Redirect setelah alert ditutup
+            window.location.href = "/";
+          },
+        });
+      }
+    } catch (error) {
+      // Jika terjadi error di request atau jika status bukan 200
+      if (error.response) {
+        // Server mengembalikan response error (400 atau 404)
+        showAlert({
+          title: "Oppsss",
+          text: error.response.data.msg,
+          iconType: "error",
+        });
+      } else if (error.request) {
+        // Tidak mendapatkan respons dari server (500)
+        showAlert({
+          title: "Oppsss",
+          text: "Tidak ada respons dari server.",
+          iconType: "error",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,7 +98,7 @@ export default function LoginPage() {
             <h1 className="text-xl font-semibold leading-tight tracking-tight overflow-hidden text-black md:text-2xl">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-black">
                   Email
@@ -38,7 +109,9 @@ export default function LoginPage() {
                   id="email"
                   className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                   placeholder="Masukan email"
-                  required=""
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
 
@@ -53,7 +126,9 @@ export default function LoginPage() {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
-                    required=""
+                    value={password}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    required
                   />
                   <span
                     className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
@@ -68,18 +143,9 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="py-2 w-full flex">
-                <ButtonHref
-                  href="/"
-                  text="Sign In"
-                  variant="primary"
-                  onClick=""
-                />
-              </div>
-
-              {/* <div className="w-full">
+              <div className="w-full">
                 <ButtonSubmit text="Sign In" />
-              </div> */}
+              </div>
 
               <div className="flex justify-center">
                 <p className="text-sm font-light">
@@ -96,6 +162,9 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      {/* Overlay Loading */}
+      {loading && <Loading />}
     </section>
   );
 }

@@ -50,6 +50,9 @@ import _indikator4 from "../assets/img/dashboard/olahani.png";
 import _sekam from "../assets/img/dashboard/sekam.jpeg";
 import _jerami from "../assets/img/dashboard/konten/jerami.png";
 
+// profile
+import _default from "../assets/img/profile/default.png";
+
 const ImageImport = {
   // logo
   logo: _logo,
@@ -107,6 +110,9 @@ const ImageImport = {
   selesais: _indikator4,
   sekam: _sekam,
   jerami: _jerami,
+
+  // profile
+  default: _default,
 };
 
 export default ImageImport;

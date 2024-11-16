@@ -1,10 +1,22 @@
-import Footer from "../components/Footer/Footer";
-import Navbar from "../components/Navbar/Navbar";
 import ImageImport from "../data/ImageImport";
 import ButtonHref from "../components/Button/ButtonHref";
 import CardAlasan from "../components/Card/CardAlasan";
+import Loading from "../components/Loading/Loading";
+import { useState, useEffect } from "react";
 
 export default function IndexPage() {
+  // ============================================================================================= Loading
+  // State untuk loading
+  const [loading, setLoading] = useState(false);
+
+  // Menangani loading saat halaman dimuat
+  useEffect(() => {
+    setLoading(true); // Mulai loading saat halaman dimuat
+    setTimeout(() => {
+      setLoading(false); // Berhenti loading setelah 1 detik
+    }, 1000); // Durasi loading bisa disesuaikan
+  }, []);
+
   return (
     <div className="bg-bg-body">
       {/* Hero Section */}
@@ -217,6 +229,9 @@ export default function IndexPage() {
           </div>
         </div>
       </section>
+
+      {/* Overlay Loading */}
+      {loading && <Loading />}
     </div>
   );
 }
