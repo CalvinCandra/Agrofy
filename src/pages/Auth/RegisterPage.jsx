@@ -11,14 +11,6 @@ export default function RegisterPage() {
   // State untuk loading
   const [loading, setLoading] = useState(false);
 
-  // Menangani loading saat halaman dimuat
-  useEffect(() => {
-    setLoading(true); // Mulai loading saat halaman dimuat
-    setTimeout(() => {
-      setLoading(false); // Berhenti loading setelah 1 detik
-    }, 1000); // Durasi loading bisa disesuaikan
-  }, []);
-
   // ============================================================================================== Logika Input Password (Eye)
   // State untuk menyimpan tipe input (password atau text)
   const [Password, setPassword] = useState(true);
@@ -217,7 +209,7 @@ export default function RegisterPage() {
 
             {/* Tombol Submit */}
             <div className="w-full">
-              <ButtonSubmit text="Sign Up" />
+              <ButtonSubmit text="Sign Up" variant="primary" />
             </div>
 
             {/* Tautan ke Halaman Login */}

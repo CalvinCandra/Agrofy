@@ -11,14 +11,6 @@ export default function LoginPage() {
   // State untuk loading
   const [loading, setLoading] = useState(false);
 
-  // Menangani loading saat halaman dimuat
-  useEffect(() => {
-    setLoading(true); // Mulai loading saat halaman dimuat
-    setTimeout(() => {
-      setLoading(false); // Berhenti loading setelah 1 detik
-    }, 1000); // Durasi loading bisa disesuaikan
-  }, []);
-
   // ============================================================================================= Fungsi Input Password (eye)
   // State untuk menyimpan tipe input (password atau text)
   const [Password, setPassword] = useState(true);
@@ -145,7 +137,7 @@ export default function LoginPage() {
               </div>
 
               <div className="w-full">
-                <ButtonSubmit text="Sign In" />
+                <ButtonSubmit text="Sign In" variant="primary" />
               </div>
 
               <div className="flex justify-center">
