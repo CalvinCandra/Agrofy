@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SidebarAdmin from "../../components/Sidebar/SidebarAdmin";
-import TableUser from "../../components/Tabledash/TableUser";
+import TableKategori from "../../components/Tabledash/TableKategori";
 import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
 import config from "../../config/config";
@@ -11,7 +11,7 @@ import ButtonSubmit from "../../components/Button/ButtonSubmit";
 import { showAlert } from "../../components/SweetAlert/SweetAlert";
 import Loading from "../../components/Loading/Loading.jsx";
 
-export default function DashboardAdmin() {
+export default function DashboardKategori() {
   // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ export default function DashboardAdmin() {
 
   // =================================================================================================== Fungsi Backend
   // set variabel
-  const [users, setUsers] = useState([]);
+  const [kategori, setKategori] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -35,15 +35,15 @@ export default function DashboardAdmin() {
   });
 
   // Fungsi get APi
-  const fetchUsers = async (page = 1) => {
+  const fetchKategori = async (page = 1) => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getadmin?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setUsers(data.data); // Set data user dari respon api untuk tabel
+      setKategori(data.data); // Set data user dari respon api untuk tabel
       setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -53,7 +53,7 @@ export default function DashboardAdmin() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchKategori();
   }, []);
 
   // =================================================================================================== Tambah
@@ -70,40 +70,35 @@ export default function DashboardAdmin() {
 
   // ================================= Set Backend Tambah
   // set variabel
-  const [nama_lengkap, setNamaLengkap] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setpasswordInput] = useState("");
+  const [nama_kategori, setNamaKategori] = useState("");
 
-  const handelTambahAdmin = async (e) => {
+  const handelTambahKategori = async (e) => {
     e.preventDefault();
 
     try {
       // get url api register
-      await axios.post(`${config.apiUrl}/register`, {
-        nama_lengkap,
-        email,
-        password,
-        role: "admin",
+      await axios.post(`${config.apiUrl}/tambahkategori`, {
+        nama_kategori,
       });
 
       showAlert({
         title: "Hore",
-        text: "Admin Berhasil Ditambah",
+        text: "Kategori Berhasil Ditambah",
         iconType: "success",
         didClose: () => {
           // Redirect setelah alert ditutup
-          navigate("/dashboard-admin");
+          navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },
       });
     } catch (error) {
       showAlert({
         title: "Oppss",
-        text: `Admin Gagal Ditambah, ${error}`,
+        text: `Kategori Gagal Ditambah, ${error}`,
         iconType: "error",
         didClose: () => {
           // Redirect setelah alert ditutup
-          navigate("/dashboard-admin");
+          navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },
       });
@@ -157,7 +152,7 @@ export default function DashboardAdmin() {
               </svg>
             </button>
             <h1 className="text-2xl font-bold text-gray-700 py-3">
-              Dashboard Admin
+              Dashboard Kategori
             </h1>
 
             <div className="my-3">
@@ -167,7 +162,7 @@ export default function DashboardAdmin() {
             <div className="mt-3 py-5">
               <ButtonHref
                 href="#"
-                text="Tambah Admin"
+                text="Tambah Kategori"
                 variant="primary"
                 onClick={handleCModalTambah}
               />
@@ -177,14 +172,16 @@ export default function DashboardAdmin() {
 
         {/* Table */}
         <div className="bg-white shadow rounded-lg overflow-x-auto">
-          <TableUser users={users} />
+          <TableKategori kategoris={kategori} />
         </div>
+
+        {/* pagination */}
         <div className="mt-5">
           <Pagination
             currentPage={pagination.currentPage}
             totalPages={pagination.totalPages}
             totalData={pagination.totalData}
-            fetchData={fetchUsers} // fetchUsers untuk dashboard pengguna
+            fetchData={fetchKategori}
           />
         </div>
       </div>
@@ -194,7 +191,7 @@ export default function DashboardAdmin() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg w-full max-w-lg mx-4 lg:mx-0 lg:max-w-xl overflow-y-auto max-h-[80vh]">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-bold">Tambah Admin</h3>
+              <h3 className="text-lg font-bold">Tambah Kategori</h3>
 
               <button onClick={handleCloseModalTambah}>
                 <i className="fa-solid fa-xmark"></i>
@@ -203,51 +200,19 @@ export default function DashboardAdmin() {
 
             {/* Form untuk Komentar Baru */}
             <div className="mt-6">
-              <form onSubmit={handelTambahAdmin}>
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-black">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
-                    placeholder="Masukan email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-
+              <form onSubmit={handelTambahKategori}>
                 <div className="mt-4">
                   <label className="block mb-2 text-sm font-medium text-black">
-                    Nama Lengkap
+                    Nama Kategori
                   </label>
                   <input
-                    type="nama_lengkap"
-                    name="nama_lengkap"
-                    id="nama_lengkap"
+                    type="nama_kategori"
+                    name="nama_kategori"
+                    id="nama_kategori"
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
-                    placeholder="Masukan nama lengkap"
-                    value={nama_lengkap}
-                    onChange={(e) => setNamaLengkap(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="mt-4">
-                  <label className="block mb-2 text-sm font-medium text-black">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
-                    placeholder="Masukan password"
-                    value={password}
-                    onChange={(e) => setpasswordInput(e.target.value)}
+                    placeholder="Masukan nama kategori"
+                    value={nama_kategori}
+                    onChange={(e) => setNamaKategori(e.target.value)}
                     required
                   />
                 </div>

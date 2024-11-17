@@ -1,5 +1,3 @@
-import ImageImport from "../../data/ImageImport";
-
 export default function SidebarAdmin() {
   return (
     <div className="flex h-screen">
@@ -10,29 +8,32 @@ export default function SidebarAdmin() {
           <li>
             <a
               href="/dashboard-admin"
-              className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover"
+              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
             >
-              <span className="hover:bg-white">
-                <img
-                  src={ImageImport.dashboard}
-                  alt="Dashboard"
-                  className="fill-current"
-                />
-              </span>
-              <span className="text-stroke-gray hover:text-white">
+              <i className="fa-solid fa-user-tie  text-lg text-black"></i>
+              <span className="text-black hover:text-white ml-4">
                 Data Admin
               </span>
             </a>
           </li>
           <li>
             <a
-              href="/dashboard-admin/artikel-admin"
-              className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover"
+              href="/dashboard-admin/kategori-admin"
+              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
             >
-              <span>
-                <img src={ImageImport.limbah} alt="Data Limbah" />
+              <i className="fa-solid fa-bookmark text-black text-lg"></i>
+              <span className="text-black hover:text-white ml-4">
+                Data Kategori
               </span>
-              <span className="text-stroke-gray hover:text-white">
+            </a>
+          </li>
+          <li>
+            <a
+              href="/dashboard-admin/artikel-admin"
+              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
+            >
+              <i className="fa-solid fa-newspaper text-lg text-black"></i>
+              <span className="text-black hover:text-white ml-4">
                 Data Artikel
               </span>
             </a>
@@ -40,12 +41,10 @@ export default function SidebarAdmin() {
           <li>
             <a
               href="/dashboard-admin/video-admin"
-              className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover"
+              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
             >
-              <span>
-                <img src={ImageImport.proses} alt="Olah Limbah" />
-              </span>
-              <span className="text-stroke-gray hover:text-white">
+              <i className="fa-solid fa-video text-lg text-black"></i>
+              <span className="text-black hover:text-white ml-4">
                 Data Video
               </span>
             </a>

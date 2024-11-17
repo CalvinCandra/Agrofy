@@ -22,6 +22,7 @@ import DashboardAdmin from "./pages/dashboardAdmin/DashboardAdmin";
 import DashboardArtikel from "./pages/dashboardAdmin/DashboardArtikel";
 import DashboardVideo from "./pages/dashboardAdmin/DashboardVideo";
 import MainDashboardAdmin from "./pages/dashboardAdmin/MainDashboardAdmin";
+import DashboardKategori from "./pages/dashboardAdmin/DashboardKategori";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="" element={<DashboardAdmin />} />
           <Route path="artikel-admin" element={<DashboardArtikel />} />
           <Route path="video-admin" element={<DashboardVideo />} />
+          <Route path="kategori-admin" element={<DashboardKategori />} />
         </Route>
       </Route>
 
