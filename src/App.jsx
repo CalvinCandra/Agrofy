@@ -23,8 +23,13 @@ import DashboardArtikel from "./pages/dashboardAdmin/DashboardArtikel";
 import DashboardVideo from "./pages/dashboardAdmin/DashboardVideo";
 import MainDashboardAdmin from "./pages/dashboardAdmin/MainDashboardAdmin";
 import DashboardKategori from "./pages/dashboardAdmin/DashboardKategori";
+import RoleBasedRoute from "./middleware/RoleBasedRoute";
+import ProtectedRoute from "./middleware/ProtectedRoute";
 
 function App() {
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+  const userRole = sessionStorage.getItem("Role");
+
   return (
     <Routes>
       <Route path="/" element={<AppShell />}>
@@ -32,13 +37,34 @@ function App() {
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
-        <Route path="/artikel_detail/:id" element={<ArtikelDetail />} />
+        <Route
+          path="/artikel_detail/:id"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ArtikelDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/video" element={<VideoList />} />
-        <Route path="/video_detail/:id" element={<VideoDetail />} />
+        <Route
+          path="/video_detail/:id"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <VideoDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/komunitas" element={<Komunitas />} />
 
         {/* route for dashboard management */}
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
           <Route path="" element={<MainDashboard />} />
           <Route path="data_limbah" element={<DataLimbah />} />
           <Route path="olah_limbah" element={<OlahLimbah />} />
@@ -47,7 +73,16 @@ function App() {
           <Route path="laporan" element={<Laporan />} />
         </Route>
 
-        <Route path="/dashboard-admin" element={<MainDashboardAdmin />}>
+        <Route
+          path="/dashboard-admin"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <RoleBasedRoute role={userRole} allowedRoles={["admin"]}>
+                <MainDashboardAdmin />
+              </RoleBasedRoute>
+            </ProtectedRoute>
+          }
+        >
           <Route path="" element={<DashboardAdmin />} />
           <Route path="artikel-admin" element={<DashboardArtikel />} />
           <Route path="video-admin" element={<DashboardVideo />} />

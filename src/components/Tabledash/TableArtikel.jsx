@@ -83,6 +83,7 @@ export default function TableArtikel({ artikels }) {
 
   // =================================================================================================== Update
   const handleUpdateArtikel = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
@@ -117,7 +118,7 @@ export default function TableArtikel({ artikels }) {
     } catch (error) {
       console.error("Error:", error);
       // Menangani error yang dikirimkan oleh server
-      let errorMessage = "Artikel Gagal Ditambah";
+      let errorMessage = "Artikel Gagal Diupdate";
 
       if (error.response && error.response.data) {
         // Jika error dari server ada di response.data
@@ -140,6 +141,8 @@ export default function TableArtikel({ artikels }) {
         },
       });
       setShowModalUpdate(false);
+    } finally {
+      setLoading(false);
     }
   };
 

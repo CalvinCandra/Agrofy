@@ -25,13 +25,6 @@ import _nabila from "../assets/img/tentangkami/nabila.png";
 import _artikel from "../assets/img/pemberdayaan/artikel.png";
 import _video from "../assets/img/pemberdayaan/video.png";
 
-// artikel
-import _artikel1 from "../assets/img/artikel/1.jpg";
-import _artikel2 from "../assets/img/artikel/2.png";
-import _artikel3 from "../assets/img/artikel/3.png";
-import _artikel4 from "../assets/img/artikel/4.png";
-import _artikel5 from "../assets/img/artikel/5.png";
-
 // komunitas
 import _contoh1 from "../assets/img/komunitas/1.png";
 import _contoh2 from "../assets/img/komunitas/2.png";
@@ -87,13 +80,6 @@ const ImageImport = {
   artikel: _artikel,
   video: _video,
 
-  // artikel
-  artikel1: _artikel1,
-  artikel2: _artikel2,
-  artikel3: _artikel3,
-  artikel4: _artikel4,
-  artikel5: _artikel5,
-
   // komunitas
   contoh1: _contoh1,
   contoh2: _contoh2,
@@ -112,7 +98,7 @@ const ImageImport = {
   sekam: _sekam,
   jerami: _jerami,
   gambar: _gambar,
-  
+
   // profile
   default: _default,
 };

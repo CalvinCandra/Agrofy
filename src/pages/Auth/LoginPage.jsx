@@ -38,11 +38,11 @@ export default function LoginPage() {
 
       if (response.status === 200) {
         // Set localStorage ke true saat login sukses
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("Nama", response.data.nama);
-        localStorage.setItem("Email", response.data.email);
-        localStorage.setItem("Foto", response.data.foto);
-        localStorage.setItem("Role", response.data.role);
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("Nama", response.data.nama);
+        sessionStorage.setItem("Email", response.data.email);
+        sessionStorage.setItem("Foto", response.data.foto);
+        sessionStorage.setItem("Role", response.data.role);
 
         // Tampilkan alert untuk login sukses
         showAlert({

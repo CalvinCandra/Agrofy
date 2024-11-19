@@ -54,6 +54,7 @@ export default function DashboardKategori() {
   // =================================================================================================== Tambah
   const handelTambahKategori = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       // get url api register
@@ -82,6 +83,8 @@ export default function DashboardKategori() {
           window.location.reload();
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
