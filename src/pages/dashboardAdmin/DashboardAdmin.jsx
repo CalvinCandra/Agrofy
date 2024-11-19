@@ -12,20 +12,15 @@ import { showAlert } from "../../components/SweetAlert/SweetAlert";
 import Loading from "../../components/Loading/Loading.jsx";
 
 export default function DashboardAdmin() {
-  // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
-
-  // ================================================================================================ navigation
+  // navigation
   const navigate = useNavigate();
-  // =================================================================================================== menu bar
+  // menu bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Set Modal Tambah
+  const [showModalTambah, setShowModalTambah] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  // =================================================================================================== Fungsi Backend
   // set variabel
   const [users, setUsers] = useState([]);
   const [pagination, setPagination] = useState({
@@ -33,8 +28,11 @@ export default function DashboardAdmin() {
     totalPages: 1,
     totalData: 0,
   });
+  const [nama_lengkap, setNamaLengkap] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setpasswordInput] = useState("");
 
-  // Fungsi get APi
+  // =================================================================================================== Fungsi GET API
   const fetchUsers = async (page = 1) => {
     setLoading(true);
 
@@ -57,23 +55,6 @@ export default function DashboardAdmin() {
   }, []);
 
   // =================================================================================================== Tambah
-  // ================================== Set Modal
-  const [showModalTambah, setShowModalTambah] = useState(false);
-
-  const handleCModalTambah = () => {
-    setShowModalTambah(true); // Show modal on comment click
-  };
-
-  const handleCloseModalTambah = () => {
-    setShowModalTambah(false); // Close modal when done
-  };
-
-  // ================================= Set Backend Tambah
-  // set variabel
-  const [nama_lengkap, setNamaLengkap] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setpasswordInput] = useState("");
-
   const handelTambahAdmin = async (e) => {
     e.preventDefault();
 
@@ -121,7 +102,7 @@ export default function DashboardAdmin() {
       {isSidebarOpen && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
-          onClick={toggleSidebar}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         ></div>
       )}
       <div
@@ -139,7 +120,7 @@ export default function DashboardAdmin() {
           <div className="w-full">
             <button
               className="lg:hidden text-gray-800 bg-gray-200 p-2 rounded-md"
-              onClick={toggleSidebar}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +150,7 @@ export default function DashboardAdmin() {
                 href="#"
                 text="Tambah Admin"
                 variant="primary"
-                onClick={handleCModalTambah}
+                onClick={() => setShowModalTambah(true)}
               />
             </div>
           </div>
@@ -196,7 +177,7 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-bold">Tambah Admin</h3>
 
-              <button onClick={handleCloseModalTambah}>
+              <button onClick={() => setShowModalTambah(false)}>
                 <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
@@ -225,7 +206,7 @@ export default function DashboardAdmin() {
                     Nama Lengkap
                   </label>
                   <input
-                    type="nama_lengkap"
+                    type="text"
                     name="nama_lengkap"
                     id="nama_lengkap"
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"

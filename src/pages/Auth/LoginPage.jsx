@@ -40,6 +40,7 @@ export default function LoginPage() {
         // Set localStorage ke true saat login sukses
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("Nama", response.data.nama);
+        localStorage.setItem("Email", response.data.email);
         localStorage.setItem("Foto", response.data.foto);
         localStorage.setItem("Role", response.data.role);
 

@@ -12,20 +12,14 @@ import { showAlert } from "../../components/SweetAlert/SweetAlert";
 import Loading from "../../components/Loading/Loading.jsx";
 
 export default function DashboardKategori() {
-  // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
-
-  // ================================================================================================ navigation
+  //  navigation
   const navigate = useNavigate();
-  // =================================================================================================== menu bar
+  // menu bar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  // =================================================================================================== Fungsi Backend
+  // set modal tambah
+  const [showModalTambah, setShowModalTambah] = useState(false);
   // set variabel
   const [kategori, setKategori] = useState([]);
   const [pagination, setPagination] = useState({
@@ -33,8 +27,9 @@ export default function DashboardKategori() {
     totalPages: 1,
     totalData: 0,
   });
+  const [nama_kategori, setNamaKategori] = useState("");
 
-  // Fungsi get APi
+  // =================================================================================================== Fungsi GET API
   const fetchKategori = async (page = 1) => {
     setLoading(true);
 
@@ -57,21 +52,6 @@ export default function DashboardKategori() {
   }, []);
 
   // =================================================================================================== Tambah
-  // ================================== Set Modal
-  const [showModalTambah, setShowModalTambah] = useState(false);
-
-  const handleCModalTambah = () => {
-    setShowModalTambah(true); // Show modal on comment click
-  };
-
-  const handleCloseModalTambah = () => {
-    setShowModalTambah(false); // Close modal when done
-  };
-
-  // ================================= Set Backend Tambah
-  // set variabel
-  const [nama_kategori, setNamaKategori] = useState("");
-
   const handelTambahKategori = async (e) => {
     e.preventDefault();
 
@@ -116,7 +96,7 @@ export default function DashboardKategori() {
       {isSidebarOpen && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
-          onClick={toggleSidebar}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         ></div>
       )}
       <div
@@ -134,7 +114,7 @@ export default function DashboardKategori() {
           <div className="w-full">
             <button
               className="lg:hidden text-gray-800 bg-gray-200 p-2 rounded-md"
-              onClick={toggleSidebar}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +144,7 @@ export default function DashboardKategori() {
                 href="#"
                 text="Tambah Kategori"
                 variant="primary"
-                onClick={handleCModalTambah}
+                onClick={() => setShowModalTambah(true)}
               />
             </div>
           </div>
@@ -193,7 +173,7 @@ export default function DashboardKategori() {
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-bold">Tambah Kategori</h3>
 
-              <button onClick={handleCloseModalTambah}>
+              <button onClick={() => setShowModalTambah(false)}>
                 <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
@@ -206,7 +186,7 @@ export default function DashboardKategori() {
                     Nama Kategori
                   </label>
                   <input
-                    type="nama_kategori"
+                    type="text"
                     name="nama_kategori"
                     id="nama_kategori"
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
