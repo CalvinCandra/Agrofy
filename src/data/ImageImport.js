@@ -51,6 +51,9 @@ import _sekam from "../assets/img/dashboard/sekam.jpeg";
 import _jerami from "../assets/img/dashboard/konten/jerami.png";
 import _gambar from "../assets/img/dashboard/gambar.png";
 
+// profile
+import _default from "../assets/img/profile/default.png";
+
 const ImageImport = {
   // logo
   logo: _logo,
@@ -109,6 +112,9 @@ const ImageImport = {
   sekam: _sekam,
   jerami: _jerami,
   gambar: _gambar,
+  
+  // profile
+  default: _default,
 };
 
 export default ImageImport;

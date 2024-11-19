@@ -1,8 +1,7 @@
-import Footer from "../components/Footer/Footer";
-import Navbar from "../components/Navbar/Navbar";
 import ImageImport from "../data/ImageImport";
 import ButtonHref from "../components/Button/ButtonHref";
 import CardAlasan from "../components/Card/CardAlasan";
+import Loading from "../components/Loading/Loading";
 
 export default function IndexPage() {
   return (

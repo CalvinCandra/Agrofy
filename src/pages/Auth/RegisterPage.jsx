@@ -1,8 +1,17 @@
 import ImageImport from "../../data/ImageImport";
 import ButtonSubmit from "../../components/Button/ButtonSubmit";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import config from "../../config/config";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import Loading from "../../components/Loading/Loading.jsx";
 
 export default function RegisterPage() {
+  // ============================================================================================= Loading
+  // State untuk loading
+  const [loading, setLoading] = useState(false);
+
+  // ============================================================================================== Logika Input Password (Eye)
   // State untuk menyimpan tipe input (password atau text)
   const [Password, setPassword] = useState(true);
   const [KonfirmasiPassword, setKonfirmasiPassword] = useState(true);
@@ -17,6 +26,54 @@ export default function RegisterPage() {
     setKonfirmasiPassword((prevKonfirmasiPassword) => !prevKonfirmasiPassword);
   };
 
+  // ============================================================================================== Fungsi Backend
+  // set variabel
+  const [nama_lengkap, setNamaLengkap] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setpasswordInput] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // logika untuk submit
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (password !== confirmPassword) {
+      showAlert({
+        title: "Oops...",
+        text: "Password tidak cocok!",
+        iconType: "error",
+      });
+      return;
+    }
+
+    try {
+      await axios.post(`${config.apiUrl}/register`, {
+        nama_lengkap,
+        email,
+        password,
+      });
+      showAlert({
+        title: "Horee",
+        text: "Register Berhasil",
+        iconType: "success",
+        didClose: () => {
+          // Redirect setelah alert ditutup
+          window.location.href = "/login"; // Jika menggunakan React Router: navigate('/login');
+        },
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      showAlert({
+        title: "Oppsss",
+        text: "Register Gagal",
+        iconType: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-bg-body h-screen flex justify-center items-center">
       <div className="p-2 flex justify-between items-stretch w-full lg:w-[70%]">
@@ -25,7 +82,7 @@ export default function RegisterPage() {
           <h1 className="text-xl font-semibold leading-tight tracking-tight overflow-hidden text-black md:text-2xl uppercase text-center mb-10 mt-4">
             Sign up
           </h1>
-          <form className="space-y-4 md:space-y-6" action="#">
+          <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
             {/* Input untuk Nama Lengkap */}
             <div>
               <label
@@ -36,10 +93,12 @@ export default function RegisterPage() {
               </label>
               <input
                 type="text" // Mengganti tipe input untuk nama lengkap
-                name="fullName"
-                id="fullName" // Mengubah id menjadi 'fullName' agar unik
+                name="nama_lengkap"
+                id="nama_lengkap" // Mengubah id menjadi 'fullName' agar unik
                 className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                 placeholder="Masukan nama lengkap"
+                value={nama_lengkap}
+                onChange={(e) => setNamaLengkap(e.target.value)}
                 required
               />
             </div>
@@ -58,6 +117,8 @@ export default function RegisterPage() {
                 id="email" // Pastikan ID ini unik di halaman
                 className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                 placeholder="Masukan email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -77,6 +138,8 @@ export default function RegisterPage() {
                   id="password" // ID unik untuk password
                   placeholder="••••••••"
                   className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
+                  value={password}
+                  onChange={(e) => setpasswordInput(e.target.value)}
                   required
                 />
                 <span
@@ -107,6 +170,8 @@ export default function RegisterPage() {
                   id="confirmPassword" // Mengubah id menjadi 'confirmPassword' agar unik
                   placeholder="••••••••"
                   className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
                 <span
@@ -144,7 +209,7 @@ export default function RegisterPage() {
 
             {/* Tombol Submit */}
             <div className="w-full">
-              <ButtonSubmit text="Sign Up" />
+              <ButtonSubmit text="Sign Up" variant="primary" />
             </div>
 
             {/* Tautan ke Halaman Login */}
@@ -171,6 +236,9 @@ export default function RegisterPage() {
           />
         </div>
       </div>
+
+      {/* Overlay Loading */}
+      {loading && <Loading />}
     </div>
   );
 }
