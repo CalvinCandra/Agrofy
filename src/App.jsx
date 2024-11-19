@@ -32,9 +32,9 @@ function App() {
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
-        <Route path="/artikel_detail" element={<ArtikelDetail />} />
+        <Route path="/artikel_detail/:id" element={<ArtikelDetail />} />
         <Route path="/video" element={<VideoList />} />
-        <Route path="/video_detail" element={<VideoDetail />} />
+        <Route path="/video_detail/:id" element={<VideoDetail />} />
         <Route path="/komunitas" element={<Komunitas />} />
 
         {/* route for dashboard management */}

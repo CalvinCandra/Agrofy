@@ -7,29 +7,19 @@ import config from "../../config/config";
 import Loading from "../../components/Loading/Loading.jsx";
 
 export default function TableKategori({ kategoris }) {
-  // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
-
-  // ================================================================================================ navigation
+  // navigation
   const navigate = useNavigate();
-
-  // =================================================================================================== Update
-  // ================================== Set Modal
+  // Set Modal Update
   const [showModalUpdate, setShowModalUpdate] = useState(false);
+  // Set Modal Hapus
+  const [showModalHapus, setShowModalHapus] = useState(false);
 
-  const handleModalUpdate = () => {
-    setShowModalUpdate(true); // Show modal on comment click
-  };
-
-  const handleCloseModalUpdate = () => {
-    setShowModalUpdate(false); // Close modal when done
-  };
-  // ================================= fungsi backend
-  // set variabel
+  // set variabel kategori
   const [selectKategori, setSelectKategori] = useState(null);
 
-  // fungsi
+  // =================================================================================================== Update
   const handelUpdateKategori = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -46,7 +36,7 @@ export default function TableKategori({ kategoris }) {
         iconType: "error",
         didClose: () => {
           // Redirect setelah alert ditutup
-          navigate("/dashboard-admin/kategori");
+          navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },
       });
@@ -85,18 +75,6 @@ export default function TableKategori({ kategoris }) {
   };
 
   // =================================================================================================== Hapus
-  // ================================== Set Modal
-  const [showModalHapus, setShowModalHapus] = useState(false);
-
-  const handleModalHapus = () => {
-    setShowModalHapus(true); // Show modal on comment click
-  };
-
-  const handleCloseModalHapus = () => {
-    setShowModalHapus(false); // Close modal when done
-  };
-
-  // fungsi
   const handelHapusKategori = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -185,7 +163,7 @@ export default function TableKategori({ kategoris }) {
                   className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
                   onClick={() => {
                     setSelectKategori(kategori);
-                    handleModalUpdate();
+                    setShowModalUpdate(true);
                   }}
                 >
                   Edit
@@ -194,7 +172,7 @@ export default function TableKategori({ kategoris }) {
                   className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
                   onClick={() => {
                     setSelectKategori(kategori);
-                    handleModalHapus();
+                    setShowModalHapus(true);
                   }}
                 >
                   Hapus
@@ -212,7 +190,7 @@ export default function TableKategori({ kategoris }) {
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-bold">Update Kategori</h3>
 
-              <button onClick={handleCloseModalUpdate}>
+              <button onClick={() => setShowModalUpdate(false)}>
                 <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
@@ -257,7 +235,7 @@ export default function TableKategori({ kategoris }) {
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-bold">Hapus Kategori</h3>
 
-              <button onClick={handleCloseModalHapus}>
+              <button onClick={() => setShowModalHapus(false)}>
                 <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
