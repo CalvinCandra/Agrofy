@@ -57,6 +57,7 @@ export default function DashboardAdmin() {
   // =================================================================================================== Tambah
   const handelTambahAdmin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       // get url api register
@@ -88,6 +89,8 @@ export default function DashboardAdmin() {
           window.location.reload();
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 

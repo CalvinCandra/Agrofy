@@ -35,22 +35,22 @@ export default function NavbarLogin() {
   // ========================================================================================================= cek user
   // State untuk menyimpan informasi user
   const [user, setUser] = useState({
-    name: localStorage.getItem("Nama"),
-    profilePicture: localStorage.getItem("Foto"),
-    role: localStorage.getItem("Role"),
+    name: sessionStorage.getItem("Nama"),
+    profilePicture: sessionStorage.getItem("Foto"),
+    role: sessionStorage.getItem("Role"),
   });
   const navigate = useNavigate(); // Hook untuk navigasi
 
   // ========================================================================================================== LOGOUT
   const handleLogout = () => {
     // Hapus data user dari localStorage dan lakukan logout
-    localStorage.removeItem("Nama");
-    localStorage.removeItem("Foto");
-    localStorage.removeItem("Role");
-    localStorage.removeItem("Email");
+    sessionStorage.removeItem("Nama");
+    sessionStorage.removeItem("Foto");
+    sessionStorage.removeItem("Role");
+    sessionStorage.removeItem("Email");
     setUser(null);
     // Set status isLoggedIn menjadi false di localStorage
-    localStorage.setItem("isLoggedIn", "false");
+    sessionStorage.setItem("isLoggedIn", "false");
     navigate("/");
     window.location.reload(); // Refresh halaman utama untuk memperbarui tampilan
   };

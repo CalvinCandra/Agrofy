@@ -1,12 +1,9 @@
-import { useNavigate } from "react-router-dom";
-
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const navigation = useNavigate();
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
 
   // Jika belum login, arahkan ke halaman login
   if (!isLoggedIn) {
-    return navigation("/login");
+    return (window.location.href = "/login");
   }
 
   // Jika sudah login, tampilkan komponen anak

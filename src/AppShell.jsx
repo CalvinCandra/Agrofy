@@ -5,13 +5,20 @@ import Footer from "./components/Footer/Footer";
 import { useState, useEffect } from "react";
 
 function AppShell() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // null = loading
+  const [loading, setLoading] = useState(true); // loading state untuk menunggu pengecekan status login
 
-  // cek apakah user sudah login atau blm
+  // cek apakah user sudah login atau belum
   useEffect(() => {
-    const userLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(userLoggedIn);
+    const userLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(userLoggedIn); // update status login
+    setLoading(false); // set loading selesai
   }, []);
+
+  if (loading) {
+    // Tampilkan loading atau spinner saat sedang memeriksa status login
+    return <Loading />;
+  }
 
   return (
     <div>

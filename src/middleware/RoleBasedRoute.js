@@ -1,10 +1,6 @@
-import { useNavigate } from "react-router-dom";
-
 const RoleBasedRoute = ({ role, allowedRoles, children }) => {
-  const navigation = useNavigate();
-
   if (!allowedRoles.includes(role)) {
-    return navigation("*");
+    return (window.location.href = "*");
   }
   return children;
 };

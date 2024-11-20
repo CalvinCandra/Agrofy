@@ -1,7 +1,6 @@
 import CardArtikel from "../../components/Card/CardArtikel";
 import Pagination from "../../components/Pagination/Pagination";
 import Search from "../../components/Search/Search";
-import Artikel from "../../data/Artikel/Artikel";
 import Loading from "../../components/Loading/Loading.jsx";
 import axios from "axios";
 import config from "../../config/config";
@@ -60,7 +59,7 @@ export default function ArtikelList() {
         {/* Card */}
         <div className="w-full">
           {loading ? (
-            <p>Loading...</p> // Tampilkan loading saat data sedang dimuat
+            <Loading />
           ) : (
             artikel.map((data) => (
               <CardArtikel

@@ -42,6 +42,7 @@ export default function TableUser({ users }) {
         },
       });
     }
+    
     // fungsi
     try {
       await axios.put(`${config.apiUrl}/updateadmin/${selectedUser.id}`, {
