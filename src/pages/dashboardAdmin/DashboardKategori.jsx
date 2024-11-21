@@ -27,6 +27,7 @@ export default function DashboardKategori() {
     totalPages: 1,
     totalData: 0,
   });
+  // set state inputan
   const [nama_kategori, setNamaKategori] = useState("");
 
   // =================================================================================================== Fungsi GET API
@@ -38,8 +39,8 @@ export default function DashboardKategori() {
         `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setKategori(data.data); // Set data user dari respon api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
+      setKategori(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -57,7 +58,6 @@ export default function DashboardKategori() {
     setLoading(true);
 
     try {
-      // get url api register
       await axios.post(`${config.apiUrl}/tambahkategori`, {
         nama_kategori,
       });
@@ -72,17 +72,34 @@ export default function DashboardKategori() {
           window.location.reload();
         },
       });
+      fetchKategori();
     } catch (error) {
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Kategori Gagal Ditambahh";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        } else {
+          errorMessage = "Terjadi kesalahan, coba lagi.";
+        }
+      } else if (error.message) {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Kategori Gagal Ditambah, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },
       });
+      fetchKategori();
     } finally {
       setLoading(false);
     }

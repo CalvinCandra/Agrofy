@@ -54,7 +54,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/komunitas" element={<Komunitas />} />
+        <Route
+          path="/komunitas"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Komunitas />
+            </ProtectedRoute>
+          }
+        />
 
         {/* route for dashboard management */}
         <Route

@@ -15,32 +15,13 @@ export default function TableKategori({ kategoris }) {
   const [showModalUpdate, setShowModalUpdate] = useState(false);
   // Set Modal Hapus
   const [showModalHapus, setShowModalHapus] = useState(false);
-
-  // set variabel kategori
+  // set variabel
   const [selectKategori, setSelectKategori] = useState(null);
 
   // =================================================================================================== Update
   const handelUpdateKategori = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    // Validasi data user
-    if (
-      !selectKategori ||
-      !selectKategori.id ||
-      !selectKategori.nama_kategori
-    ) {
-      return showAlert({
-        title: "Oppss",
-        text: "Data tidak sesuai",
-        iconType: "error",
-        didClose: () => {
-          // Redirect setelah alert ditutup
-          navigate("/dashboard-admin/kategori-admin");
-          window.location.reload();
-        },
-      });
-    }
 
     // fungsi
     try {
@@ -59,12 +40,26 @@ export default function TableKategori({ kategoris }) {
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Kategori Gagal Diupdate";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Kategori Gagal Diupdate, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },
@@ -96,12 +91,26 @@ export default function TableKategori({ kategoris }) {
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Kategori Gagal Dihapus";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Kategori Gagal Dihapus, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/kategori-admin");
           window.location.reload();
         },

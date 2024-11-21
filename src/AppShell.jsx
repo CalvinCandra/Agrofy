@@ -1,3 +1,4 @@
+import Loading from "./components/Loading/Loading";
 import NavbarLogin from "./components/Navbar/NavbarLogin";
 import Navbar from "./components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";

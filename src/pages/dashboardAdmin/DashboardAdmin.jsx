@@ -28,6 +28,7 @@ export default function DashboardAdmin() {
     totalPages: 1,
     totalData: 0,
   });
+  // set state untuk inputan
   const [nama_lengkap, setNamaLengkap] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpasswordInput] = useState("");
@@ -41,8 +42,8 @@ export default function DashboardAdmin() {
         `${config.apiUrl}/getadmin?page=${page}&limit=10`
       );
       const data = response.data;
-      setUsers(data.data); // Set data user dari respon api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
+      setUsers(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -78,17 +79,34 @@ export default function DashboardAdmin() {
           window.location.reload();
         },
       });
+      fetchUsers(); // refresh table
     } catch (error) {
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Admin Gagal Ditambah";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        } else {
+          errorMessage = "Terjadi kesalahan, coba lagi.";
+        }
+      } else if (error.message) {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Admin Gagal Ditambah, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin");
           window.location.reload();
         },
       });
+      fetchUsers(); // refresh table
     } finally {
       setLoading(false);
     }

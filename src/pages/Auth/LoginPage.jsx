@@ -5,27 +5,24 @@ import React, { useState, useEffect } from "react";
 import config from "../../config/config";
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 import Loading from "../../components/Loading/Loading.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-  // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
-
-  // ============================================================================================= Fungsi Input Password (eye)
-  // State untuk menyimpan tipe input (password atau text)
+  //  navigation
+  const navigate = useNavigate();
+  // State untuk fungsi eye password
   const [Password, setPassword] = useState(true);
-
   // Fungsi untuk toggle tipe input
   const togglePasswordVisibility = () => {
     setPassword((prevPassword) => !prevPassword);
   };
-
-  //============================================================================================== fungsi Backend
   // set variabel
   const [email, setEmail] = useState("");
   const [password, setPasswordInput] = useState("");
 
-  // fungsi
+  //============================================================================================== fungsi Backend
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -50,28 +47,36 @@ export default function LoginPage() {
           text: response.data.msg,
           iconType: "success",
           didClose: () => {
-            // Redirect setelah alert ditutup
-            window.location.href = "/";
+            navigate("/");
+            window.location.reload();
           },
         });
       }
     } catch (error) {
-      // Jika terjadi error di request atau jika status bukan 200
-      if (error.response) {
-        // Server mengembalikan response error (400 atau 404)
-        showAlert({
-          title: "Oppsss",
-          text: error.response.data.msg,
-          iconType: "error",
-        });
-      } else if (error.request) {
-        // Tidak mendapatkan respons dari server (500)
-        showAlert({
-          title: "Oppsss",
-          text: "Tidak ada respons dari server.",
-          iconType: "error",
-        });
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Login Gagal";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
       }
+
+      // Menampilkan alert dengan pesan error spesifik
+      showAlert({
+        title: "Oppss",
+        text: `${errorMessage}`,
+        iconType: "error",
+        didClose: () => {
+          navigate("/login");
+          window.location.reload();
+        },
+      });
     } finally {
       setLoading(false);
     }

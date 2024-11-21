@@ -5,69 +5,75 @@ import axios from "axios";
 import config from "../../config/config";
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 import Loading from "../../components/Loading/Loading.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-  // ============================================================================================= Loading
   // State untuk loading
   const [loading, setLoading] = useState(false);
-
-  // ============================================================================================== Logika Input Password (Eye)
-  // State untuk menyimpan tipe input (password atau text)
+  //  navigation
+  const navigate = useNavigate();
+  // State untuk fungsi eye
   const [Password, setPassword] = useState(true);
   const [KonfirmasiPassword, setKonfirmasiPassword] = useState(true);
-
   // Fungsi untuk toggle tipe input
   const togglePasswordVisibility = () => {
     setPassword((prevPassword) => !prevPassword);
   };
-
   // Fungsi untuk toggle tipe input
   const toggleKonfirmasiPasswordVisibility = () => {
     setKonfirmasiPassword((prevKonfirmasiPassword) => !prevKonfirmasiPassword);
   };
-
-  // ============================================================================================== Fungsi Backend
   // set variabel
   const [nama_lengkap, setNamaLengkap] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpasswordInput] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // logika untuk submit
+  // ============================================================================================== Fungsi Backend
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    if (password !== confirmPassword) {
-      showAlert({
-        title: "Oops...",
-        text: "Password tidak cocok!",
-        iconType: "error",
-      });
-      return;
-    }
 
     try {
       await axios.post(`${config.apiUrl}/register`, {
         nama_lengkap,
         email,
         password,
+        confirmPassword,
       });
       showAlert({
         title: "Horee",
         text: "Register Berhasil",
         iconType: "success",
         didClose: () => {
-          // Redirect setelah alert ditutup
-          window.location.href = "/login"; // Jika menggunakan React Router: navigate('/login');
+          navigate("/login");
+          window.location.reload();
         },
       });
     } catch (error) {
       console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Register Gagal";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
-        title: "Oppsss",
-        text: "Register Gagal",
+        title: "Oppss",
+        text: `${errorMessage}`,
         iconType: "error",
+        didClose: () => {
+          navigate("/register");
+          window.location.reload();
+        },
       });
     } finally {
       setLoading(false);

@@ -22,6 +22,8 @@ export default function TableVideo({ videos }) {
   // set variabel
   const [kategori, setKategori] = useState([]);
   const [selectVideo, setSelectVideo] = useState([]);
+
+  // set inputan
   const [deskripsi, setDeskripsi] = useState(selectVideo.deskripsi);
   const [thumbnail, setThumbnail] = useState(null);
   const [video, setVideo] = useState(null);
@@ -40,7 +42,7 @@ export default function TableVideo({ videos }) {
         `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setKategori(data.data); // Set data user dari respon api untuk tabel
+      setKategori(data.data); // Set data dari api untuk tabel
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -63,8 +65,6 @@ export default function TableVideo({ videos }) {
       );
 
       setSelectVideo(response.data);
-      setJudulArtikel(response.data.judul_artikel);
-      setDeskripsi(response.data.deskripsi);
       setShowModalDetail(true); // Show the modal
     } catch (error) {
       showAlert({
@@ -87,8 +87,9 @@ export default function TableVideo({ videos }) {
     setLoading(true);
     e.preventDefault();
 
+    // Menggunakan FormData untuk mengirim data multipart/form-data
     const formData = new FormData();
-    formData.append("judul_video", selectVideo.judul_video);
+    formData.append("judul", selectVideo.judul_video);
     formData.append("deskripsi", deskripsi);
     if (video) {
       formData.append("video", video);
@@ -96,7 +97,7 @@ export default function TableVideo({ videos }) {
     if (thumbnail) {
       formData.append("thumbnail", thumbnail);
     }
-    formData.append("email", localStorage.getItem("Email"));
+    formData.append("email", sessionStorage.getItem("Email"));
     formData.append("kategori_id", selectVideo.kategori_id);
 
     try {
@@ -118,7 +119,6 @@ export default function TableVideo({ videos }) {
           window.location.reload();
         },
       });
-      setShowModalUpdate(false);
     } catch (error) {
       console.error("Error:", error);
       // Menangani error yang dikirimkan oleh server
@@ -137,14 +137,14 @@ export default function TableVideo({ videos }) {
       // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `${errorMessage}`,
+        text: error.response.data.msg,
+        // text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
           navigate("/dashboard-admin/video-admin");
           window.location.reload();
         },
       });
-      setShowModalUpdate(false);
     } finally {
       setLoading(false);
     }
@@ -170,12 +170,26 @@ export default function TableVideo({ videos }) {
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Video Gagal Dihapus";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Video Gagal Dihapus, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/video-admin");
           window.location.reload();
         },

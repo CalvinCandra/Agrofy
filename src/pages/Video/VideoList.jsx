@@ -27,8 +27,8 @@ export default function VideoList() {
       );
       const data = response.data;
       console.log(data);
-      setVideo(data.data); // Set data dari respon api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
+      setVideo(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

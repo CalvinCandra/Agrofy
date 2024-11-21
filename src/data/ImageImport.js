@@ -25,10 +25,6 @@ import _nabila from "../assets/img/tentangkami/nabila.png";
 import _artikel from "../assets/img/pemberdayaan/artikel.png";
 import _video from "../assets/img/pemberdayaan/video.png";
 
-// komunitas
-import _contoh1 from "../assets/img/komunitas/1.png";
-import _contoh2 from "../assets/img/komunitas/2.png";
-
 //dashboard
 import _sidebardash from "../assets/img/dashboard/dashboard.png";
 import _sidebardash1 from "../assets/img/dashboard/limbah.png";
@@ -79,10 +75,6 @@ const ImageImport = {
   // pemberdayan
   artikel: _artikel,
   video: _video,
-
-  // komunitas
-  contoh1: _contoh1,
-  contoh2: _contoh2,
 
   //dashboard
   dashboard: _sidebardash,

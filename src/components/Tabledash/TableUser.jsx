@@ -15,7 +15,6 @@ export default function TableUser({ users }) {
   const [showModalUpdate, setShowModalUpdate] = useState(false);
   // Set Modal Hapus
   const [showModalHapus, setShowModalHapus] = useState(false);
-
   // variabel users
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -24,25 +23,6 @@ export default function TableUser({ users }) {
     e.preventDefault();
     setLoading(true);
 
-    // Validasi data user
-    if (
-      !selectedUser ||
-      !selectedUser.id ||
-      !selectedUser.email ||
-      !selectedUser.nama_lengkap
-    ) {
-      return showAlert({
-        title: "Oppss",
-        text: "Data tidak sesuai",
-        iconType: "error",
-        didClose: () => {
-          // Redirect setelah alert ditutup
-          navigate("/dashboard-admin");
-          window.location.reload();
-        },
-      });
-    }
-    
     // fungsi
     try {
       await axios.put(`${config.apiUrl}/updateadmin/${selectedUser.id}`, {
@@ -61,12 +41,26 @@ export default function TableUser({ users }) {
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Admin Gagal Diupdate";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Admin Gagal Diupdate, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin");
           window.location.reload();
         },
@@ -96,12 +90,26 @@ export default function TableUser({ users }) {
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Artikel Gagal Diupdate";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Admin Gagal Dihapus, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin");
           window.location.reload();
         },
