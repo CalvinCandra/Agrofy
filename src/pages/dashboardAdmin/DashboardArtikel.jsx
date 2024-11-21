@@ -24,15 +24,16 @@ export default function DashboardArtikel() {
   const [showModalTambah, setShowModalTambah] = useState(false);
   // set variabel
   const [artikel, setArtikel] = useState([]);
+  const [kategori, setKategori] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
     totalData: 0,
   });
+  // set state inputan
   const [judul_artikel, setJudulArtikel] = useState("");
   const [thumbnail, setGambar] = useState("");
   const [deskirpsi, setEditorData] = useState("");
-  const [kategori, setKategori] = useState([]);
   const [kategoriId, setKategoriId] = useState("");
 
   // =================================================================================================== Fungsi GET API Kategori
@@ -44,7 +45,7 @@ export default function DashboardArtikel() {
         `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setKategori(data.data); // Set data user dari respon api untuk tabel
+      setKategori(data.data); // Set data dari respon api untuk tabel
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -65,8 +66,8 @@ export default function DashboardArtikel() {
         `${config.apiUrl}/getartikel?page=${page}&limit=10`
       );
       const data = response.data;
-      setArtikel(data.data); // Set data dari respon api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
+      setArtikel(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -84,23 +85,19 @@ export default function DashboardArtikel() {
     setLoading(true);
 
     // Menggunakan FormData untuk mengirim data multipart/form-data
-    try {
-      const formData = new FormData();
-      formData.append("judul_artikel", judul_artikel);
-      formData.append("deskripsi", deskirpsi);
-      formData.append("thumbnail", thumbnail);
-      formData.append("email", localStorage.getItem("Email"));
-      formData.append("kategori_id", kategoriId);
+    const formData = new FormData();
+    formData.append("judul", judul_artikel);
+    formData.append("deskripsi", deskirpsi);
+    formData.append("thumbnail", thumbnail);
+    formData.append("email", sessionStorage.getItem("Email"));
+    formData.append("kategori_id", kategoriId);
 
-      const response = await axios.post(
-        `${config.apiUrl}/tambahartikel`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    try {
+      await axios.post(`${config.apiUrl}/tambahartikel`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       showAlert({
         title: "Hore",
@@ -111,7 +108,7 @@ export default function DashboardArtikel() {
           window.location.reload();
         },
       });
-      setShowModalTambah(false);
+
       fetchArtikel(); // Refresh data tabel
     } catch (error) {
       // Menangani error yang dikirimkan oleh server
@@ -130,13 +127,14 @@ export default function DashboardArtikel() {
       // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Artikel Gagal Ditambah, ${errorMessage}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
           navigate("/dashboard-admin/artikel-admin");
           window.location.reload();
         },
       });
+      fetchArtikel(); // Refresh data tabel
     } finally {
       setLoading(false);
     }
@@ -279,7 +277,7 @@ export default function DashboardArtikel() {
                   </label>
                   <input
                     type="file"
-                    name="gambar"
+                    name="thumbnail"
                     onChange={(e) => setGambar(e.target.files[0])}
                     className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer"
                     accept="image/png, image/jpeg"
@@ -295,6 +293,7 @@ export default function DashboardArtikel() {
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5"
                     value={kategoriId}
                     onChange={(e) => setKategoriId(e.target.value)}
+                    required
                   >
                     <option value="" hidden>
                       Pilih Kategori

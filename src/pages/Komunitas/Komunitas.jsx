@@ -1,270 +1,449 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageImport from "../../data/ImageImport";
-import ButtonHref from "../../components/Button/ButtonHref";
 import ButtonSubmit from "../../components/Button/ButtonSubmit";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Pagination from "../../components/Pagination/Pagination";
+import { showAlert } from "../../components/SweetAlert/SweetAlert";
+import Loading from "../../components/Loading/Loading.jsx";
+import axios from "axios";
+import config from "../../config/config";
+import { useNavigate } from "react-router-dom";
 
 export default function Komunitas() {
-  const [liked, setLiked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // modal
+  const [showModalKomen, setShowModalKomen] = useState(false);
+  const [showModalPost, setShowModalPost] = useState(false);
 
-  const handleLikeClick = () => {
-    setLiked(!liked); // Toggle liked state
+  // State untuk loading
+  const [loading, setLoading] = useState(false);
+  //  navigation
+  const navigate = useNavigate();
+  const [selectedCommentId, setSelectedCommentId] = useState(null); // State untuk menyimpan ID
+
+  // set state
+  const [selectKomunitas, setSelectKomunitas] = useState([]);
+  const [selectBalasan, setSelectBalasan] = useState([]);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalData: 0,
+  });
+
+  // set state inputan
+  const [gambar, setGambar] = useState("");
+  const [deskirpsi, setEditorData] = useState("");
+  const [balasan, setBalasan] = useState("");
+
+  // =============================================================================================== get Postingan Komunitas
+  const getKomunitas = async (page = 1) => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `${config.apiUrl}/getkomunitas?page=${page}&limit=10`
+      );
+      const data = response.data;
+      setSelectKomunitas(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
+      console.log(selectKomunitas);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCommentClick = () => {
-    setShowModal(true); // Show modal on comment click
+  useEffect(() => {
+    getKomunitas();
+  }, []);
+
+  // =============================================================================================== get Balasan Komunitas
+  useEffect(() => {
+    const getBalasan = async () => {
+      if (selectedCommentId) {
+        setLoading(true);
+
+        try {
+          const response = await axios.get(
+            `${config.apiUrl}/getkomunitasbalasan/${selectedCommentId}`
+          );
+          const data = response.data;
+          setSelectBalasan(data.data); // Set data dari api untuk tabel
+          console.log(selectBalasan);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    getBalasan();
+  }, [selectedCommentId]);
+
+  // =============================================================================================== Tambah Komunitas
+  const handelTambahPost = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // Menggunakan FormData untuk mengirim data multipart/form-data
+    try {
+      const formData = new FormData();
+      formData.append("caption", deskirpsi);
+      formData.append("gambar", gambar);
+      formData.append("email", sessionStorage.getItem("Email"));
+
+      await axios.post(`${config.apiUrl}/tambahkomunitas`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      showAlert({
+        title: "Hore",
+        text: "Postingan Berhasil Ditambah",
+        iconType: "success",
+        didClose: () => {
+          navigate("/komunitas");
+          window.location.reload();
+        },
+      });
+      setShowModalPost(false);
+      getKomunitas(); // Refresh data tabel
+    } catch (error) {
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Postingan Gagal Diupload";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        } else {
+          errorMessage = "Terjadi kesalahan, coba lagi.";
+        }
+      } else if (error.message) {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
+      showAlert({
+        title: "Oppss",
+        text: `${errorMessage}`,
+        iconType: "error",
+        didClose: () => {
+          navigate("/komunitas");
+          window.location.reload();
+        },
+      });
+
+      getKomunitas(); // Refresh data tabel
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false); // Close modal when done
+  // =============================================================================================== Tambah Balasan Komunitas
+  const handelTambahKomen = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await axios.post(`${config.apiUrl}/tambahbalasan/${selectedCommentId}`, {
+        balasan,
+        email: sessionStorage.getItem("Email"),
+      });
+
+      showAlert({
+        title: "Hore",
+        text: "Komentar Berhasil Ditambah",
+        iconType: "success",
+        didClose: () => {
+          navigate("/komunitas");
+          window.location.reload();
+        },
+      });
+      setShowModalKomen(false);
+    } catch (error) {
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Postingan Gagal Diupload";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        } else {
+          errorMessage = "Terjadi kesalahan, coba lagi.";
+        }
+      } else if (error.message) {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
+      showAlert({
+        title: "Oppss",
+        text: `${errorMessage}`,
+        iconType: "error",
+        didClose: () => {
+          navigate("/komunitas");
+          window.location.reload();
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <section className="bg-brown-light pt-20">
+    <section className="bg-brown-light lg:pt-20 pt-10">
       <div className="w-konten mx-auto p-2">
         <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center my-10">
           Komunitas Agrofy
         </h1>
 
+        {/* Kolom Input */}
+        <button
+          className="h-14 w-14 bg-main-green rounded-full fixed flex justify-center items-center bottom-14 right-10"
+          onClick={() => setShowModalPost(true)}
+        >
+          <i className="fa-solid fa-plus text-xl text-white"></i>
+        </button>
+
         {/* Card */}
         <div className="flex flex-col justify-center items-center w-full">
-          {/* Kolom Input */}
-          <div className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg border-gray-400">
-            <div className="flex items-center justify-start border-b-2 pb-5">
-              <div className="pe-5 lg:px-1">
-                <div className="h-8 w-8 lg:h-12 lg:w-12 bg-black rounded-full"></div>
-              </div>
-              <div className="lg:ml-5 lg:w-full">
-                <input
-                  className="py-2 w-full bg-transparent bg-disable rounded-lg pe-2 pl-5 focus:border-2 focus:border-main-green focus:ring-0 focus:outline-none "
-                  placeholder="Apa yang anda Pikirkan? "
-                />
-              </div>
-            </div>
+          {/* Perulangan */}
+          {selectKomunitas && selectKomunitas.length > 0 ? (
+            selectKomunitas.map((data) => {
+              return (
+                <div
+                  key={data.id}
+                  className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10"
+                >
+                  {/* Bagian atas */}
+                  <div className="flex items-center justify-between">
+                    <div className="px-2">
+                      <div className="flex justify-between items-center">
+                        {data.foto ? (
+                          <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                            <img
+                              src={data.foto}
+                              alt="User profile"
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                            <img
+                              src={ImageImport.default}
+                              alt="User profile"
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="ml-4">
+                          <h5 className="lg:text-lg">{data.nama_lengkap}</h5>
+                          <h5 className="text-xs">
+                            {new Date(data.updated_at).toLocaleDateString(
+                              "id-ID",
+                              {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              }
+                            )}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-            <div className="flex justify-between items-center w-[20%] lg:w-[6.5%] lg:p-2 lg:mx-2">
-              <i className="fa-regular fa-image text-xl lg:text-2xl"></i>
-            </div>
-          </div>
+                  {/* Bagian tengah */}
+                  <div className="w-full lg:text-justify mt-5 px-2 border-b-2 border-gray-400 pb-5">
+                    {data.gambar ? (
+                      <div className="w-full flex flex-col lg:flex-row flex-wrap justify-between items-center my-5">
+                        <img
+                          src={`${config.apiUrlImage}/komunitas/${data.gambar}`}
+                          className="lg:w-full py-2 lg:py-0"
+                          alt="Gambar Komunitas"
+                        />
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                    <p dangerouslySetInnerHTML={{ __html: data.caption }} />
+                  </div>
 
-          {/* Card Komunitas 1*/}
-          <div className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg my-10">
-            {/* Bagian atas */}
-            <div className="flex items-center justify-between">
-              <div className="px-1">
-                <div className="flex justify-between items-center">
-                  <div className="h-8 w-8 lg:h-12 lg:w-12 bg-black rounded-full"></div>
-                  <div className="ml-4">
-                    <h5 className="lg:text-lg">Surya</h5>
-                    <h5 className="text-xs">9 Jam yang lalu</h5>
+                  {/* Bagian bawah */}
+                  <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
+                    {/* Icon Comment */}
+                    <div className="flex items-center w-full">
+                      <i
+                        className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[10%]"
+                        onClick={() => {
+                          setSelectedCommentId(data.id);
+                          setShowModalKomen(true);
+                        }}
+                      ></i>
+                      <p className="text-sm mx-2">Lihat Balasan</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            {/* Bagian tengah */}
-            <div className="w-full lg:text-justify mt-3 lg:mt-10 px-2 border-b-2 border-gray-400 pb-5">
-              <p>
-                Halo semuanya ada yang tau bagaimana caranya mengolah kompos
-                yang benar? dikarenakan kemarin saya membuat saat di aplikasikan
-                malah membuat tumbuhan mati. Tolongan dong buat yang tau, nanti
-                ku kasi 2M
-              </p>
-            </div>
+              );
+            })
+          ) : (
+            <p className="text-center italic text-gray-400 my-10">
+              Belum Ada Postingan
+            </p>
+          )}
 
-            {/* Bagian bawah */}
-            <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
-              <div className="flex items-center w-[40%]">
-                <i
-                  className={`w-[20%] ${
-                    liked
-                      ? "fa-solid fa-heart text-red-500"
-                      : "fa-regular fa-heart"
-                  } text-xl lg:text-2xl cursor-pointer`}
-                  onClick={handleLikeClick}
-                ></i>
-                <p className="text-sm mx-2">500 Likes</p>
-              </div>
-              {/* Icon Comment */}
-              <div className="flex items-center w-[45%]">
-                <i
-                  className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[20%]"
-                  onClick={handleCommentClick}
-                ></i>
-                <p className="text-sm mx-2">2 Balasan</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card Komunitas 2*/}
-          <div className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10">
-            {/* Bagian atas */}
-            <div className="flex items-center justify-between">
-              <div className="px-2">
-                <div className="flex justify-between items-center">
-                  <div className="h-8 w-8 lg:h-12 lg:w-12 bg-black rounded-full"></div>
-                  <div className="ml-4">
-                    <h5 className="lg:text-lg">Rofi</h5>
-                    <h5 className="text-xs">3 Menit yang lalu</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Bagian tengah */}
-            <div className="w-full lg:text-justify mt-5 px-2 border-b-2 border-gray-400 pb-5">
-              <div className="w-full flex flex-col lg:flex-row flex-wrap justify-between items-center my-5 ">
-                <img
-                  src={ImageImport.contoh1}
-                  className="lg:w-[48%] py-2 lg:py-0"
-                  alt="Gambar Komunitas "
-                ></img>
-                <img
-                  src={ImageImport.contoh2}
-                  className="lg:w-[48%]"
-                  alt="Gambar Komunitas py-2 lg:py-0"
-                ></img>
-              </div>
-              <p>
-                Halo semuanya ada yang tau bagaimana caranya mengolah kompos
-                yang benar? dikarenakan kemarin saya membuat saat di aplikasikan
-                malah membuat tumbuhan mati. Tolongan dong buat yang tau, nanti
-                ku kasi 2M.
-              </p>
-            </div>
-
-            {/* Bagian bawah */}
-            <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
-              <div className="flex items-center w-[40%]">
-                <i
-                  className={`w-[20%] ${
-                    liked
-                      ? "fa-solid fa-heart text-red-500"
-                      : "fa-regular fa-heart"
-                  } text-xl lg:text-2xl cursor-pointer`}
-                  onClick={handleLikeClick}
-                ></i>
-                <p className="text-sm mx-2">500 Likes</p>
-              </div>
-              {/* Icon Comment */}
-              <div className="flex items-center w-[45%]">
-                <i
-                  className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[20%]"
-                  onClick={handleCommentClick}
-                ></i>
-                <p className="text-sm mx-2">2 Balasan</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card Komunitas 3*/}
-          <div className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10">
-            {/* Bagian atas */}
-            <div className="flex items-center justify-between">
-              <div className="px-2">
-                <div className="flex justify-between items-center">
-                  <div className="h-8 w-8 lg:h-12 lg:w-12 bg-black rounded-full"></div>
-                  <div className="ml-4">
-                    <h5 className="lg:text-lg">Kevin</h5>
-                    <h5 className="text-xs">12 Menit yang lalu</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Bagian tengah */}
-            <div className="w-full lg:text-justify mt-5 lg:mt-10 px-2 border-b-2 border-gray-400 pb-5">
-              <p>
-                Halo jerami yang sudah kering apakah bisa digunakan untuk
-                menutupi tanah di sekitar tanaman cabai supya todak adanya
-                rumput tumbuh, takutnya jerami mempengaruhi pertumbuhan cabai
-                😊.
-              </p>
-            </div>
-
-            {/* Bagian bawah */}
-            <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
-              <div className="flex items-center w-[40%]">
-                <i
-                  className={`w-[20%] ${
-                    liked
-                      ? "fa-solid fa-heart text-red-500"
-                      : "fa-regular fa-heart"
-                  } text-xl lg:text-2xl cursor-pointer`}
-                  onClick={handleLikeClick}
-                ></i>
-                <p className="text-sm mx-2">500 Likes</p>
-              </div>
-              {/* Icon Comment */}
-              <div className="flex items-center w-[45%]">
-                <i
-                  className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[20%]"
-                  onClick={handleCommentClick}
-                ></i>
-                <p className="text-sm mx-2">5 Balasan</p>
-              </div>
-            </div>
+          {/* pagination */}
+          <div className="mt-5">
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              totalData={pagination.totalData}
+              fetchData={getKomunitas}
+            />
           </div>
         </div>
 
-        {/* Modal */}
-        {showModal && (
+        {/* Modal Post */}
+        {showModalPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-5 rounded-lg w-full max-w-lg mx-4 lg:mx-0 lg:max-w-2xl overflow-y-auto max-h-[80vh]">
-              <h3 className="text-lg mb-4">Balasan Komentar</h3>
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-bold">Tambah Artikel</h3>
 
-              {/* Daftar Balasan Statis */}
+                <button onClick={() => setShowModalPost(false)}>
+                  <i className="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              {/* Form untuk Komentar Baru */}
+              <div className="mt-4">
+                <form onSubmit={handelTambahPost} encType="multipart/form-data">
+                  <div className="mt-4 mb-4 max-h-[600px] overflow-y-auto">
+                    <label className="block mb-2 text-sm font-medium text-black">
+                      Tuliskan apa yang mau diposting
+                    </label>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      config={{
+                        toolbar: ["bold", "italic", "undo", "redo"],
+                      }}
+                      data={deskirpsi}
+                      onChange={(event, editor) =>
+                        setEditorData(editor.getData())
+                      }
+                    />
+                  </div>
+
+                  <div className="mt-6">
+                    <label className="block mb-2 text-sm font-medium text-black">
+                      Gambar (Opsional)
+                    </label>
+                    <input
+                      type="file"
+                      name="gambar"
+                      onChange={(e) => setGambar(e.target.files[0])}
+                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer"
+                      accept="image/png, image/jpeg, image/jpg"
+                    />
+                  </div>
+
+                  <div className="mt-6 w-40 m-auto">
+                    <ButtonSubmit text="Posting" variant="primary" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Komen */}
+        {showModalKomen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-5 rounded-lg w-full max-w-lg mx-4 lg:mx-0 lg:max-w-2xl overflow-y-auto max-h-[80vh]">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold">Balasan</h3>
+
+                <button onClick={() => setShowModalKomen(false)}>
+                  <i className="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              {/* Daftar Balasan */}
               <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
-                    <img
-                      src={ImageImport.willy}
-                      alt="User profile"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h5 className="font-semibold">Willy</h5>
-                    <p className="text-sm text-gray-600">
-                      Mungkin terlalu banyak komposnya, coba kurangi sedikit.
+                <div className="max-h-[500px] overflow-y-auto">
+                  {selectBalasan && selectBalasan.length > 0 ? (
+                    selectBalasan.map((data, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start space-x-6 mb-6"
+                        >
+                          <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                            {data.foto ? (
+                              <img
+                                src={ImageImport.willy} // Ganti dengan `data.foto` jika gambar berasal dari data API
+                                alt="User profile"
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                                <img
+                                  src={ImageImport.default}
+                                  alt="User profile"
+                                  className="h-full w-full object-cover"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h5 className="font-semibold">
+                              {data.nama_lengkap}
+                            </h5>
+                            <p className="text-sm text-gray-600">
+                              {data.balasan}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-center italic text-gray-400 my-10">
+                      Belum Ada Balasan
                     </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
-                    <img
-                      src={ImageImport.oka}
-                      alt="User profile"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h5 className="font-semibold">Oka</h5>
-                    <p className="text-sm text-gray-600">
-                      Pastikan komposnya sudah benar-benar matang, biasanya
-                      butuh waktu beberapa bulan.
-                    </p>
-                  </div>
+                  )}
                 </div>
               </div>
 
               {/* Form untuk Komentar Baru */}
               <div className="mt-6">
-                <textarea
-                  className="w-full p-2 border rounded-lg"
-                  placeholder="Tulis komentar Anda..."
-                ></textarea>
-                <div className="flex justify-end mt-4">
-                  <ButtonHref
-                    href="#"
-                    text="batal"
-                    variant="secondary"
-                    onClick={handleCloseModal}
-                  />
-                  <ButtonHref href="#" text="kirim" variant="primary" />
-                </div>
+                <form onSubmit={handelTambahKomen}>
+                  <textarea
+                    className="w-full p-2 border rounded-lg"
+                    placeholder="Tulis komentar Anda..."
+                    name="balasan"
+                    value={balasan} // Bind nilai state ke textarea
+                    onChange={(e) => setBalasan(e.target.value)} // Perbarui state saat ada perubahan
+                    required
+                  ></textarea>
+
+                  <div className="mt-6 w-40 m-auto">
+                    <ButtonSubmit text="Komentar" variant="primary" />
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Overlay Loading */}
+      {loading && <Loading />}
     </section>
   );
 }

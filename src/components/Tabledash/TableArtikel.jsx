@@ -22,6 +22,7 @@ export default function TableArtikel({ artikels }) {
   // set variabel
   const [kategori, setKategori] = useState([]);
   const [selectArtikel, setSelectArtikel] = useState([]);
+  // set state inputan
   const [deskripsi, setDeskripsi] = useState(selectArtikel.deskripsi);
   const [thumbnail, setThumbnail] = useState(null);
 
@@ -39,7 +40,7 @@ export default function TableArtikel({ artikels }) {
         `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setKategori(data.data); // Set data user dari respon api untuk tabel
+      setKategori(data.data); // Set data dari api untuk tabel
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -62,8 +63,6 @@ export default function TableArtikel({ artikels }) {
       );
 
       setSelectArtikel(response.data);
-      setJudulArtikel(response.data.judul_artikel);
-      setDeskripsi(response.data.deskripsi);
       setShowModalDetail(true); // Show the modal
     } catch (error) {
       showAlert({
@@ -86,13 +85,14 @@ export default function TableArtikel({ artikels }) {
     setLoading(true);
     e.preventDefault();
 
+    // Menggunakan FormData untuk mengirim data multipart/form-data
     const formData = new FormData();
-    formData.append("judul_artikel", selectArtikel.judul_artikel);
+    formData.append("judul", selectArtikel.judul_artikel);
     formData.append("deskripsi", deskripsi);
     if (thumbnail) {
       formData.append("thumbnail", thumbnail);
     }
-    formData.append("email", localStorage.getItem("Email"));
+    formData.append("email", sessionStorage.getItem("Email"));
     formData.append("kategori_id", selectArtikel.kategori_id);
 
     try {
@@ -114,7 +114,6 @@ export default function TableArtikel({ artikels }) {
           window.location.reload();
         },
       });
-      setShowModalUpdate(false);
     } catch (error) {
       console.error("Error:", error);
       // Menangani error yang dikirimkan oleh server
@@ -133,14 +132,13 @@ export default function TableArtikel({ artikels }) {
       // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Artikel Gagal Ditambah, ${errorMessage}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
           navigate("/dashboard-admin/artikel-admin");
           window.location.reload();
         },
       });
-      setShowModalUpdate(false);
     } finally {
       setLoading(false);
     }
@@ -151,7 +149,6 @@ export default function TableArtikel({ artikels }) {
     e.preventDefault();
     setLoading(true);
 
-    // fungsi
     try {
       await axios.delete(`${config.apiUrl}/deleteartikel/${selectArtikel.id}`);
 
@@ -160,17 +157,31 @@ export default function TableArtikel({ artikels }) {
         text: "Artikel Berhasil Dihapus",
         iconType: "success",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/artikel-admin");
+          window.location.reload();
         },
       });
     } catch (error) {
+      console.error("Error:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Artikel Gagal Dihapus";
+
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
+      // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Artikel Gagal Dihapus, ${error}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
-          // Redirect setelah alert ditutup
           navigate("/dashboard-admin/artikel-admin");
           window.location.reload();
         },

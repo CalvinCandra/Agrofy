@@ -24,16 +24,17 @@ export default function DashboardArtikel() {
   const [showModalTambah, setShowModalTambah] = useState(false);
   // set variabel
   const [video, setVideo] = useState([]);
+  const [kategori, setKategori] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
     totalData: 0,
   });
+  // set untuk inputan
   const [judul_video, setJudulVideo] = useState("");
   const [thumbnail, setGambar] = useState("");
   const [videoFile, setVideoFile] = useState("");
   const [deskirpsi, setEditorData] = useState("");
-  const [kategori, setKategori] = useState([]);
   const [kategoriId, setKategoriId] = useState("");
 
   // =================================================================================================== Fungsi GET API Kategori
@@ -45,7 +46,7 @@ export default function DashboardArtikel() {
         `${config.apiUrl}/getkategori?page=${page}&limit=10`
       );
       const data = response.data;
-      setKategori(data.data); // Set data user dari respon api untuk tabel
+      setKategori(data.data); // Set data dari respon api untuk tabel
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -66,8 +67,8 @@ export default function DashboardArtikel() {
         `${config.apiUrl}/getvideo?page=${page}&limit=10`
       );
       const data = response.data;
-      setVideo(data.data); // Set data dari respon api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari respon api untuk pagination
+      setVideo(data.data); // Set data dari api untuk tabel
+      setPagination(data.pagination); // Set data pagination dari api untuk pagination
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -87,11 +88,11 @@ export default function DashboardArtikel() {
     // Menggunakan FormData untuk mengirim data multipart/form-data
     try {
       const formData = new FormData();
-      formData.append("judul_video", judul_video);
+      formData.append("judul", judul_video);
       formData.append("deskripsi", deskirpsi);
       formData.append("video", videoFile);
       formData.append("thumbnail", thumbnail);
-      formData.append("email", localStorage.getItem("Email"));
+      formData.append("email", sessionStorage.getItem("Email"));
       formData.append("kategori_id", kategoriId);
 
       await axios.post(`${config.apiUrl}/tambahvideo`, formData, {
@@ -110,7 +111,6 @@ export default function DashboardArtikel() {
         },
       });
       fetchVideo();
-      setShowModalTambah(false);
     } catch (error) {
       // Menangani error yang dikirimkan oleh server
       let errorMessage = "Video Gagal Ditambah";
@@ -119,8 +119,10 @@ export default function DashboardArtikel() {
         // Jika error dari server ada di response.data
         if (error.response.data.msg) {
           errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        } else {
+          errorMessage = "Terjadi kesalahan, coba lagi.";
         }
-      } else {
+      } else if (error.message) {
         // Jika error tidak ada response dari server
         errorMessage = error.message;
       }
@@ -128,13 +130,14 @@ export default function DashboardArtikel() {
       // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
-        text: `Video Gagal Ditambah, ${errorMessage}`,
+        text: `${errorMessage}`,
         iconType: "error",
         didClose: () => {
           navigate("/dashboard-admin/video-admin");
           window.location.reload();
         },
       });
+      fetchVideo();
     } finally {
       setLoading(false);
     }
@@ -292,6 +295,7 @@ export default function DashboardArtikel() {
                     onChange={(e) => setGambar(e.target.files[0])}
                     className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer"
                     accept="image/png, image/jpeg"
+                    required
                   />
                 </div>
 
@@ -303,6 +307,7 @@ export default function DashboardArtikel() {
                     className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5"
                     value={kategoriId}
                     onChange={(e) => setKategoriId(e.target.value)}
+                    required
                   >
                     <option value="" hidden>
                       Pilih Kategori
