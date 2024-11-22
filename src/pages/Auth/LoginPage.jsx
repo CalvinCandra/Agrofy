@@ -36,14 +36,14 @@ export default function LoginPage() {
       if (response.status === 200) {
         // Set localStorage ke true saat login sukses
         sessionStorage.setItem("isLoggedIn", "true");
-        sessionStorage.setItem("Nama", response.data.nama);
-        sessionStorage.setItem("Email", response.data.email);
-        sessionStorage.setItem("Foto", response.data.foto);
+        sessionStorage.setItem("Token", response.data.token);
         sessionStorage.setItem("Role", response.data.role);
+        sessionStorage.setItem("Nama", response.data.nama);
+        sessionStorage.setItem("Foto", response.data.foto);
 
         // Tampilkan alert untuk login sukses
         showAlert({
-          title: `Halo ${response.data.role}`,
+          title: `Halo`,
           text: response.data.msg,
           iconType: "success",
           didClose: () => {

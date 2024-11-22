@@ -17,13 +17,21 @@ export default function VideoList() {
     totalData: 0,
   });
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API Video
-  const fetchVideo = async (page = 1) => {
+  const fetchVideo = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getvideo?page=${page}&limit=10`
+        `${config.apiUrl}/getvideo?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       console.log(data);
@@ -40,6 +48,10 @@ export default function VideoList() {
     fetchVideo();
   }, []);
 
+  const handleSearch = (searchQuery) => {
+    fetchVideo(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   return (
     <section className="pt-20 bg-white">
       <div className="w-konten mx-auto p-2 mb-10">
@@ -54,14 +66,14 @@ export default function VideoList() {
 
         {/* Search */}
         <div className="w-full my-10">
-          <Search placeholder="Cari Video" />
+          <Search placeholder="Cari video..." onSearch={handleSearch} />
         </div>
 
         {/* Card */}
         <div className="flex flex-col lg:flex-row justify-center lg:items-stretch flex-wrap p-2 w-full">
           {loading ? (
             <Loading />
-          ) : (
+          ) : video && video.length > 0 ? (
             video.map((data) => (
               <CardVideo
                 key={data.id}
@@ -72,6 +84,8 @@ export default function VideoList() {
                 href={`/video_detail/${data.id}`}
               />
             ))
+          ) : (
+            <p className="text-center italic text-gray-400">Belum Ada Video</p>
           )}
         </div>
 

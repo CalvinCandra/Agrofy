@@ -30,13 +30,21 @@ export default function DashboardKategori() {
   // set state inputan
   const [nama_kategori, setNamaKategori] = useState("");
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API
-  const fetchKategori = async (page = 1) => {
+  const fetchKategori = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getkategori?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setKategori(data.data); // Set data dari api untuk tabel
@@ -52,15 +60,28 @@ export default function DashboardKategori() {
     fetchKategori();
   }, []);
 
+  // Fungsi untuk menangani pencarian
+  const handleSearch = (searchQuery) => {
+    fetchKategori(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   // =================================================================================================== Tambah
   const handelTambahKategori = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await axios.post(`${config.apiUrl}/tambahkategori`, {
-        nama_kategori,
-      });
+      await axios.post(
+        `${config.apiUrl}/tambahkategori`,
+        {
+          nama_kategori,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       showAlert({
         title: "Hore",
@@ -156,7 +177,7 @@ export default function DashboardKategori() {
             </h1>
 
             <div className="my-3">
-              <Search />
+              <Search placeholder="Cari Kategori..." onSearch={handleSearch} />
             </div>
 
             <div className="mt-3 py-5">

@@ -47,7 +47,7 @@ export default function NavbarLogin() {
     sessionStorage.removeItem("Nama");
     sessionStorage.removeItem("Foto");
     sessionStorage.removeItem("Role");
-    sessionStorage.removeItem("Email");
+    sessionStorage.removeItem("Token");
     setUser(null);
     // Set status isLoggedIn menjadi false di localStorage
     sessionStorage.setItem("isLoggedIn", "false");

@@ -36,13 +36,21 @@ export default function DashboardArtikel() {
   const [deskirpsi, setEditorData] = useState("");
   const [kategoriId, setKategoriId] = useState("");
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API Kategori
   const fetchKategori = async (page = 1) => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getkategori?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setKategori(data.data); // Set data dari respon api untuk tabel
@@ -58,12 +66,17 @@ export default function DashboardArtikel() {
   }, []);
 
   // =================================================================================================== Fungsi GET API Artikel
-  const fetchArtikel = async (page = 1) => {
+  const fetchArtikel = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getartikel?page=${page}&limit=10`
+        `${config.apiUrl}/getartikel?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setArtikel(data.data); // Set data dari api untuk tabel
@@ -79,6 +92,11 @@ export default function DashboardArtikel() {
     fetchArtikel();
   }, []);
 
+  // Fungsi untuk menangani pencarian
+  const handleSearch = (searchQuery) => {
+    fetchArtikel(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   // ==================================================================================================== Tambah
   const handelTambahArtikel = async (e) => {
     e.preventDefault();
@@ -89,12 +107,12 @@ export default function DashboardArtikel() {
     formData.append("judul", judul_artikel);
     formData.append("deskripsi", deskirpsi);
     formData.append("thumbnail", thumbnail);
-    formData.append("email", sessionStorage.getItem("Email"));
     formData.append("kategori_id", kategoriId);
 
     try {
       await axios.post(`${config.apiUrl}/tambahartikel`, formData, {
         headers: {
+          Authorization: `${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -191,7 +209,7 @@ export default function DashboardArtikel() {
             </h1>
 
             <div className="my-3">
-              <Search />
+              <Search placeholder="Cari Artikel..." onSearch={handleSearch} />
             </div>
 
             <div className="mt-3 py-5">

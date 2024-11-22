@@ -17,13 +17,21 @@ export default function ArtikelList() {
     totalData: 0,
   });
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API Artikel
-  const fetchArtikel = async (page = 1) => {
+  const fetchArtikel = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getartikel?page=${page}&limit=10`
+        `${config.apiUrl}/getartikel?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setArtikel(data.data); // Set data dari respon api untuk tabel
@@ -39,6 +47,10 @@ export default function ArtikelList() {
     fetchArtikel();
   }, []);
 
+  const handleSearch = (searchQuery) => {
+    fetchArtikel(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   return (
     <section className="bg-white pt-20">
       <div className="w-konten m-auto">
@@ -53,14 +65,14 @@ export default function ArtikelList() {
 
         {/* Search */}
         <div className="w-full my-10">
-          <Search placeholder="Cari Artikel" />
+          <Search placeholder="Cari Artikel..." onSearch={handleSearch} />
         </div>
 
         {/* Card */}
         <div className="w-full">
           {loading ? (
             <Loading />
-          ) : (
+          ) : artikel && artikel.length > 0 ? (
             artikel.map((data) => (
               <CardArtikel
                 key={data.id}
@@ -71,6 +83,10 @@ export default function ArtikelList() {
                 href={`/artikel_detail/${data.id}`}
               />
             ))
+          ) : (
+            <p className="text-center italic text-gray-400">
+              Belum Ada Artikel
+            </p>
           )}
         </div>
 

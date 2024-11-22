@@ -37,13 +37,21 @@ export default function DashboardArtikel() {
   const [deskirpsi, setEditorData] = useState("");
   const [kategoriId, setKategoriId] = useState("");
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API Kategori
   const fetchKategori = async (page = 1) => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getkategori?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setKategori(data.data); // Set data dari respon api untuk tabel
@@ -59,12 +67,17 @@ export default function DashboardArtikel() {
   }, []);
 
   // =================================================================================================== Fungsi GET API Video
-  const fetchVideo = async (page = 1) => {
+  const fetchVideo = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getvideo?page=${page}&limit=10`
+        `${config.apiUrl}/getvideo?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setVideo(data.data); // Set data dari api untuk tabel
@@ -80,6 +93,11 @@ export default function DashboardArtikel() {
     fetchVideo();
   }, []);
 
+  // Fungsi untuk menangani pencarian
+  const handleSearch = (searchQuery) => {
+    fetchVideo(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   // ==================================================================================================== Tambah
   const handelTambahVideo = async (e) => {
     e.preventDefault();
@@ -92,11 +110,11 @@ export default function DashboardArtikel() {
       formData.append("deskripsi", deskirpsi);
       formData.append("video", videoFile);
       formData.append("thumbnail", thumbnail);
-      formData.append("email", sessionStorage.getItem("Email"));
       formData.append("kategori_id", kategoriId);
 
       await axios.post(`${config.apiUrl}/tambahvideo`, formData, {
         headers: {
+          Authorization: `${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -194,7 +212,7 @@ export default function DashboardArtikel() {
             </h1>
 
             <div className="my-3">
-              <Search />
+              <Search placeholder="Cari Video..." onSearch={handleSearch} />
             </div>
 
             <div className="mt-3 py-5">

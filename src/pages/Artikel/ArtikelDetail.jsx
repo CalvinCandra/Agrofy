@@ -10,6 +10,9 @@ export default function ArtikelDetail() {
   const [loading, setLoading] = useState(true); // State untuk loading
   const [artikel, setArtikel] = useState(null); // State untuk data artikel
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // Fungsi untuk fetch artikel berdasarkan id
   useEffect(() => {
     const fetchArtikel = async () => {
@@ -17,7 +20,12 @@ export default function ArtikelDetail() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${config.apiUrl}/getartikeldetail/${id}`
+          `${config.apiUrl}/getartikeldetail/${id}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
         );
         const data = response.data;
         setArtikel(data.data);
