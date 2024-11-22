@@ -1,7 +1,19 @@
-export default function Search(props) {
-  const { placeholder } = props;
+import React, { useState } from "react";
+
+export default function Search({ placeholder, onSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value); // Update query saat input berubah
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault(); // Mencegah form submit default
+    onSearch(searchQuery); // Panggil fungsi onSearch dari parent component
+  };
+
   return (
-    <form className="">
+    <form onSubmit={handleSearchSubmit}>
       <label className="mb-2 text-sm font-medium text-gray-900 sr-only">
         Search
       </label>
@@ -16,7 +28,8 @@ export default function Search(props) {
           id="default-search"
           className="block w-full ps-10 text-sm bg-gray-50 border-2 text-black rounded-lg p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
           placeholder={placeholder}
-          required
+          value={searchQuery}
+          onChange={handleSearchChange} // Update searchQuery saat input berubah
         />
       </div>
     </form>

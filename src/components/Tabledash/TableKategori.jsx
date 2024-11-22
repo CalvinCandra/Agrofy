@@ -18,6 +18,9 @@ export default function TableKategori({ kategoris }) {
   // set variabel
   const [selectKategori, setSelectKategori] = useState(null);
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Update
   const handelUpdateKategori = async (e) => {
     e.preventDefault();
@@ -25,9 +28,17 @@ export default function TableKategori({ kategoris }) {
 
     // fungsi
     try {
-      await axios.put(`${config.apiUrl}/updatekategori/${selectKategori.id}`, {
-        nama_kategori: selectKategori.nama_kategori,
-      });
+      await axios.put(
+        `${config.apiUrl}/updatekategori/${selectKategori.id}`,
+        {
+          nama_kategori: selectKategori.nama_kategori,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       showAlert({
         title: "Hore",
@@ -77,7 +88,12 @@ export default function TableKategori({ kategoris }) {
     // fungsi
     try {
       await axios.delete(
-        `${config.apiUrl}/deletekategori/${selectKategori.id}`
+        `${config.apiUrl}/deletekategori/${selectKategori.id}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
 
       showAlert({
@@ -132,6 +148,9 @@ export default function TableKategori({ kategoris }) {
               Nama Kategori
             </th>
             <th className="py-3 px-6 text-left text-gray-700 font-medium">
+              Ditambahkan Oleh
+            </th>
+            <th className="py-3 px-6 text-left text-gray-700 font-medium">
               Tanggal Dibuat
             </th>
             <th className="py-3 px-6 text-left text-gray-700 font-medium">
@@ -143,52 +162,63 @@ export default function TableKategori({ kategoris }) {
           </tr>
         </thead>
         <tbody>
-          {/* Perulangan */}
-          {kategoris.map((kategori, index) => (
-            <tr key={kategori.id} className="border">
-              <td className="py-3 px-6 text-gray-600">{index + 1}</td>
-              <td className="py-3 px-6 text-gray-600">
-                {kategori.nama_kategori}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(kategori.created_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(kategori.updated_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
+          {kategoris && kategoris.length > 0 ? (
+            // Perulangan
+            kategoris.map((kategori, index) => (
+              <tr key={kategori.id} className="border">
+                <td className="py-3 px-6 text-gray-600">{index + 1}</td>
+                <td className="py-3 px-6 text-gray-600">
+                  {kategori.nama_kategori}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {kategori.nama_lengkap}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(kategori.created_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(kategori.updated_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
 
-              <td className="py-3 px-6 text-gray-600">
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
-                  onClick={() => {
-                    setSelectKategori(kategori);
-                    setShowModalUpdate(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
-                  onClick={() => {
-                    setSelectKategori(kategori);
-                    setShowModalHapus(true);
-                  }}
-                >
-                  Hapus
-                </button>
+                <td className="py-3 px-6 text-gray-600">
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
+                    onClick={() => {
+                      setSelectKategori(kategori);
+                      setShowModalUpdate(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={() => {
+                      setSelectKategori(kategori);
+                      setShowModalHapus(true);
+                    }}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="text-center italic text-gray-400 py-5">
+                Belum Ada Data
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

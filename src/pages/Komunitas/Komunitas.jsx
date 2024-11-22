@@ -35,18 +35,21 @@ export default function Komunitas() {
   const [deskirpsi, setEditorData] = useState("");
   const [balasan, setBalasan] = useState("");
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =============================================================================================== get Postingan Komunitas
-  const getKomunitas = async (page = 1) => {
+  const getKomunitas = async () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(
-        `${config.apiUrl}/getkomunitas?page=${page}&limit=10`
-      );
+      const response = await axios.get(`${config.apiUrl}/getkomunitas`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
       const data = response.data;
       setSelectKomunitas(data.data); // Set data dari api untuk tabel
-      setPagination(data.pagination); // Set data pagination dari api untuk pagination
-      console.log(selectKomunitas);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -66,7 +69,12 @@ export default function Komunitas() {
 
         try {
           const response = await axios.get(
-            `${config.apiUrl}/getkomunitasbalasan/${selectedCommentId}`
+            `${config.apiUrl}/getkomunitasbalasan/${selectedCommentId}`,
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
           );
           const data = response.data;
           setSelectBalasan(data.data); // Set data dari api untuk tabel
@@ -92,10 +100,10 @@ export default function Komunitas() {
       const formData = new FormData();
       formData.append("caption", deskirpsi);
       formData.append("gambar", gambar);
-      formData.append("email", sessionStorage.getItem("Email"));
 
       await axios.post(`${config.apiUrl}/tambahkomunitas`, formData, {
         headers: {
+          Authorization: `${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -150,10 +158,17 @@ export default function Komunitas() {
     setLoading(true);
 
     try {
-      await axios.post(`${config.apiUrl}/tambahbalasan/${selectedCommentId}`, {
-        balasan,
-        email: sessionStorage.getItem("Email"),
-      });
+      await axios.post(
+        `${config.apiUrl}/tambahbalasan/${selectedCommentId}`,
+        {
+          balasan,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       showAlert({
         title: "Hore",
@@ -197,7 +212,7 @@ export default function Komunitas() {
   };
 
   return (
-    <section className="bg-brown-light lg:pt-20 pt-10">
+    <section className="bg-brown-light lg:pt-20 pt-10 lg:pb-14">
       <div className="w-konten mx-auto p-2">
         <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center my-10">
           Komunitas Agrofy
@@ -205,7 +220,7 @@ export default function Komunitas() {
 
         {/* Kolom Input */}
         <button
-          className="h-14 w-14 bg-main-green rounded-full fixed flex justify-center items-center bottom-14 right-10"
+          className="h-14 w-14 bg-main-green rounded-full fixed left-10 top-20 flex justify-center items-center"
           onClick={() => setShowModalPost(true)}
         >
           <i className="fa-solid fa-plus text-xl text-white"></i>
@@ -297,16 +312,6 @@ export default function Komunitas() {
               Belum Ada Postingan
             </p>
           )}
-
-          {/* pagination */}
-          <div className="mt-5">
-            <Pagination
-              currentPage={pagination.currentPage}
-              totalPages={pagination.totalPages}
-              totalData={pagination.totalData}
-              fetchData={getKomunitas}
-            />
-          </div>
         </div>
 
         {/* Modal Post */}

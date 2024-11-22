@@ -28,6 +28,9 @@ export default function TableVideo({ videos }) {
   const [thumbnail, setThumbnail] = useState(null);
   const [video, setVideo] = useState(null);
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // Jika selectVideo.deskripsi sudah ada, pastikan deskripsi memiliki nilai default
   useEffect(() => {
     setDeskripsi(selectVideo.deskripsi || "");
@@ -39,7 +42,12 @@ export default function TableVideo({ videos }) {
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getkategori?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setKategori(data.data); // Set data dari api untuk tabel
@@ -61,7 +69,12 @@ export default function TableVideo({ videos }) {
     try {
       // Fetch article details from the backend
       const response = await axios.get(
-        `${config.apiUrl}/getartikeldetail/${artikel.id}`
+        `${config.apiUrl}/getartikeldetail/${artikel.id}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
 
       setSelectVideo(response.data);
@@ -97,7 +110,6 @@ export default function TableVideo({ videos }) {
     if (thumbnail) {
       formData.append("thumbnail", thumbnail);
     }
-    formData.append("email", sessionStorage.getItem("Email"));
     formData.append("kategori_id", selectVideo.kategori_id);
 
     try {
@@ -105,7 +117,10 @@ export default function TableVideo({ videos }) {
         `${config.apiUrl}/updatevideo/${selectVideo.id}`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -157,7 +172,11 @@ export default function TableVideo({ videos }) {
 
     // fungsi
     try {
-      await axios.delete(`${config.apiUrl}/deletevideo/${selectVideo.id}`);
+      await axios.delete(`${config.apiUrl}/deletevideo/${selectVideo.id}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
 
       showAlert({
         title: "Hore",
@@ -225,72 +244,79 @@ export default function TableVideo({ videos }) {
           </tr>
         </thead>
         <tbody>
-          {/* Perulangan */}
-          {videos.map((video, index) => (
-            <tr key={video.id} className="border">
-              <td className="py-3 px-6 text-gray-600">{index + 1}</td>
-              <td className="py-3 px-6 text-gray-600">{video.judul_video}</td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Link untuk video */}
-                <a
-                  href={`${config.apiUrlImage}/video/${video.video}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  lihat Video
-                </a>
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(video.created_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(video.updated_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
+          {videos && videos.length > 0 ? (
+            videos.map((video, index) => (
+              <tr key={video.id} className="border">
+                <td className="py-3 px-6 text-gray-600">{index + 1}</td>
+                <td className="py-3 px-6 text-gray-600">{video.judul_video}</td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Link untuk video */}
+                  <a
+                    href={`${config.apiUrlImage}/video/${video.video}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
+                  >
+                    lihat Video
+                  </a>
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(video.created_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(video.updated_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
 
-              <td className="py-3 px-6 text-gray-600">
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-[#FFB82E] rounded mr-2"
-                  onClick={() => {
-                    setSelectVideo(video);
-                    setShowModalDetail(true);
-                  }}
-                >
-                  Lihat Detail
-                </button>
+                <td className="py-3 px-6 text-gray-600">
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-[#FFB82E] rounded mr-2"
+                    onClick={() => {
+                      setSelectVideo(video);
+                      setShowModalDetail(true);
+                    }}
+                  >
+                    Lihat Detail
+                  </button>
 
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
-                  onClick={() => {
-                    setSelectVideo(video);
-                    setShowModalUpdate(true);
-                  }}
-                >
-                  Edit
-                </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
+                    onClick={() => {
+                      setSelectVideo(video);
+                      setShowModalUpdate(true);
+                    }}
+                  >
+                    Edit
+                  </button>
 
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
-                  onClick={() => {
-                    setSelectVideo(video);
-                    setShowModalHapus(true);
-                  }}
-                >
-                  Hapus
-                </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={() => {
+                      setSelectVideo(video);
+                      setShowModalHapus(true);
+                    }}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="text-center italic text-gray-400 py-5">
+                Belum Ada Data
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

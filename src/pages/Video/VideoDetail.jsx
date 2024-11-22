@@ -10,6 +10,9 @@ export default function VideoDetail() {
   const [loading, setLoading] = useState(true); // State untuk loading
   const [video, setVideo] = useState(null); // State untuk data
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // Fungsi untuk fetch berdasarkan id
   useEffect(() => {
     const fetchVideo = async () => {
@@ -17,7 +20,12 @@ export default function VideoDetail() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${config.apiUrl}/getvideodetail/${id}`
+          `${config.apiUrl}/getvideodetail/${id}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
         );
         const data = response.data;
         setVideo(data.data);

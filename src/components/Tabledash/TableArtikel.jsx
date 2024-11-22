@@ -26,6 +26,9 @@ export default function TableArtikel({ artikels }) {
   const [deskripsi, setDeskripsi] = useState(selectArtikel.deskripsi);
   const [thumbnail, setThumbnail] = useState(null);
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // Jika selectArtikel.deskripsi sudah ada, pastikan deskripsi memiliki nilai default
   useEffect(() => {
     setDeskripsi(selectArtikel.deskripsi || "");
@@ -37,7 +40,12 @@ export default function TableArtikel({ artikels }) {
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getkategori?page=${page}&limit=10`
+        `${config.apiUrl}/getkategori?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setKategori(data.data); // Set data dari api untuk tabel
@@ -59,7 +67,13 @@ export default function TableArtikel({ artikels }) {
     try {
       // Fetch article details from the backend
       const response = await axios.get(
-        `${config.apiUrl}/getartikeldetail/${artikel.id}`
+        `${config.apiUrl}/getartikeldetail/${artikel.id}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       setSelectArtikel(response.data);
@@ -92,7 +106,6 @@ export default function TableArtikel({ artikels }) {
     if (thumbnail) {
       formData.append("thumbnail", thumbnail);
     }
-    formData.append("email", sessionStorage.getItem("Email"));
     formData.append("kategori_id", selectArtikel.kategori_id);
 
     try {
@@ -100,7 +113,10 @@ export default function TableArtikel({ artikels }) {
         `${config.apiUrl}/updateartikel/${selectArtikel.id}`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -150,7 +166,11 @@ export default function TableArtikel({ artikels }) {
     setLoading(true);
 
     try {
-      await axios.delete(`${config.apiUrl}/deleteartikel/${selectArtikel.id}`);
+      await axios.delete(`${config.apiUrl}/deleteartikel/${selectArtikel.id}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
 
       showAlert({
         title: "Hore",
@@ -217,74 +237,81 @@ export default function TableArtikel({ artikels }) {
           </tr>
         </thead>
         <tbody>
-          {/* Perulangan */}
-          {artikels.map((artikel, index) => (
-            <tr key={artikel.id} className="border">
-              <td className="py-3 px-6 text-gray-600">{index + 1}</td>
-              <td className="py-3 px-6 text-gray-600">
-                {artikel.judul_artikel}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Link untuk gambar */}
-                <a
-                  href={`${config.apiUrlImage}/artikel/${artikel.thumbnail}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  lihat Gambar
-                </a>
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(artikel.created_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(artikel.updated_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
+          {artikels && artikels.length > 0 ? (
+            artikels.map((artikel, index) => (
+              <tr key={artikel.id} className="border">
+                <td className="py-3 px-6 text-gray-600">{index + 1}</td>
+                <td className="py-3 px-6 text-gray-600">
+                  {artikel.judul_artikel}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Link untuk gambar */}
+                  <a
+                    href={`${config.apiUrlImage}/artikel/${artikel.thumbnail}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
+                  >
+                    lihat Gambar
+                  </a>
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(artikel.created_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(artikel.updated_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
 
-              <td className="py-3 px-6 text-gray-600">
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-[#FFB82E] rounded mr-2"
-                  onClick={() => {
-                    setSelectArtikel(artikel);
-                    setShowModalDetail(true);
-                  }}
-                >
-                  Lihat Detail
-                </button>
+                <td className="py-3 px-6 text-gray-600">
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-[#FFB82E] rounded mr-2"
+                    onClick={() => {
+                      setSelectArtikel(artikel);
+                      setShowModalDetail(true);
+                    }}
+                  >
+                    Lihat Detail
+                  </button>
 
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
-                  onClick={() => {
-                    setSelectArtikel(artikel);
-                    setShowModalUpdate(true);
-                  }}
-                >
-                  Edit
-                </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
+                    onClick={() => {
+                      setSelectArtikel(artikel);
+                      setShowModalUpdate(true);
+                    }}
+                  >
+                    Edit
+                  </button>
 
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
-                  onClick={() => {
-                    setSelectArtikel(artikel);
-                    setShowModalHapus(true);
-                  }}
-                >
-                  Hapus
-                </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={() => {
+                      setSelectArtikel(artikel);
+                      setShowModalHapus(true);
+                    }}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="text-center italic text-gray-400 py-5">
+                Belum Ada Data
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

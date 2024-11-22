@@ -18,6 +18,9 @@ export default function TableUser({ users }) {
   // variabel users
   const [selectedUser, setSelectedUser] = useState(null);
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Update
   const handelUpdateAdmin = async (e) => {
     e.preventDefault();
@@ -25,10 +28,18 @@ export default function TableUser({ users }) {
 
     // fungsi
     try {
-      await axios.put(`${config.apiUrl}/updateadmin/${selectedUser.id}`, {
-        email: selectedUser.email,
-        nama_lengkap: selectedUser.nama_lengkap,
-      });
+      await axios.put(
+        `${config.apiUrl}/updateadmin/${selectedUser.id}`,
+        {
+          email: selectedUser.email,
+          nama_lengkap: selectedUser.nama_lengkap,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       showAlert({
         title: "Hore",
@@ -77,7 +88,11 @@ export default function TableUser({ users }) {
 
     // fungsi
     try {
-      await axios.delete(`${config.apiUrl}/deleteadmin/${selectedUser.id}`);
+      await axios.delete(`${config.apiUrl}/deleteadmin/${selectedUser.id}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
 
       showAlert({
         title: "Hore",
@@ -145,51 +160,58 @@ export default function TableUser({ users }) {
           </tr>
         </thead>
         <tbody>
-          {/* Perulangan */}
-          {users.map((user, index) => (
-            <tr key={user.id} className="border">
-              <td className="py-3 px-6 text-gray-600">{index + 1}</td>
-              <td className="py-3 px-6 text-gray-600">{user.email}</td>
-              <td className="py-3 px-6 text-gray-600">{user.nama_lengkap}</td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(user.created_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
-              <td className="py-3 px-6 text-gray-600">
-                {/* Format Date */}
-                {new Date(user.updated_at).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </td>
-
-              <td className="py-3 px-6 text-gray-600">
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
-                  onClick={() => {
-                    setSelectedUser(user);
-                    setShowModalUpdate(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
-                  onClick={() => {
-                    setSelectedUser(user);
-                    setShowModalHapus(true);
-                  }}
-                >
-                  Hapus
-                </button>
+          {users && users.length > 0 ? (
+            // Perulangan
+            users.map((user, index) => (
+              <tr key={user.id} className="border">
+                <td className="py-3 px-6 text-gray-600">{index + 1}</td>
+                <td className="py-3 px-6 text-gray-600">{user.email}</td>
+                <td className="py-3 px-6 text-gray-600">{user.nama_lengkap}</td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(user.created_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {/* Format Date */}
+                  {new Date(user.updated_at).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setShowModalUpdate(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="px-3 py-1 text-sm m-1 text-white bg-red-500 rounded hover:bg-red-600"
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setShowModalHapus(true);
+                    }}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="text-center italic text-gray-400 py-5">
+                Belum Ada Data
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

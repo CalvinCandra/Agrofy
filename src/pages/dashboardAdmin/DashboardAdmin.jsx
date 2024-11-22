@@ -33,13 +33,21 @@ export default function DashboardAdmin() {
   const [email, setEmail] = useState("");
   const [password, setpasswordInput] = useState("");
 
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // =================================================================================================== Fungsi GET API
-  const fetchUsers = async (page = 1) => {
+  const fetchUsers = async (page = 1, searchQuery = "") => {
     setLoading(true);
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/getadmin?page=${page}&limit=10`
+        `${config.apiUrl}/getadmin?page=${page}&limit=10&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
       );
       const data = response.data;
       setUsers(data.data); // Set data dari api untuk tabel
@@ -55,6 +63,11 @@ export default function DashboardAdmin() {
     fetchUsers();
   }, []);
 
+  // Fungsi untuk menangani pencarian
+  const handleSearch = (searchQuery) => {
+    fetchUsers(1, searchQuery); // Ambil data dengan query pencarian
+  };
+
   // =================================================================================================== Tambah
   const handelTambahAdmin = async (e) => {
     e.preventDefault();
@@ -62,12 +75,20 @@ export default function DashboardAdmin() {
 
     try {
       // get url api register
-      await axios.post(`${config.apiUrl}/register`, {
-        nama_lengkap,
-        email,
-        password,
-        role: "admin",
-      });
+      await axios.post(
+        `${config.apiUrl}/register`,
+        {
+          nama_lengkap,
+          email,
+          password,
+          role: "admin",
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       showAlert({
         title: "Hore",
@@ -163,7 +184,7 @@ export default function DashboardAdmin() {
             </h1>
 
             <div className="my-3">
-              <Search />
+              <Search placeholder="Cari Admin..." onSearch={handleSearch} />
             </div>
 
             <div className="mt-3 py-5">
