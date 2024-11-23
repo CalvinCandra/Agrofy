@@ -211,8 +211,38 @@ export default function Komunitas() {
     }
   };
 
+  // =============================================================================================== Button Add Scroll
+  const [position, setPosition] = useState({ bottom: 0 });
+
+  useEffect(() => {
+    const updateButtonPosition = () => {
+      const section = document.querySelector(".section-komunitas");
+      if (section) {
+        const sectionRect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Jika bagian bawah `section` lebih tinggi dari viewport
+        if (sectionRect.bottom > viewportHeight) {
+          setPosition({ bottom: 10 }); // Tetap di pojok bawah viewport
+        } else {
+          // Jika `section` hampir selesai digulir
+          setPosition({ bottom: viewportHeight - sectionRect.bottom + 10 });
+        }
+      }
+    };
+
+    // Jalankan saat komponen pertama kali dirender
+    updateButtonPosition();
+
+    // Jalankan saat scroll
+    window.addEventListener("scroll", updateButtonPosition);
+
+    // Bersihkan listener saat komponen di-unmount
+    return () => window.removeEventListener("scroll", updateButtonPosition);
+  }, []);
+
   return (
-    <section className="bg-brown-light lg:pt-20 pt-10 lg:pb-14">
+    <section className="bg-brown-light lg:pt-20 pt-10 lg:pb-14 relative section-komunitas">
       <div className="w-konten mx-auto p-2">
         <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center my-10">
           Komunitas Agrofy
@@ -220,7 +250,8 @@ export default function Komunitas() {
 
         {/* Kolom Input */}
         <button
-          className="h-14 w-14 bg-main-green rounded-full fixed left-10 top-20 flex justify-center items-center"
+          className="h-14 w-14 bg-main-green rounded-full fixed right-5 flex justify-center items-center z-50 shadow-lg"
+          style={{ bottom: `${position.bottom}px` }}
           onClick={() => setShowModalPost(true)}
         >
           <i className="fa-solid fa-plus text-xl text-white"></i>
