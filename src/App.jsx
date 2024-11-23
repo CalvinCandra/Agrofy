@@ -25,6 +25,7 @@ import MainDashboardAdmin from "./pages/dashboardAdmin/MainDashboardAdmin";
 import DashboardKategori from "./pages/dashboardAdmin/DashboardKategori";
 import RoleBasedRoute from "./middleware/RoleBasedRoute";
 import ProtectedRoute from "./middleware/ProtectedRoute";
+import ProfilePage from "./pages/Profile/ProfilePage";
 
 function App() {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
@@ -37,6 +38,7 @@ function App() {
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route
           path="/artikel_detail/:id"
           element={

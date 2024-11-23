@@ -163,7 +163,7 @@ export default function NavbarLogin() {
         <div className="bg-white shadow-lg fixed z-50 p-2 top-[17.5rem] md:top-[4rem] md:right-16 w-full md:w-[15%]">
           <div className="w-full flex flex-col justify-between text-black">
             <a
-              href="/"
+              href="/profile"
               className="px-3 py-2 hover:bg-main-brown hover:text-white transition-all duration-300 ease-linear border-b"
             >
               Profile
