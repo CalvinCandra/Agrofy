@@ -128,7 +128,7 @@ export default function DashboardArtikel() {
           window.location.reload();
         },
       });
-      fetchVideo();
+      setShowModalTambah(false);
     } catch (error) {
       // Menangani error yang dikirimkan oleh server
       let errorMessage = "Video Gagal Ditambah";
@@ -155,7 +155,7 @@ export default function DashboardArtikel() {
           window.location.reload();
         },
       });
-      fetchVideo();
+      setShowModalTambah(false);
     } finally {
       setLoading(false);
     }

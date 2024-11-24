@@ -17,7 +17,7 @@ export default function CardVideo(props) {
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 
-        <div className="m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 overflow-hidden flex justify-center items-center w-32">
+        <div className="flex max-w-max m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 px-2 items-center">
           <i className="fa-regular fa-bookmark me-3"></i>
           {kategori}
         </div>
