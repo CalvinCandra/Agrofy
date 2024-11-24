@@ -1,5 +1,7 @@
 import { useState } from "react";
+import axios from "axios"; // Import Axios
 import ButtonHref from "../../components/Button/ButtonHref";
+import config from "../../config/config";
 
 const TambahLimbah = ({ isOpen, onClose, title }) => {
   const [namaLimbah, setNamaLimbah] = useState("");
@@ -8,6 +10,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
   const [file, setFile] = useState(null); // File gambar yang akan diunggah
   const [tanggalMasuk, setTanggalMasuk] = useState("");
 
+  const token = sessionStorage.getItem("Token");
   if (!isOpen) return null;
 
   const handleFileChange = (e) => {
@@ -19,6 +22,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
   };
 
   const handleSubmit = async () => {
+    const token = sessionStorage.getItem("Token");
     const formData = new FormData();
     formData.append("nama_limbah", namaLimbah);
     formData.append("deskripsi", deskripsi);
@@ -27,23 +31,23 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
     formData.append("created_at", tanggalMasuk || new Date().toISOString());
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/limbah", {
-        method: "POST",
-        body: formData, // Kirim FormData
+      const response = await axios.post(`${config.apiUrl}/limbah`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `${token}`,
+        },
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
+      if (response.status === 201) {
         alert("Limbah berhasil ditambahkan!");
         onClose();
-      } else {
-        console.error("Error:", result);
-        alert("Gagal menambahkan limbah: " + result.msg);
       }
     } catch (error) {
-      console.error("Error submitting data:", error);
-      alert("Terjadi kesalahan saat menambahkan limbah.");
+      console.error("Error submitting data:", error.response?.data || error.message);
+      alert(
+        "Gagal menambahkan limbah: " +
+          (error.response?.data?.msg || "Terjadi kesalahan.")
+      );
     }
   };
 
@@ -83,7 +87,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
             />
             <input
               type="date"
-              className="h-14 w-full rounded-lg border border-gray-300 p-2"
+              className="h-14 w-full rounded-lg border border-gray-300 p-2 hidden"
               value={tanggalMasuk}
               onChange={(e) => setTanggalMasuk(e.target.value)}
             />

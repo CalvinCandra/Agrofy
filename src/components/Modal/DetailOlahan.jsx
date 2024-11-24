@@ -1,94 +1,226 @@
-import ButtonHref from "../Button/ButtonHref";
-import ImageImport from "../../data/ImageImport";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import config from "../../config/config"; // Pastikan path sesuai
 
-const DetailOlahan = ({ isOpen, onClose, title, jumlah, date, deskripsi }) => {
+const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
+  const token = sessionStorage.getItem("Token");
+  const [formData, setFormData] = useState({
+    id: limbah?.id || "",
+    limbah_id: limbah?.limbah_id || "",
+    tgl_mulai: limbah?.tgl_mulai || "",
+    tgl_selesai: limbah?.tgl_selesai || "",
+    status: limbah?.status || "proses",
+  });
+  const [fields, setFields] = useState(
+    limbah?.catatanPeriode || [{ id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]
+  );
+
+  useEffect(() => {
+    if (isOpen && limbah) {
+      setFormData({
+        id: limbah.id,
+        limbah_id: limbah.limbah_id,
+        target_olahan: limbah.target_olahan,
+        tgl_mulai: limbah.tgl_mulai ? limbah.tgl_mulai.split("T")[0] : "", // Format ke YYYY-MM-DD
+        tgl_selesai: limbah.tgl_selesai ? limbah.tgl_selesai.split("T")[0] : "",
+        status: limbah.status,
+      });
+      setFields(
+        limbah.catatanPeriode?.map((item) => ({
+          id: item.id,
+          catatan: item.catatan,
+          periodeMulai: item.tgl_mulai ? item.tgl_mulai.split("T")[0] : "",
+          periodeSelesai: item.tgl_selesai ? item.tgl_selesai.split("T")[0] : "",
+        })) || [{ id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]
+      );
+    }
+  }, [isOpen, limbah]);
+
+  const handleAddField = () => {
+    setFields([...fields, { id: fields.length + 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]);
+  };
+
+  const handleFieldChange = (index, fieldName, value) => {
+    const updatedFields = fields.map((field, i) =>
+      i === index ? { ...field, [fieldName]: value } : field
+    );
+    setFields(updatedFields);
+  };
+
+  const handleRemoveField = (index) => {
+    setFields(fields.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async () => {
+  const payload = {
+    id: formData.id,
+    limbah_id: formData.limbah_id,
+    target_olahan: formData.target_olahan,
+    tgl_mulai: formData.tgl_mulai,
+    tgl_selesai: formData.tgl_selesai,
+    status: formData.status,
+    catatanPeriode: fields.map((field) => ({
+      tgl_mulai: field.periodeMulai,
+      tgl_selesai: field.periodeSelesai,
+      catatan: field.catatan,
+    })),
+  };
+
+  try {
+    const token = sessionStorage.getItem("Token");
+
+    const response = await axios.put(
+      `${config.apiUrl}/olah/${formData.id}`,
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      alert('Data berhasil disimpan');
+      onSubmitSuccess(); // Update data
+      onClose(); // Tutup modal
+    } else {
+      alert(response.data.msg || 'Terjadi kesalahan.');
+    }
+  } catch (error) {
+    alert('Terjadi kesalahan saat menyimpan data.');
+    console.error(error); // Log error untuk debugging
+  }
+};
+
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-1/2 shadow-lg relative">
-        <button
-          className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          &times; {/* Cross icon */}
-        </button>
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center top-5">
+      <div className="bg-white p-8 rounded-lg w- max-w-2xl">
+        <h2 className="text-xl font-semibold mb-4">{`Edit Limbah ID: ${formData.id}`}</h2>
 
-        <div className="flex mb-4 mt-5">
-          <img
-            src={ImageImport.jerami}
-            className="w-1/3 object-cover bg-gray-400 rounded-md"
-            alt="Limbah"
+        <div className="flex justify-between">
+          {/* Preview Gambar Limbah */}
+            {limbah && (
+              <div className="mb-4 w-full">
+                <label className="block text-sm font-medium text-gray-700">Preview Gambar Limbah</label>
+                <img
+                  src={`${config.apiUrlImage}/uploads/${limbah.gambar}`}
+                  alt={`Limbah ${formData.id}`}
+                  className="mt-2 w-[80%] max-w-sm object-cover rounded"
+                />
+              </div>
+        )} 
+        <div className="flex flex-col-reverse w-full ">
+        {/* Target Olahan */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Target Olahan</label>
+          <input
+            type="text"
+            value={formData.target_olahan}
+            onChange={(e) => setFormData({ ...formData, target_olahan: e.target.value })}
+            className="mt-2 p-2 w-full border border-gray-300 rounded"
           />
-          <div className="ml-4 w-full">
-            {/* Nama Limbah Dropdown */}
-            
-            <select
-              className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"disabled
-            >
-              <option value="jerami">Jerami</option>
-              <option value="Pilih Limbah">Pilih Limbah</option>
-              <option value="sekam">Sekam</option>
-            </select>
-            <input
-              type="number"
-              className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
-              placeholder="Masukkan Jumlah"
-              value={jumlah}
-            />
-            <input
-              type="date"
-              className="h-14 w-full rounded-lg border border-gray-300 p-2"
-              placeholder="Masukkan Tanggal Masuk"
-              defaultValue="2024-11-12"
-              disabled
-            />
-
-          </div>
+        </div>
+        {/* Menampilkan Nama Limbah di atas Preview Gambar */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Nama Limbah</label>
+          <p className="mt-2 text-gray-900">{limbah?.nama_limbah || "Nama limbah tidak tersedia"}</p>
+        </div>
+        </div>
         </div>
 
         <div className="mb-4">
-          <textarea
-            name="deskripsi"
-            className="w-full h-32 border border-gray-300 rounded-lg p-2"
-            placeholder="Deskripsi"
-            value={deskripsi}
+          <label className="block text-sm font-medium text-gray-700">Target Olahan</label>
+          <input
+            type="date"
+            value={formData.tgl_selesai}
+            onChange={(e) => setFormData({ ...formData, tgl_selesai: e.target.value })}
+            className="mt-2 p-2 w-full border border-gray-300 rounded"
           />
+        </div>
+        
+
+        {/* Status */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Status</label>
+          <select
+            value={formData.status}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+            className="mt-2 p-2 w-full border border-gray-300 rounded"
+          >
+            <option value="proses">Proses</option>
+            <option value="selesai">Selesai</option>
+            <option value="gagal">Gagal</option>
+          </select>
         </div>
 
-        <div className="flex lg:justify-between lg:space-x-3 lg:w-full ">
-        <div className="h-full w-[50%] pt-6">
-          <textarea
-            name="catatan"
-            className="w-full h-[210px] border border-gray-300 rounded-lg p-2"
-            placeholder="Masukkan Catatan"
-            value="Limbah hasil tanaman padi yang kering"
-          />
-        </div>
-        <div className="pb-4 w-[50%]">
-          <label className="block text-gray-700">Periode Mulai</label>
-          <input
-            type="datetime-local"
-            className="h-14 w-full rounded-lg border border-gray-300 p-2 mb-2"
-            placeholder="Periode Mulai"
-            defaultValue="2024-11-10T10:00"
-          />
-          <label className="block text-gray-700">Periode Selesai</label>
-          <input
-            type="datetime-local"
-            className="h-14 w-full rounded-lg border border-gray-300 p-2"
-            placeholder="Periode Selesai"
-            defaultValue="2024-11-12T08:00"
-          />
-          <div className="flex pt-5">
-          <ButtonHref text="+ Tambah" variant="primary" />
-        </div>
-        </div>
+        {/* Catatan Periode */}
+        <div className="mb-4">
+          
+          {fields.map((field, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex space-x-4">
+                <div className="w-1/3">
+                  <label className="block text-sm font-medium text-gray-700">Catatan</label>
+                  <input
+                    type="text"
+                    value={field.catatan}
+                    onChange={(e) => handleFieldChange(index, "catatan", e.target.value)}
+                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                  />
+                </div>
+                <div className="w-1/3">
+                  <label className="block text-sm font-medium text-gray-700">Periode Mulai</label>
+                  <input
+                    type="date"
+                    value={field.periodeMulai}
+                    onChange={(e) => handleFieldChange(index, "periodeMulai", e.target.value)}
+                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                  />
+                </div>
+                <div className="w-1/3">
+                  <label className="block text-sm font-medium text-gray-700">Periode Selesai</label>
+                  <input
+                    type="date"
+                    value={field.periodeSelesai}
+                    onChange={(e) => handleFieldChange(index, "periodeSelesai", e.target.value)}
+                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => handleRemoveField(index)}
+                className="text-red-500 text-sm mt-2"
+              >
+                Remove Field
+              </button>
+            </div>
+          ))}
+          <button
+            onClick={handleAddField}
+            className="bg-main-green text-white p-2 rounded mt-2"
+          >
+            Add Field
+          </button>
         </div>
 
-        <div className="flex">
-          <ButtonHref text="Tambah" variant="primary" />
+        {/* Submit and Close buttons */}
+        <div className="flex justify-end space-x-4">
+          <button
+            onClick={onClose}
+            className="bg-gray-300 text-gray-800 p-2 rounded"
+          >
+            Close
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="bg-main-green text-white p-2 rounded"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
