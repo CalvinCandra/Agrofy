@@ -93,7 +93,7 @@ export default function DashboardKategori() {
           window.location.reload();
         },
       });
-      fetchKategori();
+      setShowModalTambah(false);
     } catch (error) {
       // Menangani error yang dikirimkan oleh server
       let errorMessage = "Kategori Gagal Ditambahh";
@@ -120,7 +120,7 @@ export default function DashboardKategori() {
           window.location.reload();
         },
       });
-      fetchKategori();
+      setShowModalTambah(false);
     } finally {
       setLoading(false);
     }

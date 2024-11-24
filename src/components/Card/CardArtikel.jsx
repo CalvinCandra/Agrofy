@@ -17,10 +17,17 @@ export default function CardArtikel(props) {
         <h1 className="w-full font-semibold text-lg lg:text-2xl py-2 text-center lg:text-left mt-3 lg:mt-0">
           {judul}
         </h1>
-        <h5 className="w-full font-medium text-sm lg:text-lg py-2 text-center lg:text-left lg:mt-0">
-          {deskripsi}
-        </h5>
-        <div className="mt-7 lg:mt-10 lg:w-[30%] py-5 m-auto lg:m-0">
+
+        <p className="lg:ml-1 w-full font-medium text-sm lg:text-base text-center lg:text-justify mt-3 lg:mt-2 line-clamp-3">
+          {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
+        </p>
+
+        <div className="flex max-w-max m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 px-2 items-center">
+          <i className="fa-regular fa-bookmark me-3"></i>
+          {kategori}
+        </div>
+
+        <div className="mt-2 lg:mt-0 py-6 lg:w-[30%] overflow-hidden m-auto lg:m-0">
           <ButtonHref href={href} text="Baca Sekarang" variant="primary" />
         </div>
       </div>

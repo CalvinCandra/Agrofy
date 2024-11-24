@@ -130,6 +130,7 @@ export default function TableArtikel({ artikels }) {
           window.location.reload();
         },
       });
+      setShowModalUpdate(false);
     } catch (error) {
       console.error("Error:", error);
       // Menangani error yang dikirimkan oleh server
@@ -155,6 +156,7 @@ export default function TableArtikel({ artikels }) {
           window.location.reload();
         },
       });
+      setShowModalUpdate(false);
     } finally {
       setLoading(false);
     }
@@ -181,6 +183,7 @@ export default function TableArtikel({ artikels }) {
           window.location.reload();
         },
       });
+      setShowModalHapus(false);
     } catch (error) {
       console.error("Error:", error);
       // Menangani error yang dikirimkan oleh server
@@ -206,6 +209,7 @@ export default function TableArtikel({ artikels }) {
           window.location.reload();
         },
       });
+      setShowModalHapus(false);
     } finally {
       setLoading(false);
     }

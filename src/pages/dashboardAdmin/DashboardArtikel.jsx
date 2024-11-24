@@ -126,8 +126,7 @@ export default function DashboardArtikel() {
           window.location.reload();
         },
       });
-
-      fetchArtikel(); // Refresh data tabel
+      setShowModalTambah(false);
     } catch (error) {
       // Menangani error yang dikirimkan oleh server
       let errorMessage = "Artikel Gagal Ditambah";
@@ -152,7 +151,7 @@ export default function DashboardArtikel() {
           window.location.reload();
         },
       });
-      fetchArtikel(); // Refresh data tabel
+      setShowModalTambah(false);
     } finally {
       setLoading(false);
     }
