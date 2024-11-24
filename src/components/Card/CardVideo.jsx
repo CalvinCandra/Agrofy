@@ -1,7 +1,7 @@
 import ButtonHref from "../../components/Button/ButtonHref";
 
 export default function CardVideo(props) {
-  const { img, judul, deskripsi, href, kategori } = props;
+  const { img, judul, deskirpsi, href } = props;
   return (
     <div className="shadow-sm-light shadow-gray-500 w-full lg:w-[30%] my-2 lg:m-4 flex flex-col justify-between">
       <div>
@@ -23,7 +23,7 @@ export default function CardVideo(props) {
         </div>
       </div>
 
-      <div className="lg:w-[80%] py-5 mt-2 lg:m-0 m-auto">
+      <div className="w-[80%] py-5 mt-2">
         <ButtonHref href={href} text="Tonton Sekarang" variant="primary" />
       </div>
     </div>

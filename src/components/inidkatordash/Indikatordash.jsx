@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import ImageImport from "../../data/ImageImport";
+import config from "../../config/config";
 
 export default function Indikatordash() {
   const [jumlahLimbah, setJumlahLimbah] = useState(0);
@@ -8,34 +10,45 @@ export default function Indikatordash() {
   const [jumlahOlahan, setJumlahOlahan] = useState(0);
 
   useEffect(() => {
-    // Ambil data dari API
     const fetchData = async () => {
+      // Ambil token dari sessionStorage
+      const token = sessionStorage.getItem("Token");
+      if (!token) {
+        console.error("Token tidak ditemukan. Silakan login ulang.");
+        return;
+      }
+
       try {
         // Fetch jumlah limbah
-        const limbahResponse = await fetch("http://localhost:3000/api/v1/limbah");
-        const limbahData = await limbahResponse.json();
-        if (limbahResponse.ok) {
-          setJumlahLimbah(limbahData.data.length); // Hitung jumlah limbah
-        }
+        const limbahResponse = await axios.get(`${config.apiUrl}/limbah`, {
+          headers: {
+            Authorization: `${token}`, // Tambahkan token ke header Authorization
+          },
+        });
+        setJumlahLimbah(limbahResponse.data.data.length); // Hitung jumlah limbah
 
-        // Fetch jumlah proses dan selesai
-        const pengolahanResponse = await fetch("http://localhost:3000/api/v1/pengolahan_limbah");
-        const pengolahanData = await pengolahanResponse.json();
-        if (pengolahanResponse.ok) {
-          const prosesCount = pengolahanData.data.filter(item => item.status === "proses").length;
-          const selesaiCount = pengolahanData.data.filter(item => item.status === "selesai").length;
-          setJumlahProses(prosesCount);
-          setJumlahSelesai(selesaiCount);
-        }
+        // Fetch jumlah proses, selesai, dan olahan
+        const olahResponse = await axios.get(`${config.apiUrl}/olah`, {
+          headers: {
+            Authorization: `${token}`, // Tambahkan token ke header Authorization
+          },
+        });
 
         // Fetch jumlah olahan
-        const olahanResponse = await fetch("http://localhost:3000/api/v1/hasil_olahan");
-        const olahanData = await olahanResponse.json();
-        if (olahanResponse.ok) {
-          setJumlahOlahan(olahanData.data.length); // Hitung jumlah olahan
-        }
+      const jumlahOlahanResponse = await axios.get(`${config.apiUrl}/jumlaholahan`, {
+        headers: { Authorization: `${token}` },
+      });
+      setJumlahOlahan(jumlahOlahanResponse.data.jumlahOlahan);
+
+
+        const olahData = olahResponse.data.data;
+        const prosesCount = olahData.filter((item) => item.status === "Proses").length;
+        const selesaiCount = olahData.filter((item) => item.status === "selesai").length;
+
+        setJumlahProses(prosesCount);
+        setJumlahSelesai(selesaiCount);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.response?.data || error.message);
       }
     };
 

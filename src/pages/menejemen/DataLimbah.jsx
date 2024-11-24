@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import ButtonHref from "../../components/Button/ButtonHref";
 import CardLimbah from "../../components/Card/CardLimbah";
 import Pagination from "../../components/Pagination/Pagination";
-import ImageImport from "../../data/ImageImport";
 import TambahLimbah from "../../components/Modal/TambahLimbah";
+import config from "../../config/config";
+import axios from "axios";
 
 export default function DataLimbah() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,18 +20,26 @@ export default function DataLimbah() {
   };
 
   useEffect(() => {
-    // Ambil data limbah dari backend
+    // Ambil data limbah dari backend menggunakan Axios
     const fetchData = async () => {
+      setLoading(true);
+
+      // Ambil token dari sessionStorage
+      const token = sessionStorage.getItem("Token");
+      if (!token) {
+        console.error("Token tidak ditemukan. Silakan login ulang.");
+        return;
+      }
+
       try {
-        const response = await fetch("http://localhost:3000/api/v1/limbah"); // Sesuaikan URL dengan backend Anda
-        const result = await response.json();
-        if (response.ok) {
-          setLimbahList(result.data);
-        } else {
-          console.error(result.msg);
-        }
+        const response = await axios.get(`${config.apiUrl}/limbah`, {
+          headers: {
+            Authorization: `${token}`, // Tambahkan token ke header Authorization
+          },
+        });
+        setLimbahList(response.data.data); // Sesuaikan struktur respons
       } catch (error) {
-        console.error("Error fetching limbah data:", error);
+        console.error("Error fetching limbah data:", error.response?.data || error.message);
       } finally {
         setLoading(false);
       }
@@ -66,10 +75,11 @@ export default function DataLimbah() {
                   id={limbah.id}
                   img={
                     limbah.gambar
-                      ? `http://localhost:3000/uploads/${limbah.gambar}`
+                      ? `${config.apiUrlImage}/uploads/${limbah.gambar}` // Gunakan config.apiUrlImage
                       : "/default-image.jpg"
                   } // Gambar default jika tidak ada
                   judul={limbah.nama_limbah}
+                  tanggalmasuk={limbah}
                   deskripsi={limbah.deskripsi}
                 />
               ))
