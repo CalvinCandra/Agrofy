@@ -1,6 +1,4 @@
-const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-
+const ProtectedRoute = ({ children, isLoggedIn }) => {
   // Jika belum login, arahkan ke halaman login
   if (!isLoggedIn) {
     return (window.location.href = "/login");

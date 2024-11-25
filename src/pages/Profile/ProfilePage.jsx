@@ -56,7 +56,6 @@ export default function ProfilePage() {
         },
       });
       const data = response.data.data; // Ambil data pengguna
-      console.log(data);
 
       setUser(data); // Simpan data pengguna ke state
     } catch (error) {
@@ -95,16 +94,18 @@ export default function ProfilePage() {
         setUser({ ...user, ...response.data.data }); // Update state with new data
       }
 
-      // Tampilkan alert untuk update sukses
-      showAlert({
-        title: `Success`,
-        text: response.data.msg,
-        iconType: "success",
-        didClose: () => {
-          navigate("/profile");
-          window.location.reload();
-        },
-      });
+      const data = response.data.data;
+      sessionStorage.setItem("Nama", data[0].nama_lengkap),
+        // Tampilkan alert untuk update sukses
+        showAlert({
+          title: `Success`,
+          text: response.data.msg,
+          iconType: "success",
+          didClose: () => {
+            navigate("/profile");
+            window.location.reload();
+          },
+        });
     } catch (error) {
       console.error("Gagal mengupdate profil:", error);
       // Menangani error yang dikirimkan oleh server
@@ -197,6 +198,7 @@ export default function ProfilePage() {
       setLoading(false);
     }
   };
+
   // Fungsi untuk menangani perubahan input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -240,15 +242,18 @@ export default function ProfilePage() {
             profileImage: response.data.filePath, // Pastikan path sesuai dengan respons server
           }));
 
-          // Tampilkan notifikasi sukses
-          showAlert({
-            title: "Success",
-            text: "Foto berhasil diperbarui",
-            iconType: "success",
-            didClose: () => {
-              window.location.reload(); // Refresh halaman setelah notifikasi ditutup
-            },
-          });
+          const data = response.data.data;
+          sessionStorage.setItem("Foto", data.foto),
+            // Tampilkan notifikasi sukses
+            showAlert({
+              title: "Success",
+              text: "Foto berhasil diperbarui",
+              iconType: "success",
+              didClose: () => {
+                navigate("/profile");
+                window.location.reload();
+              },
+            });
         }
       } catch (error) {
         console.error("Gagal mengunggah gambar:", error);
@@ -482,7 +487,7 @@ export default function ProfilePage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  className="px-4 py-2 text-white rounded-lg bg-main-green"
                   onClick={updatePassword}
                 >
                   Simpan
