@@ -104,8 +104,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center top-5">
-      <div className="bg-white p-8 rounded-lg w- max-w-2xl">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center top-16 pt-[22%]">
+      <div className="bg-white p-8 rounded-lg w-[60%] my-10 ">
         <h2 className="text-xl font-semibold mb-4">{`Edit Limbah ID: ${formData.id}`}</h2>
 
         <div className="flex justify-between">
@@ -116,11 +116,11 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                 <img
                   src={`${config.apiUrlImage}/uploads/${limbah.gambar}`}
                   alt={`Limbah ${formData.id}`}
-                  className="mt-2 w-[80%] max-w-sm object-cover rounded"
+                  className="mt-2 w-[80%] max-w-sm object-cover rounded-md"
                 />
               </div>
         )} 
-        <div className="flex flex-col-reverse w-full ">
+        <div className="flex flex-col-reverse w-full start-0 ">
         {/* Target Olahan */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Target Olahan</label>
@@ -128,7 +128,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
             type="text"
             value={formData.target_olahan}
             onChange={(e) => setFormData({ ...formData, target_olahan: e.target.value })}
-            className="mt-2 p-2 w-full border border-gray-300 rounded"
+            className="mt-2 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
         {/* Menampilkan Nama Limbah di atas Preview Gambar */}
@@ -145,7 +145,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
             type="date"
             value={formData.tgl_selesai}
             onChange={(e) => setFormData({ ...formData, tgl_selesai: e.target.value })}
-            className="mt-2 p-2 w-full border border-gray-300 rounded"
+            className="mt-2 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
         
@@ -156,7 +156,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
           <select
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            className="mt-2 p-2 w-full border border-gray-300 rounded"
+            className="mt-2 p-2 w-full border border-gray-300 rounded-md"
           >
             <option value="proses">Proses</option>
             <option value="selesai">Selesai</option>
@@ -176,7 +176,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                     type="text"
                     value={field.catatan}
                     onChange={(e) => handleFieldChange(index, "catatan", e.target.value)}
-                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                    className="mt-2 p-2 w-full border border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="w-1/3">
@@ -185,7 +185,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                     type="date"
                     value={field.periodeMulai}
                     onChange={(e) => handleFieldChange(index, "periodeMulai", e.target.value)}
-                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                    className="mt-2 p-2 w-full border border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="w-1/3">
@@ -194,7 +194,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                     type="date"
                     value={field.periodeSelesai}
                     onChange={(e) => handleFieldChange(index, "periodeSelesai", e.target.value)}
-                    className="mt-2 p-2 w-full border border-gray-300 rounded"
+                    className="mt-2 p-2 w-full border border-gray-300 rounded-md"
                   />
                 </div>
               </div>
@@ -208,9 +208,9 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
           ))}
           <button
             onClick={handleAddField}
-            className="bg-main-green text-white p-2 rounded mt-2"
+            className="bg-main-green text-white p-2 rounded-md mt-2"
           >
-            Add Field
+             + Tambah Catatan
           </button>
         </div>
 
@@ -218,13 +218,13 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
         <div className="flex justify-end space-x-4">
           <button
             onClick={onClose}
-            className="bg-gray-300 text-gray-800 p-2 rounded"
+            className="bg-gray-300 text-gray-800 p-2 rounded-md"
           >
             Close
           </button>
           <button
             onClick={handleSubmit}
-            className="bg-main-green text-white p-2 rounded"
+            className="bg-main-green text-white p-2 rounded-md"
           >
             Save
           </button>

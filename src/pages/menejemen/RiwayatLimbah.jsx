@@ -26,7 +26,15 @@ export default function RiwayatLimbah() {
       });
       setRiwayatData(response.data); // Menyimpan data yang diterima
     } catch (error) {
-      console.error("Terjadi kesalahan saat mengambil data riwayat.", error);
+      showAlert({
+        title: "Perhatian",
+        text: "Masukan tanggal awal dan akhir terlebih dahulu",
+        iconType: "error",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
+      setTimeout(() => {
+        window.location.reload(); // Refresh halaman setelah 4 detik
+      }, 2500);
     }
   };
 
@@ -68,8 +76,15 @@ export default function RiwayatLimbah() {
 
   const handlePrint = () => {
     if (!startDate || !endDate) {
-      alert("Masukkan tanggal awal dan akhir terlebih dahulu!");
-      return;
+      showAlert({
+        title: "Perhatian",
+        text: "Masukan tanggal awal dan akhir terlebih dahulu",
+        iconType: "error",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
+      setTimeout(() => {
+        window.location.reload(); // Refresh halaman setelah 4 detik
+      }, 2500);
     }
 
     const filteredData = riwayatData.filter((item) => {
