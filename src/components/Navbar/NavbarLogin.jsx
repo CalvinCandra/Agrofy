@@ -1,6 +1,7 @@
 import ImageImport from "../../data/ImageImport";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ModalNotif from "../modalnotifikasi/notifikasi";
 
 export default function NavbarLogin() {
   // State untuk mengontrol tampilan modal menu bar
@@ -110,53 +111,10 @@ export default function NavbarLogin() {
       </nav>
 
       {/* modal notif */}
-      {isModalVisibleNotif && (
-        <div className="bg-white shadow-lg rounded-lg fixed z-50 p-2 top-[17.5rem] md:top-[4rem] md:right-10 w-full md:w-[35%] h-[45%]">
-          <h1 className="border-b-2 py-3 text-lg font-semibold">Notifikasi</h1>
-          <div className="w-full flex flex-col justify-between text-black mt-2">
-            <div className="border-b border-t flex justify-between items-center py-2">
-              <div className="w-1/2">
-                <p className="text-sm">
-                  <span className="font-bold">Limbah : </span>Jerami
-                </p>
-                <p className="text-sm">
-                  <span className="font-bold">Olahan : </span>Atap
-                </p>
-                <p className="my-2 text-sm">
-                  Olahan anda akan Selesai,besok tambah catatan,Tenggat atau
-                  selesaikan
-                </p>
-
-                <p className="text-gray-400 text-sm">4 Jam yang lalu</p>
-              </div>
-
-              <div className="w-1/2 overflow-hidden">
-                <img src={ImageImport.jerami} />
-              </div>
-            </div>
-            <div className="border-b border-t flex justify-between items-center py-2">
-              <div className="w-1/2">
-                <p className="text-sm">
-                  <span className="font-bold">Limbah : </span>Jerami
-                </p>
-                <p className="text-sm">
-                  <span className="font-bold">Olahan : </span>Atap
-                </p>
-                <p className="my-2 text-sm">
-                  Olahan anda akan Selesai,besok tambah catatan,Tenggat atau
-                  selesaikan
-                </p>
-
-                <p className="text-gray-400 text-sm">4 Jam yang lalu</p>
-              </div>
-
-              <div className="w-1/2 overflow-hidden">
-                <img src={ImageImport.jerami} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <ModalNotif
+        isModalVisibleNotif={isModalVisibleNotif}
+        toggleModalNotif={toggleModalNotif}
+      />
 
       {/* modal profile */}
       {isModalVisibleProfil && (

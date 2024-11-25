@@ -18,7 +18,7 @@ export default function CardLimbah(props) {
     <div>
       <div className="bg-white rounded-md border-black border-2 h-[370px] drop-shadow-sm overflow-hidden">
         <img className="px-3 py-3 w-full h-[60%]" src={img} alt="" />
-        <p className="px-3 font-semibold text-lg">{id}</p>
+        <p className="px-3 font-semibold text-lg">{judul}</p>
         <p className="px-3 text-base">{deskripsi}</p>
         <div className="w-full h-[16%] px-10 pt-2 flex justify-center">
           <ButtonHref

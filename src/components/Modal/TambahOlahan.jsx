@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import Axios
 import ButtonHref from "../../components/Button/ButtonHref";
 import config from "../../config/config";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
 const PengolahanLimbah = ({ isOpen, onClose }) => {
   const token = sessionStorage.getItem("Token");
@@ -82,9 +83,16 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         }
       );
 
-      if (response.status === 201) {
-        alert("Pengolahan limbah berhasil ditambahkan!");
-        onClose();
+      if (response.status === 200) {
+        showAlert({
+          title: "Berhasil",
+          text: "Olahan berhasil ditambahkan!",
+          iconType: "success",
+          didClose: onClose, // Tutup modal setelah alert ditutup
+        });
+        setTimeout(() => {
+          window.location.reload(); // Refresh halaman setelah 4 detik
+        }, 2500); 
       } else {
         alert(response.data.msg || "Gagal menambahkan pengolahan limbah");
       }

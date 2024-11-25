@@ -2,6 +2,7 @@ import { useState } from "react";
 import ButtonHref from "../../components/Button/ButtonHref";
 import axios from "axios"; 
 import config from "../../config/config"; 
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
 const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil }) => {
   const [newDeskripsi, setNewDeskripsi] = useState(deskripsi);
@@ -38,9 +39,15 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
           "Content-Type": "multipart/form-data",
         },
       });
-
-      alert("Hasil olahan berhasil diperbarui");
-      onClose(); // Close the modal after saving
+        showAlert({
+          title: "Berhasil",
+          text: "Hasil Olahan berhasil diperbarui!",
+          iconType: "success",
+          didClose: onClose, // Tutup modal setelah alert ditutup
+        });
+        setTimeout(() => {
+          window.location.reload(); // Refresh halaman setelah 4 detik
+        }, 2500); 
     } catch (error) {
       console.error("Error updating hasil olahan:", error.response?.data || error.message);
       alert("Terjadi kesalahan saat memperbarui hasil olahan.");
