@@ -1,15 +1,277 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageImport from "../../data/ImageImport";
 import ButtonAction from "../../components/Button/ButtonSubmit";
+import Loading from "../../components/Loading/Loading.jsx";
+import axios from "axios";
+import config from "../../config/config";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   // State untuk mengontrol tampilan modal
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  // State untuk loading dan notification
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState("");
+
+  //  navigation
+  const navigate = useNavigate();
+  // State untuk fungsi eye password
+  const [Password, setPassword] = useState(true);
+  // Fungsi untuk toggle tipe input
+  const togglePasswordVisibility = () => {
+    setPassword((prevPassword) => !prevPassword);
+  };
+
+  // State untuk menyimpan data pengguna
+  const [user, setUser] = useState({
+    nama_lengkap: "",
+    email: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [errors, setErrors] = useState({
+    newPassword: false,
+    confirmPassword: false,
+  });
+
+  // get token
+  const token = sessionStorage.getItem("Token");
+
   // Fungsi untuk toggle modal
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
+  // fungsi untuk mendapatkan data user
+  const getProfile = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get(`${config.apiUrl}/profile`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      const data = response.data.data; // Ambil data pengguna
+      console.log(data);
+
+      setUser(data); // Simpan data pengguna ke state
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fungsi untuk memperbarui profil
+  const updateProfile = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    if (!user.nama_lengkap || !user.email) {
+      setNotification("Nama dan email wajib diisi");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/profile`,
+        {
+          nama_lengkap: user.nama_lengkap,
+          email: user.email,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        setUser({ ...user, ...response.data.data }); // Update state with new data
+      }
+
+      // Tampilkan alert untuk update sukses
+      showAlert({
+        title: `Success`,
+        text: response.data.msg,
+        iconType: "success",
+        didClose: () => {
+          navigate("/profile");
+          window.location.reload();
+        },
+      });
+    } catch (error) {
+      console.error("Gagal mengupdate profil:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Gagal memperbarui profil. Silakan coba lagi.";
+
+      // Menampilkan alert dengan pesan error spesifik
+      showAlert({
+        title: "Oppss",
+        text: `${errorMessage}`,
+        iconType: "error",
+        didClose: () => {
+          navigate("/profile");
+          window.location.reload();
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fungsi untuk memperbarui password
+  const updatePassword = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    if (user.newPassword !== user.confirmPassword) {
+      setNotification("Password Tidak Sama");
+
+      // Tandai input yang bermasalah
+      setErrors({
+        newPassword: true,
+        confirmPassword: true,
+      });
+
+      // Kosongkan input
+      setUser({
+        ...user,
+        newPassword: "",
+        confirmPassword: "",
+      });
+
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/profile/password`,
+        {
+          newPassword: user.newPassword,
+          confirmPassword: user.confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        setUser({ ...user, ...response.data.data }); // Update state with new data
+      }
+
+      // Tampilkan alert untuk update sukses
+      showAlert({
+        title: `Success`,
+        text: response.data.msg,
+        iconType: "success",
+        didClose: () => {
+          navigate("/profile");
+          window.location.reload();
+        },
+      });
+    } catch (error) {
+      console.error("Gagal mengupdate password:", error);
+      // Menangani error yang dikirimkan oleh server
+      let errorMessage = "Gagal memperbarui password. Silakan coba lagi.";
+
+      // Menampilkan alert dengan pesan error spesifik
+      showAlert({
+        title: "Oppss",
+        text: `${errorMessage}`,
+        iconType: "error",
+        didClose: () => {
+          navigate("/profile");
+          window.location.reload();
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  // Fungsi untuk menangani perubahan input
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+
+    // Reset error jika input diubah
+    if (name === "newPassword" || name === "confirmPassword") {
+      setErrors({ ...errors, [name]: false });
+      setNotification("");
+    }
+  };
+
+  const resetChanges = () => {
+    getProfile(); // Ambil ulang data awal dari backend
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("foto", file);
+
+      try {
+        setLoading(true);
+        const response = await axios.put(
+          `${config.apiUrl}/profile/updatefoto`,
+          formData,
+          {
+            headers: {
+              Authorization: `${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.data) {
+          // Update gambar di state user
+          setUser((prevUser) => ({
+            ...prevUser,
+            profileImage: response.data.filePath, // Pastikan path sesuai dengan respons server
+          }));
+
+          // Tampilkan notifikasi sukses
+          showAlert({
+            title: "Success",
+            text: "Foto berhasil diperbarui",
+            iconType: "success",
+            didClose: () => {
+              window.location.reload(); // Refresh halaman setelah notifikasi ditutup
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Gagal mengunggah gambar:", error);
+
+        // Tampilkan notifikasi error
+        showAlert({
+          title: "Oppss",
+          text: "Gagal mengunggah gambar. Silakan coba lagi.",
+          iconType: "error",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  if (loading) {
+    return <Loading />; // Tampilkan komponen loading jika sedang memuat
+  }
 
   return (
     <section className="bg-white pt-28">
@@ -22,11 +284,29 @@ export default function ProfilePage() {
           <div className="flex items-end pt-3">
             <img
               className="w-48 rounded-lg"
-              src={ImageImport.default}
+              src={
+                user.foto
+                  ? `${config.apiUrlImage}/profile/${user.foto}`
+                  : ImageImport.default
+              }
+              // Gambar default jika belum ada
               alt="Profile"
             />
             <div className="pl-6">
-              <ButtonAction text="Ubah Foto" variant="primary" />
+              <button
+                type="button"
+                className="cursor-pointer bg-main-green text-white px-4 py-2 rounded-lg hover:bg-main-green-hover"
+                onClick={() => document.getElementById("fileInput").click()} // Trigger klik input file
+              >
+                Ubah Foto
+              </button>
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
             </div>
           </div>
         </div>
@@ -36,6 +316,9 @@ export default function ProfilePage() {
           <h2 className="text-lg font-semibold">Username</h2>
           <input
             type="text"
+            name="nama_lengkap"
+            value={user.nama_lengkap}
+            onChange={handleInputChange}
             className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Username"
           />
@@ -46,6 +329,9 @@ export default function ProfilePage() {
           <h2 className="text-lg font-semibold">Email</h2>
           <input
             type="email"
+            name="email"
+            value={user.email}
+            onChange={handleInputChange}
             className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Email"
           />
@@ -54,15 +340,30 @@ export default function ProfilePage() {
         {/* Password Section */}
         <div className="pb-6">
           <h2 className="text-lg font-semibold">Password</h2>
-          <div className="flex items-center">
-            <input
-              type="password"
-              className="flex-grow h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="flex justify-between">
+            <div className="relative flex-grow">
+              <input
+                type={`${Password ? "password" : "text"}`} //jika Password true, maka akan menampilkan password, jika false akan menampilkan text
+                name="password"
+                id="password"
+                className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled
+              />
+              <span
+                className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
+                onClick={togglePasswordVisibility}
+              >
+                <i
+                  className={`fa-regular ${
+                    Password ? "fa-eye" : "fa-eye-slash" //jika Password true, maka akan menampilkan gambar mata, jika false akan menampilkan mata kecoret
+                  }`}
+                ></i>
+              </span>
+            </div>
             <div className="pl-2">
               <button
                 onClick={toggleModal}
-                className="bg-gray-200 p-2 px-3 rounded-lg"
+                className="bg-gray-200 p-2 px-3 rounded-lg hover:bg-gray-300"
               >
                 Ubah Kata Sandi
               </button>
@@ -76,17 +377,19 @@ export default function ProfilePage() {
         </div>
 
         {/* Tombol Reset dan Simpan */}
-        <div className="flex justify-end space-x-4 pt-10">
-          <ButtonAction
-            text="Reset Perubahan"
-            variant="secondary"
-            // onClick={handleReset}
-          />
-          <ButtonAction
-            text="Simpan Perubahan"
-            variant="primary"
-            // onClick={handleSave}
-          />
+        <div className="flex justify-between pt-10 w-full">
+          <button
+            onClick={resetChanges}
+            className="w-full md:w-[48%] bg-gray-200 p-3 rounded-lg text-sm font-semibold hover:bg-gray-300 transition-all duration-300"
+          >
+            Reset
+          </button>
+          <button
+            onClick={updateProfile}
+            className="w-full md:w-[48%] bg-main-green p-3 rounded-lg text-sm font-semibold text-white hover:bg-main-green-hover transition-all duration-300"
+          >
+            Simpan
+          </button>
         </div>
       </div>
 
@@ -98,34 +401,74 @@ export default function ProfilePage() {
             <form>
               {/* Input Sandi Baru */}
               <div className="mb-4">
-                <label
-                  className="block text-sm font-medium mb-2"
-                  htmlFor="new-password"
-                >
+                <label className="block text-sm font-medium mb-2">
                   Kata Sandi Baru
                 </label>
-                <input
-                  type="password"
-                  id="new-password"
-                  className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Masukkan kata sandi baru"
-                />
+                <div className="relative">
+                  <input
+                    type={`${Password ? "password" : "text"}`}
+                    name="newPassword"
+                    value={user.newPassword}
+                    onChange={handleInputChange}
+                    className={`w-full h-10 px-4 rounded-lg border focus:outline-none focus:ring-2 ${
+                      errors.newPassword
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-gray-300 focus:ring-blue-500"
+                    }`}
+                  />
+                  {errors.newPassword ? (
+                    <p className="text-red-500 text-sm mt-1">
+                      Password baru tidak valid
+                    </p>
+                  ) : (
+                    <span
+                      className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <i
+                        className={`fa-regular ${
+                          Password ? "fa-eye" : "fa-eye-slash"
+                        }`}
+                      ></i>
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Input Konfirmasi Sandi Baru */}
               <div className="mb-4">
-                <label
-                  className="block text-sm font-medium mb-2"
-                  htmlFor="confirm-password"
-                >
+                <label className="block text-sm font-medium mb-2">
                   Konfirmasi Kata Sandi
                 </label>
-                <input
-                  type="password"
-                  id="confirm-password"
-                  className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Masukkan ulang kata sandi baru"
-                />
+                <div className="relative">
+                  <input
+                    type={`${Password ? "password" : "text"}`}
+                    name="confirmPassword"
+                    value={user.confirmPassword}
+                    onChange={handleInputChange}
+                    className={`w-full h-10 px-4 rounded-lg border focus:outline-none focus:ring-2 ${
+                      errors.confirmPassword
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-gray-300 focus:ring-blue-500"
+                    }`}
+                  />
+                  {errors.confirmPassword ? (
+                    <p className="text-red-500 text-sm mt-1">
+                      Konfirmasi password tidak sama
+                    </p>
+                  ) : (
+                    <span
+                      className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <i
+                        className={`fa-regular ${
+                          Password ? "fa-eye" : "fa-eye-slash"
+                        }`}
+                      ></i>
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Tombol Aksi */}
@@ -140,6 +483,7 @@ export default function ProfilePage() {
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  onClick={updatePassword}
                 >
                   Simpan
                 </button>
