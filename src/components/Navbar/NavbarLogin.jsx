@@ -1,6 +1,7 @@
 import ImageImport from "../../data/ImageImport";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import config from "../../config/config";
 
 export default function NavbarLogin() {
   // State untuk mengontrol tampilan modal menu bar
@@ -34,6 +35,7 @@ export default function NavbarLogin() {
 
   // ========================================================================================================= cek user
   // State untuk menyimpan informasi user
+  console.log(sessionStorage.getItem("Foto"));
   const [user, setUser] = useState({
     name: sessionStorage.getItem("Nama"),
     profilePicture: sessionStorage.getItem("Foto"),
@@ -89,7 +91,13 @@ export default function NavbarLogin() {
               <div className="flex items-center justify-between">
                 <div className="w-10 overflow-hidden rounded-full">
                   <img
-                    src={ImageImport.default || user?.profilePicture}
+                    src={
+                      user.profilePicture &&
+                      user.profilePicture !== "null" &&
+                      user.profilePicture !== ""
+                        ? `${config.apiUrlImage}/profile/${user.profilePicture}`
+                        : ImageImport.default
+                    }
                     className="w-full"
                     alt="Foto Profile"
                   />
@@ -217,7 +225,13 @@ export default function NavbarLogin() {
               <div className="flex items-center">
                 <div className="w-10 h-10 overflow-hidden rounded-full">
                   <img
-                    src={ImageImport.default || user?.profilePicture}
+                    src={
+                      user.profilePicture &&
+                      user.profilePicture !== "null" &&
+                      user.profilePicture !== ""
+                        ? `${config.apiUrlImage}/profile/${user.profilePicture}`
+                        : ImageImport.default
+                    }
                     className="w-full"
                     alt="Foto Profile"
                   />
