@@ -3,6 +3,7 @@ import axios from "axios";
 import ImageImport from "../../data/ImageImport";
 import config from "../../config/config";
 
+
 export default function Indikatordash() {
   const [jumlahLimbah, setJumlahLimbah] = useState(0);
   const [jumlahProses, setJumlahProses] = useState(0);
@@ -42,7 +43,7 @@ export default function Indikatordash() {
 
 
         const olahData = olahResponse.data.data;
-        const prosesCount = olahData.filter((item) => item.status === "Proses").length;
+        const prosesCount = olahData.filter((item) => item.status === "proses").length;
         const selesaiCount = olahData.filter((item) => item.status === "selesai").length;
 
         setJumlahProses(prosesCount);
@@ -56,8 +57,8 @@ export default function Indikatordash() {
   }, []);
 
   return (
-    <div className="flex flex-row space-x-9">
-      <div className="w-66 h-36 bg-main-green rounded-md">
+    <div className="flex justify-between">
+      <div className="w-[24%] h-36 bg-main-green rounded-md">
         <div className="flex flex-row">
           <div className="pl-6 pt-6">
             <img src={ImageImport.limbahi} alt="Limbah" />
@@ -68,7 +69,7 @@ export default function Indikatordash() {
           </div>
         </div>
       </div>
-      <div className="w-66 h-36 bg-main-green rounded-md">
+      <div className="w-[24%] h-36 bg-main-green rounded-md">
         <div className="flex flex-row">
           <div className="pl-6 pt-6">
             <img src={ImageImport.prosesi} alt="Proses" />
@@ -79,10 +80,10 @@ export default function Indikatordash() {
           </div>
         </div>
       </div>
-      <div className="w-66 h-36 bg-main-green rounded-md">
+      <div className="w-[24%] h-36 bg-main-green rounded-md">
         <div className="flex flex-row">
           <div className="pl-6 pt-6">
-            <img src={ImageImport.selesais} alt="Selesai" />
+            <img src={ImageImport.olahani} alt="Selesai" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahSelesai}</h1>
@@ -90,10 +91,10 @@ export default function Indikatordash() {
           </div>
         </div>
       </div>
-      <div className="w-66 h-36 bg-main-green rounded-md">
+      <div className="w-[24%] h-36 bg-main-green rounded-md">
         <div className="flex flex-row">
           <div className="pl-6 pt-6">
-            <img src={ImageImport.olahani} alt="Olahan" />
+            <img src={ImageImport.selesais} alt="Olahan" />
           </div>
           <div className="pl-8 pt-6 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahOlahan}</h1>

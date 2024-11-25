@@ -15,7 +15,7 @@ export default function Sidebar() {
               href="/dashboard"
               className="flex items-center space-x-3 p-2 rounded-md hover:bg-main-green-hover"
             >
-              <span className="hover:bg-white">
+              <span className="">
                 <img
                   src={ImageImport.dashboard}
                   alt=""
