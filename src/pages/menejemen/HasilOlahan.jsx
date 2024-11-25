@@ -22,7 +22,7 @@ export default function HasilOlahan() {
       }
   
       try {
-        const response = await axios.get(`${config.apiUrl}/riwayat`, {
+        const response = await axios.get(`${config.apiUrl}/olahan`, {
           headers: {
             Authorization: `${token}`, // Add token to the header
           },

@@ -128,9 +128,9 @@ export default function Tabledash() {
                 <td className="px-4 py-3 border-b">
                   <span
                     className={`px-2 py-1 flex justify-center text-sm font-medium rounded-xl ${
-                      limbah.status === "Proses"
+                      limbah.status === "proses"
                         ? "text-yellow-800 bg-yellow-200"
-                        : limbah.status === "Gagal"
+                        : limbah.status === "gagal"
                         ? "text-red-800 bg-red-200"
                         : "text-green-800 bg-green-200"
                     }`}
