@@ -38,7 +38,14 @@ function App() {
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
         <Route path="/artikel" element={<ArtikelList />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/artikel_detail/:id"
           element={
