@@ -2,6 +2,8 @@ import ButtonHref from "../../components/Button/ButtonHref";
 import { useState } from "react";
 import axios from "axios"; // Import Axios
 import config from "../../config/config"; 
+import ImageImport from "../../data/ImageImport";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
 const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah }) => {
   const [loading, setLoading] = useState(false);
@@ -25,8 +27,15 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
       });
 
       if (response.status === 200) {
-        alert("Limbah berhasil dihapus!");
-        onClose(); // Close the modal after deletion
+        showAlert({
+          title: "Berhasil",
+          text: "Limbah berhasil dihapus!",
+          iconType: "success",
+          didClose: onClose, // Tutup modal setelah alert ditutup
+        });
+        setTimeout(() => {
+          window.location.reload(); // Refresh halaman setelah 4 detik
+        }, 2500); // Close the modal after deletion
       } else {
         setError(response.data.msg || "Gagal menghapus limbah.");
       }
@@ -57,8 +66,15 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
       });
   
       if (response.status === 200) {
-        alert("Limbah berhasil diperbaharui!");
-        onClose(); // Close the modal after updating
+        showAlert({
+          title: "Berhasil",
+          text: "Limbah berhasil diperbarui!",
+          iconType: "success",
+          didClose: onClose,  // Tutup modal setelah alert ditutup
+        });
+        setTimeout(() => {
+          window.location.reload(); // Refresh halaman setelah 4 detik
+        }, 2500);// Close the modal after updating
       } else {
         setError(response.data.msg || "Gagal memperbaharui limbah.");
       }
@@ -91,7 +107,7 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
 
         <div className="flex mb-4 mt-5">
           <img
-            src={newImagePreview}
+            src={newImagePreview || ImageImport.gambar}
             className="w-[60%] object-cover bg-gray-400 rounded-md"
             alt="Preview"
             onClick={() => document.getElementById("imageInput").click()} // Trigger file input

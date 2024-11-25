@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../config/config"; // Pastikan path sesuai
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
 const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   const token = sessionStorage.getItem("Token");
@@ -81,9 +82,15 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
     );
 
     if (response.status === 200) {
-      alert('Data berhasil disimpan');
-      onSubmitSuccess(); // Update data
-      onClose(); // Tutup modal
+      showAlert({
+        title: "Berhasil",
+        text: "Olahan berhasil diperbarui!",
+        iconType: "success",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
+      setTimeout(() => {
+        window.location.reload(); // Refresh halaman setelah 4 detik
+      }, 2500);  // Tutup modal
     } else {
       alert(response.data.msg || 'Terjadi kesalahan.');
     }

@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios"; // Import Axios
 import ButtonHref from "../../components/Button/ButtonHref";
 import config from "../../config/config";
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import ImageImport from "../../data/ImageImport";
 
 const TambahLimbah = ({ isOpen, onClose, title }) => {
   const [namaLimbah, setNamaLimbah] = useState("");
@@ -38,16 +40,24 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
         },
       });
 
-      if (response.status === 201) {
-        alert("Limbah berhasil ditambahkan!");
-        onClose();
+      if (response.status === 200) {
+        showAlert({
+          title: "Berhasil",
+          text: "Limbah berhasil ditambahkan!",
+          iconType: "success",
+          didClose: onClose, // Tutup modal setelah alert ditutup
+        });
+        setTimeout(() => {
+          window.location.reload(); // Refresh halaman setelah 4 detik
+        }, 2500); 
       }
     } catch (error) {
       console.error("Error submitting data:", error.response?.data || error.message);
-      alert(
-        "Gagal menambahkan limbah: " +
-          (error.response?.data?.msg || "Terjadi kesalahan.")
-      );
+      showAlert({
+        title: "Gagal",
+        text: error.response?.data?.msg || "Terjadi kesalahan.",
+        iconType: "error",
+      });
     }
   };
 
@@ -65,7 +75,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
         <div className="flex mb-4 mt-5">
           <label htmlFor="upload-image" className="cursor-pointer">
             <img
-              src={gambar || "https://via.placeholder.com/150"} // Placeholder jika belum ada gambar
+              src={gambar || ImageImport.gambar} // Placeholder jika belum ada gambar
               className="w-[100%] object-cover bg-gray-400 rounded-md"
               alt="Limbah"
             />
