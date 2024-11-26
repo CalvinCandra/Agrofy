@@ -263,79 +263,82 @@ export default function Komunitas() {
           {selectKomunitas && selectKomunitas.length > 0 ? (
             selectKomunitas.map((data) => {
               return (
-                <div
-                  key={data.id}
-                  className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10"
-                >
-                  {/* Bagian atas */}
-                  <div className="flex items-center justify-between">
-                    <div className="px-2">
-                      <div className="flex justify-between items-center">
-                        {data.foto ? (
-                          <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
-                            <img
-                              src={data.foto}
-                              alt="User profile"
-                              className="h-full w-full object-cover"
-                            />
+                console.log("Data foto:", data.foto),
+                (
+                  <div
+                    key={data.id}
+                    className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10"
+                  >
+                    {/* Bagian atas */}
+                    <div className="flex items-center justify-between">
+                      <div className="px-2">
+                        <div className="flex justify-between items-center">
+                          {data.foto ? (
+                            <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                              <img
+                                src={`${config.apiUrlImage}/profile/${data.foto}`}
+                                alt="User profile"
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
+                              <img
+                                src={ImageImport.default}
+                                alt="User profile"
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          )}
+                          <div className="ml-4">
+                            <h5 className="lg:text-lg">{data.nama_lengkap}</h5>
+                            <h5 className="text-xs">
+                              {new Date(data.updated_at).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "2-digit",
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )}
+                            </h5>
                           </div>
-                        ) : (
-                          <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
-                            <img
-                              src={ImageImport.default}
-                              alt="User profile"
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="ml-4">
-                          <h5 className="lg:text-lg">{data.nama_lengkap}</h5>
-                          <h5 className="text-xs">
-                            {new Date(data.updated_at).toLocaleDateString(
-                              "id-ID",
-                              {
-                                day: "2-digit",
-                                month: "long",
-                                year: "numeric",
-                              }
-                            )}
-                          </h5>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Bagian tengah */}
-                  <div className="w-full lg:text-justify mt-5 px-2 border-b-2 border-gray-400 pb-5">
-                    {data.gambar ? (
-                      <div className="w-full flex flex-col lg:flex-row flex-wrap justify-between items-center my-5">
-                        <img
-                          src={`${config.apiUrlImage}/komunitas/${data.gambar}`}
-                          className="lg:w-full py-2 lg:py-0"
-                          alt="Gambar Komunitas"
-                        />
+                    {/* Bagian tengah */}
+                    <div className="w-full lg:text-justify mt-5 px-2 border-b-2 border-gray-400 pb-5">
+                      {data.gambar ? (
+                        <div className="w-full flex flex-col lg:flex-row flex-wrap justify-between items-center my-5">
+                          <img
+                            src={`${config.apiUrlImage}/komunitas/${data.gambar}`}
+                            className="lg:w-full py-2 lg:py-0"
+                            alt="Gambar Komunitas"
+                          />
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+                      <p dangerouslySetInnerHTML={{ __html: data.caption }} />
+                    </div>
+
+                    {/* Bagian bawah */}
+                    <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
+                      {/* Icon Comment */}
+                      <div className="flex items-center w-full">
+                        <i
+                          className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[10%]"
+                          onClick={() => {
+                            setSelectedCommentId(data.id);
+                            setShowModalKomen(true);
+                          }}
+                        ></i>
+                        <p className="text-sm mx-2">Lihat Balasan</p>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
-                    <p dangerouslySetInnerHTML={{ __html: data.caption }} />
-                  </div>
-
-                  {/* Bagian bawah */}
-                  <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
-                    {/* Icon Comment */}
-                    <div className="flex items-center w-full">
-                      <i
-                        className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[10%]"
-                        onClick={() => {
-                          setSelectedCommentId(data.id);
-                          setShowModalKomen(true);
-                        }}
-                      ></i>
-                      <p className="text-sm mx-2">Lihat Balasan</p>
                     </div>
                   </div>
-                </div>
+                )
               );
             })
           ) : (
@@ -350,7 +353,7 @@ export default function Komunitas() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-5 rounded-lg w-full max-w-lg mx-4 lg:mx-0 lg:max-w-2xl overflow-y-auto max-h-[80vh]">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-bold">Tambah Artikel</h3>
+                <h3 className="text-lg font-bold">Posting</h3>
 
                 <button onClick={() => setShowModalPost(false)}>
                   <i className="fa-solid fa-xmark"></i>
@@ -423,7 +426,7 @@ export default function Komunitas() {
                           <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
                             {data.foto ? (
                               <img
-                                src={ImageImport.willy} // Ganti dengan `data.foto` jika gambar berasal dari data API
+                                src={`${config.apiUrlImage}/profile/${data.foto}`}
                                 alt="User profile"
                                 className="h-full w-full object-cover"
                               />

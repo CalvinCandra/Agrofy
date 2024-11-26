@@ -37,7 +37,14 @@ function App() {
         <Route index element={<IndexPage />} />
         <Route path="/tentang_kami" element={<TentangKamiPage />} />
         <Route path="/pemberdayaan" element={<PemberdayaanPage />} />
-        <Route path="/artikel" element={<ArtikelList />} />
+        <Route
+          path="/artikel"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ArtikelList />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/profile"
           element={
@@ -54,7 +61,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/video" element={<VideoList />} />
+        <Route
+          path="/video"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <VideoList />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/video_detail/:id"
           element={
