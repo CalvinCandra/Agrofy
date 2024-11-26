@@ -59,8 +59,9 @@ export default function ArtikelList() {
         </h1>
 
         <p className="w-full lg:w-[50%] m-auto text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non
-          erat libero. In dictum auctor eros, sed sodales dolor venenatis nec.
+          Baca berbagai artikel inspiratif tentang pengelolaan limbah pertanian.
+          Tingkatkan pengetahuan dan temukan wawasan baru untuk menciptakan
+          solusi berkelanjutan bagi lingkungan.
         </p>
 
         {/* Search */}

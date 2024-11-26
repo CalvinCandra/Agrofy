@@ -60,8 +60,9 @@ export default function VideoList() {
         </h1>
 
         <p className="w-full lg:w-[50%] m-auto text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non
-          erat libero. In dictum auctor eros, sed sodales dolor venenatis nec.
+          Video-video informatif tentang pengolahan limbah. Temukan langkah
+          praktis dan solusi kreatif untuk mendukung keberlanjutan lingkungan
+          melalui inovasi pengolahan limbah pertanian yang efisien.
         </p>
 
         {/* Search */}

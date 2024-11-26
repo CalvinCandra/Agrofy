@@ -39,7 +39,10 @@ export default function DataLimbah() {
         });
         setLimbahList(response.data.data); // Sesuaikan struktur respons
       } catch (error) {
-        console.error("Error fetching limbah data:", error.response?.data || error.message);
+        console.error(
+          "Error fetching limbah data:",
+          error.response?.data || error.message
+        );
       } finally {
         setLoading(false);
       }
@@ -85,7 +88,7 @@ export default function DataLimbah() {
               ))
             )}
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
 
