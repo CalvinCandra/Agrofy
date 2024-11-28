@@ -23,7 +23,7 @@ export default function PemberdayaanPage() {
             <div className="mt-5">
               <h3 className="font-bold text-xl">Video Pemberdayaan</h3>
               <p className="my-2">
-                Beriskian viideo pemberdayaan dalam mengolah limbah pertanian
+                Beriskian video pemberdayaan dalam mengolah limbah pertanian
                 organik
               </p>
 
