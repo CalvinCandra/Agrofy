@@ -8,7 +8,7 @@ export default function TentangKamiPage() {
       <div className="w-konten m-auto flex justify-center items-center flex-col">
         <img
           src={ImageImport.logo}
-          className="my-3 lg:my-5 lg:w-[30%]"
+          className="my-3 lg:my-5 w-[80%] md:w-[50%] lg:w-[30%]"
           alt="Logo Agrofy"
         />
 

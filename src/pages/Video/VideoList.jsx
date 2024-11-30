@@ -59,7 +59,7 @@ export default function VideoList() {
           Video Pemberdayaan
         </h1>
 
-        <p className="w-full lg:w-[50%] m-auto text-center">
+        <p className="w-full lg:w-[50%] m-auto text-center text-sm md:text-base">
           Video-video informatif tentang pengolahan limbah. Temukan langkah
           praktis dan solusi kreatif untuk mendukung keberlanjutan lingkungan
           melalui inovasi pengolahan limbah pertanian yang efisien.

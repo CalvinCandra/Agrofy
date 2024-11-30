@@ -82,7 +82,7 @@ export default function RegisterPage() {
 
   return (
     <div className="bg-bg-body h-screen flex justify-center items-center">
-      <div className="p-2 flex justify-between items-stretch w-full lg:w-[70%]">
+      <div className="p-2 flex justify-between items-stretch w-full lg:w-[70%] mx-3 md:mx-24 lg:mx-0">
         {/* Kanan */}
         <div className="p-5 w-full lg:w-[60%] rounded-lg bg-white">
           <h1 className="text-xl font-semibold leading-tight tracking-tight overflow-hidden text-black md:text-2xl uppercase text-center mb-10 mt-4">
@@ -234,9 +234,9 @@ export default function RegisterPage() {
         </div>
 
         {/* Kiri */}
-        <div className="hidden lg:block w-auto ml-2">
+        <div className="hidden lg:block w-[60%] ml-2 max-h-screen">
           <img
-            className="rounded-lg"
+            className="rounded-lg h-full w-full"
             src={ImageImport.register}
             alt="Register Image"
           />

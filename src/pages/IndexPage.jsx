@@ -8,22 +8,26 @@ export default function IndexPage() {
     <div className="bg-bg-body">
       {/* Hero Section */}
       <section
-        className="bg-brown-light pt-20 lg:pt-44 pb-14 lg:pb-32 flex items-center"
+        className="bg-brown-light pt-32 lg:pt-32 pb-14 lg:pb-26 flex items-center"
         id="hero"
       >
-        <div className="py-10 w-full lg:w-konten mx-auto flex justify-center items-center relative lg:h-[35rem]">
+        <div className="w-full lg:w-konten mx-auto flex flex-col lg:flex-row justify-between items-center lg:h-[35rem]">
+          <div className="w-[55%] md:w-[40%] lg:w-[60%] flex justify-center lg:hidden">
+            <img src={ImageImport.hero} className="w-full"></img>
+          </div>
+
           {/* Kanan */}
-          <div className="p-2 pt-56 lg:pt-0 w-full lg:w-[70%] overflow-hidden">
+          <div className="p-2 lg:pt-0 w-[80%] lg:w-[60%] overflow-hidden">
             <h1 className="text-3xl lg:text-6xl text-center lg:text-start font-extrabold text-black overflow-hidden">
               Ayo cari tau manfaat limbah pertanian.{" "}
             </h1>
-            <h4 className="font-medium text-base lg:text-xl text-center lg:text-left text-black mb-6 mt-3">
+            <h4 className="font-medium text-sm lg:text-xl text-center lg:text-left text-black mb-6 mt-3">
               Temukan cara-cara praktis mengubah limbah pertanian menjadi produk
               bermanfaat. Dapatkan informasi dan tips untuk menjaga lingkungan
               sekaligus meningkatkan kesejahteraan. Mulai sekarang, kelola
               limbah dengan lebih bijak!"
             </h4>
-            <div className="flex justify-center mx-auto w-[80%] lg:block lg:mx-0 lg:w-[30%] py-3">
+            <div className="flex justify-center mx-auto w-[80%] md:w-[50%] lg:block lg:mx-0 lg:w-[35%] py-3">
               <ButtonHref
                 href="/#pemberdayaan"
                 text="Mulai Belajar Sekarang"
@@ -32,11 +36,8 @@ export default function IndexPage() {
             </div>
           </div>
           {/* Kiri */}
-          <div className="lg:w-[60%]">
-            <img
-              src={ImageImport.hero}
-              className="w-[55%] lg:w-[40%] absolute lg:-top-6 lg:left-[50rem] top-0 left-1/2 transform -translate-x-1/2 lg:transform-none lg:-translate-x-0"
-            ></img>
+          <div className="lg:w-[40%] hidden lg:block overflow-hidden">
+            <img src={ImageImport.hero} className="w-full"></img>
           </div>
         </div>
       </section>
@@ -46,7 +47,7 @@ export default function IndexPage() {
         <div className="w-konten mx-auto flex flex-col justify-center items-center">
           <img src={ImageImport.tentang_kami}></img>
 
-          <h3 className="text-center font-medium text-base lg:text-xl text-black w-full lg:w-[80%] mx-auto">
+          <h3 className="text-center font-medium text-sm pt-2 lg:text-xl text-black w-full lg:w-[80%] mx-auto">
             Selamat Datang di AGROFY, platform digital untuk pemberdayaan dalam
             mengelola limbah pertanian. Mari bersama-sama belajar mengolah
             limbah dan mengubahnya menjadi sumber daya berharga. Limbah yang
@@ -86,8 +87,7 @@ export default function IndexPage() {
               icon="fa-solid fa-seedling"
               judul="Menghasilkan Pupuk Alami"
               text="Limbah organik dapat diolah menjadi kompos yang bermanfaat untuk
-                meningkatkan kesuburan tanah, sehingga mengurangi penggunaan
-                pupuk kimia."
+                meningkatkan kesuburan tanah, sehingga mengurangi pupuk kimia."
             />
             <CardAlasan
               icon="fa-solid fa-recycle"
@@ -104,7 +104,7 @@ export default function IndexPage() {
       <section className="bg-white pt-24" id="pemberdayaan">
         <div className="w-konten p-2 m-auto flex lg:flex-row flex-col lg:justify-evenly justify-center items-center">
           {/* Kanan */}
-          <div className="lg:w-[35%] w-full mb-2 lg:mb-0">
+          <div className="lg:w-[38%] w-full md:w-[65%] mb-2 lg:mb-0">
             <img
               src={ImageImport.pemberdayaan}
               className="w-full"
@@ -126,7 +126,7 @@ export default function IndexPage() {
               dan panduan praktis untuk mengolah limbah, sambil ikut menjaga
               lingkungan dan meningkatkan penghasilan.
             </p>
-            <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
+            <div className="py-1 w-[70%] md:w-[50%] mx-auto flex justify-center lg:m-0 lg:w-[35%]">
               <ButtonHref
                 href="/pemberdayaan"
                 text="Lihat Selengkapnya"
@@ -141,7 +141,7 @@ export default function IndexPage() {
       <section className="bg-white pt-24" id="komunitas">
         <div className="w-konten p-2 m-auto flex lg:flex-row flex-col lg:justify-evenly justify-center items-center">
           {/* Kanan */}
-          <div className="lg:hidden w-full mb-2 lg:mb-0">
+          <div className="lg:hidden w-full md:w-[65%] mb-2 lg:mb-0">
             <img
               src={ImageImport.komunitas}
               className="w-full"
@@ -161,7 +161,7 @@ export default function IndexPage() {
               belajar dari satu sama lain agar pengelolaan limbah jadi lebih
               mudah dan menyenangkan. Yuk, sama-sama jaga lingkungan kita!
             </p>
-            <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
+            <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[35%]">
               <ButtonHref
                 href="/komunitas"
                 text="Gabung Sekarang"
@@ -185,7 +185,7 @@ export default function IndexPage() {
       <section className="bg-white pt-32 pb-24" id="manajemen">
         <div className="w-konten p-2 m-auto flex lg:flex-row flex-col lg:justify-evenly justify-center items-center">
           {/* Kanan */}
-          <div className="lg:w-[35%] w-full mb-2 lg:mb-0">
+          <div className="lg:w-[35%] md:w-[65%] w-full mb-2 lg:mb-0">
             <img
               src={ImageImport.manajemen}
               className="w-full"
@@ -206,7 +206,7 @@ export default function IndexPage() {
               hasilnya pun lebih maksimal, baik untuk lingkungan maupun
               kesejahteraan!
             </p>
-            <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[30%]">
+            <div className="py-1 w-[70%] mx-auto flex justify-center lg:m-0 lg:w-[35%]">
               <ButtonHref
                 href={
                   sessionStorage.getItem("Role") === "admin"

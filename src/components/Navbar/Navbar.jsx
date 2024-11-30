@@ -34,7 +34,7 @@ export default function Navbar() {
             />
           </a>
 
-          <div className="w-[31rem] ml-24 hidden md:flex justify-between text-black">
+          <div className="w-[31rem] ml-24 hidden lg:flex justify-between text-black">
             <a href="/" className={navLinkClasses("/")}>
               Home
             </a>
@@ -49,14 +49,14 @@ export default function Navbar() {
             </a>
           </div>
 
-          <div className="hidden md:flex justify-between items-center w-[14.5rem]">
+          <div className="hidden lg:flex justify-between items-center w-[14.5rem]">
             <ButtonHref text="Sign Up" href="/register" variant="secondary" />
 
             <ButtonHref text="Sign In" href="/login" variant="primary" />
           </div>
 
           {/* Menu Bar */}
-          <div className="block md:hidden text-black mt-1">
+          <div className="block lg:hidden text-black mt-1">
             <button className="text-lg" onClick={toggleModal}>
               <i className="fa-solid fa-bars"></i>
             </button>
