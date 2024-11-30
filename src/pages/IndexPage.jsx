@@ -45,7 +45,10 @@ export default function IndexPage() {
       {/* Tentang Kami Section */}
       <section className="bg-white pt-20" id="tentang_kami">
         <div className="w-konten mx-auto flex flex-col justify-center items-center">
-          <img src={ImageImport.tentang_kami}></img>
+          <img
+            src={ImageImport.tentang_kami}
+            className="w-[55%] lg:w-[40%]"
+          ></img>
 
           <h3 className="text-center font-medium text-sm pt-2 lg:text-xl text-black w-full lg:w-[80%] mx-auto">
             Selamat Datang di AGROFY, platform digital untuk pemberdayaan dalam
