@@ -69,7 +69,7 @@ export default function NavbarLogin() {
             <img src={ImageImport.logo} className="h-5 md:h-8" alt="Logo" />
           </a>
 
-          <div className="w-[31rem] ml-24 hidden md:flex justify-between text-black">
+          <div className="w-[31rem] ml-24 hidden lg:flex justify-between text-black">
             <a href="/" className={navLinkClasses("/")}>
               Home
             </a>
@@ -84,7 +84,7 @@ export default function NavbarLogin() {
             </a>
           </div>
 
-          <div className="hidden md:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
+          <div className="hidden lg:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
             <button onClick={toggleModalNotif} className="pt-2">
               <i className="fa-solid fa-bell text-xl text-gray-400 lg:me-5"></i>
             </button>
@@ -110,7 +110,7 @@ export default function NavbarLogin() {
           </div>
 
           {/* Menu Bar */}
-          <div className="block md:hidden text-black mt-1">
+          <div className="block lg:hidden text-black mt-1">
             <button className="text-lg" onClick={toggleModal}>
               <i className="fa-solid fa-bars"></i>
             </button>
@@ -178,7 +178,7 @@ export default function NavbarLogin() {
             Komunitas
           </a>
 
-          <div className="flex md:hidden justify-between items-center w-full mt-2 px-2">
+          <div className="flex lg:hidden justify-between items-center w-full mt-2 px-2">
             <button onClick={toggleModalProfil}>
               <div className="flex items-center">
                 <div className="w-10 h-10 overflow-hidden rounded-full">

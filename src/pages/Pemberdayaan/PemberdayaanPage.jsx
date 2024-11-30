@@ -5,10 +5,10 @@ export default function PemberdayaanPage() {
   return (
     <section className="bg-white pt-20">
       <div className="w-konten mx-auto">
-        <h1 className="text-4xl lg:text-5xl font-bold py-5 text-center">
+        <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center">
           Pemberdayaan Pengolahan Limbah Organik
         </h1>
-        <p className="text-lg text-center my-5 w-[80%] m-auto">
+        <p className="lg:text-lg text-center my-5 w-[80%] m-auto">
           Temukan berbagai video dan artikel untuk meningkatkan keterampilan dan
           pengetahuan anda dalam mengolah limbah organik
         </p>

@@ -77,7 +77,7 @@ export default function VideoDetail() {
               {video.judul_video}
             </h1>
 
-            <div className="flex items-center">
+            <div className="flex items-center text-gray-500">
               <i className="fa-solid fa-calendar-days me-2"></i>
               <h5 className="mt-0.5">
                 {new Date(video.created_at).toLocaleDateString("id-ID", {
@@ -86,7 +86,7 @@ export default function VideoDetail() {
                   year: "numeric",
                 })}
               </h5>
-              <div className="p-1 rounded-full bg-black mx-4 mt-0.5"></div>
+              <div className="p-1 rounded-full bg-gray-500 mx-4 mt-0.5"></div>
               <i className="fa-solid fa-user me-2 text-sm mt-0.5"></i>
 
               <h5 className="mt-0.5">{video.nama_lengkap}</h5>

@@ -372,26 +372,21 @@ export default function ProfilePage() {
               >
                 Ubah Kata Sandi
               </button>
-              {/* <ButtonAction
-                text="Ubah Kata Sandi"
-                variant="primary"
-                onClick={toggleModal}
-              /> */}
             </div>
           </div>
         </div>
 
         {/* Tombol Reset dan Simpan */}
-        <div className="flex justify-between pt-10 w-full">
+        <div className="flex justify-center md:justify-between pt-10 w-full">
           <button
             onClick={resetChanges}
-            className="w-full md:w-[48%] bg-gray-200 p-3 rounded-lg text-sm font-semibold hover:bg-gray-300 transition-all duration-300"
+            className="w-[30%] mx-1 md:mx-0 md:w-[48%] bg-gray-200 p-3 rounded-lg text-sm font-semibold hover:bg-gray-300 transition-all duration-300"
           >
             Reset
           </button>
           <button
             onClick={updateProfile}
-            className="w-full md:w-[48%] bg-main-green p-3 rounded-lg text-sm font-semibold text-white hover:bg-main-green-hover transition-all duration-300"
+            className="w-[30%] mx-1 md:mx-0 md:w-[48%] bg-main-green p-3 rounded-lg text-sm font-semibold text-white hover:bg-main-green-hover transition-all duration-300"
           >
             Simpan
           </button>

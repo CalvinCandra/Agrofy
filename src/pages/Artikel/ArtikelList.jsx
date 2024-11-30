@@ -54,14 +54,14 @@ export default function ArtikelList() {
   return (
     <section className="bg-white pt-20">
       <div className="w-konten m-auto">
-        <h1 className="text-black text-4xl lg:text-5xl font-bold mt-10 mb-5 text-center py-4">
+        <h1 className="text-black text-3xl lg:text-5xl font-bold mt-10 mb-5 text-center py-4">
           Artikel Pemberdayaan
         </h1>
 
-        <p className="w-full lg:w-[50%] m-auto text-center">
+        <p className="w-full lg:w-[50%] text-sm md:text-base m-auto text-center">
           Baca berbagai artikel inspiratif tentang pengelolaan limbah pertanian.
           Tingkatkan pengetahuan dan temukan wawasan baru untuk menciptakan
-          solusi berkelanjutan bagi lingkungan.
+          solusi berkelanjutan bagi lingkungan.
         </p>
 
         {/* Search */}

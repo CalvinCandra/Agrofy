@@ -86,13 +86,9 @@ export default function LoginPage() {
     <section className="bg-bg-body">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="flex items-center mb-6 text-2xl font-semibold">
-          <img
-            className="w-40 lg:w-52 mr-2"
-            src={ImageImport.logo}
-            alt="logo"
-          />
+          <img className="w-52 lg:w-52" src={ImageImport.logo} alt="logo" />
         </div>
-        <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div className="w-full bg-white rounded-lg shadow md:mt-0 max-w-md lg:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-semibold leading-tight tracking-tight overflow-hidden text-black md:text-2xl">
               Sign in to your account

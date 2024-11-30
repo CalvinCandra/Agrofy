@@ -242,7 +242,7 @@ export default function Komunitas() {
   }, []);
 
   return (
-    <section className="bg-brown-light lg:pt-20 pt-10 lg:pb-14 relative section-komunitas">
+    <section className="bg-brown-light lg:pt-20 pt-10 relative section-komunitas">
       <div className="w-konten mx-auto p-2">
         <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center my-10">
           Komunitas Agrofy
@@ -267,11 +267,11 @@ export default function Komunitas() {
                 (
                   <div
                     key={data.id}
-                    className="w-full bg-white p-2 px-5 lg:px-10 rounded-lg shadow-lg mb-10"
+                    className="w-full bg-white p-7 rounded-lg shadow-lg mb-10"
                   >
                     {/* Bagian atas */}
                     <div className="flex items-center justify-between">
-                      <div className="px-2">
+                      <div className="">
                         <div className="flex justify-between items-center">
                           {data.foto ? (
                             <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex-shrink-0">
@@ -308,7 +308,7 @@ export default function Komunitas() {
                     </div>
 
                     {/* Bagian tengah */}
-                    <div className="w-full lg:text-justify mt-5 px-2 border-b-2 border-gray-400 pb-5">
+                    <div className="w-full lg:text-justify mt-5 border-b-2 border-gray-400 pb-3">
                       {data.gambar ? (
                         <div className="w-full flex flex-col lg:flex-row flex-wrap justify-between items-center my-5">
                           <img
@@ -324,7 +324,7 @@ export default function Komunitas() {
                     </div>
 
                     {/* Bagian bawah */}
-                    <div className="mt-5 flex items-center w-full lg:w-[25%] mb-2">
+                    <div className="mt-3 ml-1 flex items-center w-full lg:w-[25%]">
                       {/* Icon Comment */}
                       <div className="flex items-center w-full">
                         <i
