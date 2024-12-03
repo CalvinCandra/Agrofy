@@ -32,7 +32,10 @@ export default function MainDashboard() {
           console.error("Error:", response.data.msg);
         }
       } catch (error) {
-        console.error("Error fetching limbah data:", error.response?.data || error.message);
+        console.error(
+          "Error fetching limbah data:",
+          error.response?.data || error.message
+        );
       } finally {
         setLoading(false);
       }
@@ -46,12 +49,13 @@ export default function MainDashboard() {
 
   return (
     <div>
-      <div className="bg-dashboard w-full h-[1120px] rounded-md p-5 space-y-5">
-        <div className="bg-white w-full h-[50%] rounded-md">
+      <div className="w-full rounded-md space-y-5">
+        {/* Limbah */}
+        <div className="bg-white w-full rounded-md border-2 border-black">
           <p className="flex justify-center text-3xl p-5 font-bold">Limbah</p>
 
           {/* Render Card Dinamis */}
-          <div className="limbah-box pt-2 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-2 lg:px-5 px-5">
+          <div className="limbah-box py-2 grid lg:grid-cols-3 grid-cols-1 gap-4 lg:px-5 px-1">
             {loading ? (
               <p>Loading...</p>
             ) : (
@@ -71,7 +75,7 @@ export default function MainDashboard() {
             )}
           </div>
 
-          <div className="w-full h-[12%] lg:px-[30%] sm:px-10 py-1 flex justify-center">
+          <div className="w-full lg:px-[30%] sm:px-10 py-1 flex justify-center">
             <ButtonHref
               href="/dashboard/data_limbah"
               text="Lihat Selengkapnya"
@@ -80,9 +84,12 @@ export default function MainDashboard() {
           </div>
         </div>
 
-        <div className="bg-white w-full h-[48%] rounded-md px-5">
+        {/* Proses */}
+        <div className="bg-white w-full h-[48%] rounded-md px-5 border-2 border-black pb-5">
           <div className="lg:py-0">
-            <p className="flex justify-center text-3xl py-4 font-bold">Proses</p>
+            <p className="flex justify-center text-3xl py-4 font-bold">
+              Proses
+            </p>
             <Tabledash />
           </div>
         </div>

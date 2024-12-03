@@ -3,7 +3,6 @@ import axios from "axios";
 import ImageImport from "../../data/ImageImport";
 import config from "../../config/config";
 
-
 export default function Indikatordash() {
   const [jumlahLimbah, setJumlahLimbah] = useState(0);
   const [jumlahProses, setJumlahProses] = useState(0);
@@ -36,20 +35,29 @@ export default function Indikatordash() {
         });
 
         // Fetch jumlah olahan
-      const jumlahOlahanResponse = await axios.get(`${config.apiUrl}/jumlaholahan`, {
-        headers: { Authorization: `${token}` },
-      });
-      setJumlahOlahan(jumlahOlahanResponse.data.jumlahOlahan);
-
+        const jumlahOlahanResponse = await axios.get(
+          `${config.apiUrl}/jumlaholahan`,
+          {
+            headers: { Authorization: `${token}` },
+          }
+        );
+        setJumlahOlahan(jumlahOlahanResponse.data.jumlahOlahan);
 
         const olahData = olahResponse.data.data;
-        const prosesCount = olahData.filter((item) => item.status === "proses").length;
-        const selesaiCount = olahData.filter((item) => item.status === "selesai").length;
+        const prosesCount = olahData.filter(
+          (item) => item.status === "proses"
+        ).length;
+        const selesaiCount = olahData.filter(
+          (item) => item.status === "selesai"
+        ).length;
 
         setJumlahProses(prosesCount);
         setJumlahSelesai(selesaiCount);
       } catch (error) {
-        console.error("Error fetching data:", error.response?.data || error.message);
+        console.error(
+          "Error fetching data:",
+          error.response?.data || error.message
+        );
       }
     };
 
@@ -57,48 +65,51 @@ export default function Indikatordash() {
   }, []);
 
   return (
-    <div className="flex justify-between ">
-      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
-        <div className="lg:flex flex-row">
-          <div className="p-5  lg:pt-6 sm: ">
+    <div className="lg:flex justify-between">
+      <div className="my-2 lg:m-0 lg:w-[24%] lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="flex items-center">
+          <div className="p-5 lg:pt-6">
             <img src={ImageImport.limbahi} alt="Limbah" />
           </div>
-          <div className=" lg:pt-6 px-7 text-white font-bold">
+          <div className="text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahLimbah}</h1>
-            <p className="text-2xl py-2 pr-4 hidden lg:block ">Limbah</p>
+            <p className="text-2xl py-2 pr-4 lg:block">Limbah</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
-        <div className="lg:flex flex-row">
-        <div className="p-5  lg:pt-6 ">
+
+      <div className="my-2 lg:m-0 lg:w-[24%] lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="flex items-center">
+          <div className="p-5 lg:pt-6 ">
             <img src={ImageImport.prosesi} alt="Proses" />
           </div>
-          <div className="lg:pt-6 px-7 text-white font-bold">
+          <div className="text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahProses}</h1>
-            <p className="text-2xl py-2 pr-4 hidden lg:block">Proses</p>
+            <p className="text-2xl py-2 pr-4 lg:block">Proses</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
-        <div className="lg:flex flex-row">
-        <div className="p-5  lg:pt-6 ">
+
+      <div className="my-2 lg:m-0 lg:w-[24%] lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="flex items-center">
+          <div className="p-5  lg:pt-6 ">
             <img src={ImageImport.olahani} alt="Selesai" />
           </div>
-          <div className="lg:pt-6 px-7 text-white font-bold">
+          <div className="text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahSelesai}</h1>
-            <p className="text-2xl py-2 pr-4 hidden lg:block">Selesai</p>
+            <p className="text-2xl py-2 pr-4 lg:block">Selesai</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
-        <div className="lg:flex flex-row">
-        <div className="p-5  lg:pt-6 ">
+
+      <div className="my-2 lg:m-0 lg:w-[24%] lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="flex items-center">
+          <div className="p-5 lg:pt-6">
             <img src={ImageImport.selesais} alt="Olahan" />
           </div>
-          <div className="lg:pt-6 px-7 text-white font-bold">
+          <div className="text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahOlahan}</h1>
-            <p className="text-2xl py-2 pr-4 hidden lg:block">Olahan</p>
+            <p className="text-2xl py-2 pr-4 lg:block">Olahan</p>
           </div>
         </div>
       </div>

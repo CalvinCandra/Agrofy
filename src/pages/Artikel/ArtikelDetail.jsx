@@ -62,7 +62,7 @@ export default function ArtikelDetail() {
               {artikel.judul_artikel}
             </h1>
 
-            <div className="flex items-center text-gray-500">
+            <div className="mt-1 flex items-center text-gray-500">
               <i className="fa-solid fa-calendar-days me-2"></i>
               <h5 className="mt-0.5">
                 {new Date(artikel.created_at).toLocaleDateString("id-ID", {

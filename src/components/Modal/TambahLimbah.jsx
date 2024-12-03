@@ -58,10 +58,13 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
         });
         setTimeout(() => {
           window.location.reload(); // Refresh halaman setelah 4 detik
-        }, 2500); 
+        }, 2500);
       }
     } catch (error) {
-      console.error("Error submitting data:", error.response?.data || error.message);
+      console.error(
+        "Error submitting data:",
+        error.response?.data || error.message
+      );
       showAlert({
         title: "Gagal",
         text: error.response?.data?.msg || "Terjadi kesalahan.",
@@ -72,7 +75,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-1/2 shadow-lg relative">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative">
         <button
           className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
           onClick={onClose}

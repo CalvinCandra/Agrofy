@@ -8,7 +8,9 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
   const token = sessionStorage.getItem("Token");
   const [limbahList, setLimbahList] = useState([]);
   const [selectedLimbah, setSelectedLimbah] = useState(null);
-  const [fields, setFields] = useState([{ id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]);
+  const [fields, setFields] = useState([
+    { id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" },
+  ]);
   const [formData, setFormData] = useState({
     limbah_id: "",
     target_olahan: "",
@@ -26,7 +28,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
             Authorization: `${token}`, // Include token in headers
           },
         });
-        
+
         setLimbahList(response.data.data);
       } catch (error) {
         console.error("Error fetching limbah data:", error);
@@ -47,7 +49,15 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleAddField = () => {
-    setFields([...fields, { id: fields.length + 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]);
+    setFields([
+      ...fields,
+      {
+        id: fields.length + 1,
+        catatan: "",
+        periodeMulai: "",
+        periodeSelesai: "",
+      },
+    ]);
   };
 
   const handleFieldChange = (index, fieldName, value) => {
@@ -80,18 +90,14 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         catatan: field.catatan,
       })),
     };
- 
+
     try {
-      const response = await axios.post(
-        `${config.apiUrl}/olah`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`, // Include token in headers
-          },
-        }
-      );
+      const response = await axios.post(`${config.apiUrl}/olah`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`, // Include token in headers
+        },
+      });
 
       if (response.status === 200) {
         showAlert({
@@ -102,7 +108,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         });
         setTimeout(() => {
           window.location.reload(); // Refresh halaman setelah 4 detik
-        }, 2500); 
+        }, 2500);
       } else {
         showAlert({
           title: "Gagal",
@@ -126,7 +132,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-[60%] shadow-lg relative">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-[60%] shadow-lg relative overflow-y-auto h-[40rem]">
         <button
           className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
           onClick={onClose}
@@ -152,12 +158,16 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
             <select
               className="h-14 w-full rounded-lg border border-gray-300 p-2"
               onChange={(e) => {
-                const selected = limbahList.find((item) => item.id === parseInt(e.target.value));
+                const selected = limbahList.find(
+                  (item) => item.id === parseInt(e.target.value)
+                );
                 setSelectedLimbah(selected);
                 setFormData({ ...formData, limbah_id: e.target.value });
               }}
             >
-              <option value="">Pilih Limbah</option>
+              <option value="" hidden>
+                Pilih Limbah
+              </option>
               {limbahList.map((limbah) => (
                 <option key={limbah.id} value={limbah.id}>
                   {limbah.nama_limbah}
@@ -173,7 +183,9 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
             type="text"
             className="h-14 w-full rounded-lg border border-gray-300 p-2"
             placeholder="Masukkan Target Olahan"
-            onChange={(e) => setFormData({ ...formData, target_olahan: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, target_olahan: e.target.value })
+            }
           />
         </div>
 
@@ -185,13 +197,17 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
             className="h-14 w-full rounded-lg border border-gray-300 p-2 hidden"
             placeholder="Tanggal Mulai"
             value={formData.tgl_mulai}
-            onChange={(e) => setFormData({ ...formData, tgl_mulai: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, tgl_mulai: e.target.value })
+            }
           />
           <input
             type="date"
             className="h-14 w-full rounded-lg border border-gray-300 p-2"
             placeholder="Tanggal Selesai"
-            onChange={(e) => setFormData({ ...formData, tgl_selesai: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, tgl_selesai: e.target.value })
+            }
           />
         </div>
 
@@ -199,33 +215,41 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
 
         {/* Dynamic Fields for Periode */}
         {fields.map((field, index) => (
-          <div key={field.id} className="lg:flex mb-4 lg:gap-4 flex col-auto-auto">
+          <div key={field.id} className="lg:flex mb-4 lg:gap-2 flex-col">
             <textarea
-              className="w-1/3 border border-gray-300 rounded-lg p-2"
+              className="w-full border border-gray-300 rounded-lg p-2"
               placeholder="Catatan"
               value={field.catatan}
-              onChange={(e) => handleFieldChange(index, "catatan", e.target.value)}
+              onChange={(e) =>
+                handleFieldChange(index, "catatan", e.target.value)
+              }
             />
-            <input
-              type="date"
-              className="w-1/3 rounded-lg border border-gray-300 p-2"
-              value={field.periodeMulai}
-              onChange={(e) => handleFieldChange(index, "periodeMulai", e.target.value)}
-            />
-            <input
-              type="date"
-              className="w-1/3 rounded-lg border border-gray-300 p-2"
-              value={field.periodeSelesai}
-              onChange={(e) => handleFieldChange(index, "periodeSelesai", e.target.value)}
-            />
-            {fields.length > 1 && (
-              <button
-                className="text-red-500 hover:underline"
-                onClick={() => handleRemoveField(index)}
-              >
-                Hapus
-              </button>
-            )}
+            <div>
+              <input
+                type="date"
+                className="w-1/3 rounded-lg border border-gray-300 p-2 me-2"
+                value={field.periodeMulai}
+                onChange={(e) =>
+                  handleFieldChange(index, "periodeMulai", e.target.value)
+                }
+              />
+              <input
+                type="date"
+                className="w-1/3 rounded-lg border border-gray-300 p-2 me-2"
+                value={field.periodeSelesai}
+                onChange={(e) =>
+                  handleFieldChange(index, "periodeSelesai", e.target.value)
+                }
+              />
+              {fields.length > 1 && (
+                <button
+                  className="text-red-500 hover:underline"
+                  onClick={() => handleRemoveField(index)}
+                >
+                  Hapus
+                </button>
+              )}
+            </div>
           </div>
         ))}
 

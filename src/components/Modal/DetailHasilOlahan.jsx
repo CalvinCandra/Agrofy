@@ -1,10 +1,17 @@
 import { useState } from "react";
 import ButtonHref from "../../components/Button/ButtonHref";
-import axios from "axios"; 
-import config from "../../config/config"; 
+import axios from "axios";
+import config from "../../config/config";
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
-const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil }) => {
+const DetailHasilOlahan = ({
+  isOpen,
+  onClose,
+  title,
+  imgs,
+  deskripsi,
+  idHasil,
+}) => {
   const [newDeskripsi, setNewDeskripsi] = useState(deskripsi);
   const [newImage, setNewImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(imgs); // Store the image preview
@@ -39,17 +46,20 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
           "Content-Type": "multipart/form-data",
         },
       });
-        showAlert({
-          title: "Berhasil",
-          text: "Hasil Olahan berhasil diperbarui!",
-          iconType: "success",
-          didClose: onClose, // Tutup modal setelah alert ditutup
-        });
-        setTimeout(() => {
-          window.location.reload(); // Refresh halaman setelah 4 detik
-        }, 2500); 
+      showAlert({
+        title: "Berhasil",
+        text: "Hasil Olahan berhasil diperbarui!",
+        iconType: "success",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
+      setTimeout(() => {
+        window.location.reload(); // Refresh halaman setelah 4 detik
+      }, 2500);
     } catch (error) {
-      console.error("Error updating hasil olahan:", error.response?.data || error.message);
+      console.error(
+        "Error updating hasil olahan:",
+        error.response?.data || error.message
+      );
       showAlert({
         title: "Gagal",
         text: "tidak ada data yang diubah",
@@ -63,7 +73,7 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-1/2 shadow-lg relative">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative overflow-y-auto h-[40rem]">
         <button
           className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
           onClick={onClose}
@@ -72,10 +82,10 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
           &times;
         </button>
 
-        <div className="flex mb-4 mt-5">
-          <div className="w-[60%]">
+        <div className="flex flex-col lg:flex-row mb-4 mt-5">
+          <div className="w-full lg:w-[60%]">
             <img
-              src={imagePreview} 
+              src={imagePreview}
               className="w-full h-[250px] object-cover bg-gray-400 rounded-md cursor-pointer"
               alt="Preview"
               onClick={() => document.getElementById("fileInput").click()} // Trigger file input when clicking image
@@ -88,7 +98,8 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
               onChange={handleImageChange}
             />
           </div>
-          <div className="ml-4 w-full">
+
+          <div className="mt-5 lg:mt-0 lg:ml-4 w-full">
             <input
               type="text"
               className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
@@ -105,7 +116,7 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
         </div>
 
         <div className="flex justify-end space-x-2">
-          <ButtonHref text="Simpan" variant="primary" onClick={handleSave} /> 
+          <ButtonHref text="Simpan" variant="primary" onClick={handleSave} />
           <ButtonHref text="Tutup" variant="secondary" onClick={onClose} />
         </div>
       </div>

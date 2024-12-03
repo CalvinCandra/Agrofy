@@ -70,7 +70,9 @@ export default function NavbarLogin() {
         });
         const data = await response.json();
         // Jika ada notifikasi, ubah warna ikon menjadi biru
-        setHasNotifications(data.notifications && data.notifications.length > 0);
+        setHasNotifications(
+          data.notifications && data.notifications.length > 0
+        );
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
@@ -106,7 +108,7 @@ export default function NavbarLogin() {
             </a>
           </div>
 
-          <div className="hidden md:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
+          <div className="hidden md:flex justify-end items-center w-[14.5rem] lg:w-[16rem]">
             <button onClick={toggleModalNotif} className="pt-2">
               <i
                 className={`fa-solid fa-bell text-xl ${
@@ -115,7 +117,7 @@ export default function NavbarLogin() {
               ></i>
             </button>
             <button onClick={toggleModalProfil}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between lg:ml-3">
                 <div className="w-10 overflow-hidden rounded-full">
                   <img
                     src={

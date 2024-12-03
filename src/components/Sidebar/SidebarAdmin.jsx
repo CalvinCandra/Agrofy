@@ -2,7 +2,7 @@ export default function SidebarAdmin() {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <aside className="w-full bg-dashboard text-white p-5 pt-28">
+      <aside className="w-full bg-dashboard text-white p-5 lg:pt-28">
         <h2 className="text-base font-bold mb-6 text-black">Dashboard Admin</h2>
         <ul className="space-y-4">
           <li>
