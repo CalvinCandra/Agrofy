@@ -15,6 +15,11 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
 
   if (!isOpen) return null;
 
+  const isChanged = 
+    newTitle !== title || 
+    newDeskripsi !== deskripsi || 
+    newImage !== null;
+
   const handleDelete = async () => {
     setLoading(true);
     const token = sessionStorage.getItem("Token"); // Get the token from sessionStorage
@@ -47,6 +52,15 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
   };
 
   const handleEdit = async () => {
+    if (!isChanged) {
+      showAlert({
+        title: "Tidak ada perubahan",
+        text: "Silakan ubah data sebelum memperbarui.",
+        iconType: "warning", // Gunakan ikon peringatan
+      });
+      return; // Jangan lanjutkan jika tidak ada perubahan
+    }
+    
     setLoading(true);
     const token = sessionStorage.getItem("Token");
   
@@ -105,14 +119,14 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
           &times; {/* Cross icon */}
         </button>
 
-        <div className="flex mb-4 mt-5">
+        <div className="lg:flex lg:mb-4 mt-5 ">
           <img
             src={newImagePreview || ImageImport.gambar}
             className="w-[60%] object-cover bg-gray-400 rounded-md"
             alt="Preview"
             onClick={() => document.getElementById("imageInput").click()} // Trigger file input
           />
-          <div className="ml-4 w-full">
+          <div className="lg:ml-4 lg:pt-0 pt-5 w-full">
             <input
               type="text"
               className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"

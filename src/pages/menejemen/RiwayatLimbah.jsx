@@ -103,7 +103,7 @@ export default function RiwayatLimbah() {
     <div>
       <div className="bg-dashboard w-full h-auto rounded-md py-5 px-5 space-y-5">
         <div className="bg-white w-full h-[100%] rounded-md">
-          <div className="lg:p-5">
+          <div className="p-5">
             <div className="flex justify-between pb-10">
               <h1 className="font-bold text-3xl py-2">Riwayat</h1>
             </div>

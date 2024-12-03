@@ -1,5 +1,5 @@
 import ImageImport from "../../data/ImageImport";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../config/config";
 import ModalNotif from "../modalnotifikasi/notifikasi";
@@ -11,6 +11,7 @@ export default function NavbarLogin() {
   const [isModalVisibleProfil, setIsModalVisibleProfil] = useState(false);
   // State untuk mengontrol tampilan modal notif
   const [isModalVisibleNotif, setIsModalVisibleNotif] = useState(false);
+  const [hasNotifications, setHasNotifications] = useState(false);
 
   // Fungsi untuk toggle modal menu bar
   const toggleModal = () => {
@@ -58,6 +59,27 @@ export default function NavbarLogin() {
     window.location.reload(); // Refresh halaman utama untuk memperbarui tampilan
   };
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const token = sessionStorage.getItem("Token");
+      if (!token) return;
+
+      try {
+        const response = await fetch(`${config.apiUrl}/notifikasi`, {
+          headers: { Authorization: `${token}` },
+        });
+        const data = await response.json();
+        // Jika ada notifikasi, ubah warna ikon menjadi biru
+        setHasNotifications(data.notifications && data.notifications.length > 0);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    // Panggil fetch saat komponen di-mount atau modal notifikasi dibuka
+    fetchNotifications();
+  }, []); //
+
   return (
     <div>
       <nav className="fixed w-full z-50 top-0 start-0 shadow-md bg-white">
@@ -69,7 +91,7 @@ export default function NavbarLogin() {
             <img src={ImageImport.logo} className="h-5 md:h-8" alt="Logo" />
           </a>
 
-          <div className="w-[31rem] ml-24 hidden lg:flex justify-between text-black">
+          <div className="w-[31rem] ml-24 hidden md:flex justify-between text-black">
             <a href="/" className={navLinkClasses("/")}>
               Home
             </a>
@@ -84,9 +106,13 @@ export default function NavbarLogin() {
             </a>
           </div>
 
-          <div className="hidden lg:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
+          <div className="hidden md:flex justify-between items-center w-[14.5rem]  lg:w-[16rem]">
             <button onClick={toggleModalNotif} className="pt-2">
-              <i className="fa-solid fa-bell text-xl text-gray-400 lg:me-5"></i>
+              <i
+                className={`fa-solid fa-bell text-xl ${
+                  hasNotifications ? "text-main-green" : "text-gray-400"
+                }`}
+              ></i>
             </button>
             <button onClick={toggleModalProfil}>
               <div className="flex items-center justify-between">
@@ -110,7 +136,7 @@ export default function NavbarLogin() {
           </div>
 
           {/* Menu Bar */}
-          <div className="block lg:hidden text-black mt-1">
+          <div className="block md:hidden text-black mt-1">
             <button className="text-lg" onClick={toggleModal}>
               <i className="fa-solid fa-bars"></i>
             </button>
@@ -122,6 +148,7 @@ export default function NavbarLogin() {
       <ModalNotif
         isModalVisibleNotif={isModalVisibleNotif}
         toggleModalNotif={toggleModalNotif}
+        setHasNotifications={setHasNotifications} // Kirim fungsi pembaruan
       />
 
       {/* modal profile */}
@@ -178,7 +205,7 @@ export default function NavbarLogin() {
             Komunitas
           </a>
 
-          <div className="flex lg:hidden justify-between items-center w-full mt-2 px-2">
+          <div className="flex md:hidden justify-between items-center w-full mt-2 px-2">
             <button onClick={toggleModalProfil}>
               <div className="flex items-center">
                 <div className="w-10 h-10 overflow-hidden rounded-full">

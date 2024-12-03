@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../config/config"; // Pastikan path sesuai
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import dayjs from 'dayjs';
 
 const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   const token = sessionStorage.getItem("Token");
@@ -17,24 +18,28 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   );
 
   useEffect(() => {
-    if (isOpen && limbah) {
-      setFormData({
-        id: limbah.id,
-        limbah_id: limbah.limbah_id,
-        target_olahan: limbah.target_olahan,
-        tgl_mulai: limbah.tgl_mulai ? limbah.tgl_mulai.split("T")[0] : "", // Format ke YYYY-MM-DD
-        tgl_selesai: limbah.tgl_selesai ? limbah.tgl_selesai.split("T")[0] : "",
-        status: limbah.status,
-      });
-      setFields(
-        limbah.catatanPeriode?.map((item) => ({
-          id: item.id,
-          catatan: item.catatan,
-          periodeMulai: item.tgl_mulai ? item.tgl_mulai.split("T")[0] : "",
-          periodeSelesai: item.tgl_selesai ? item.tgl_selesai.split("T")[0] : "",
-        })) || [{ id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]
-      );
-    }
+    
+
+if (isOpen && limbah) {
+  setFormData({
+    id: limbah.id,
+    limbah_id: limbah.limbah_id,
+    target_olahan: limbah.target_olahan,
+    tgl_mulai: limbah.tgl_mulai ? dayjs(limbah.tgl_mulai).format("YYYY-MM-DD") : "", // Format ke YYYY-MM-DD
+    tgl_selesai: limbah.tgl_selesai ? dayjs(limbah.tgl_selesai).format("YYYY-MM-DD") : "",
+    status: limbah.status,
+  });
+
+  setFields(
+    limbah.catatanPeriode?.map((item) => ({
+      id: item.id,
+      catatan: item.catatan,
+      periodeMulai: item.tgl_mulai ? dayjs(item.tgl_mulai).format("YYYY-MM-DD") : "",
+      periodeSelesai: item.tgl_selesai ? dayjs(item.tgl_selesai).format("YYYY-MM-DD") : "",
+    })) || [{ id: 1, catatan: "", periodeMulai: "", periodeSelesai: "" }]
+  );
+}
+
   }, [isOpen, limbah]);
 
   const handleAddField = () => {
@@ -53,6 +58,22 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   };
 
   const handleSubmit = async () => {
+    const isDataUnchanged = 
+    formData.target_olahan === limbah.target_olahan &&
+    formData.tgl_mulai === limbah.tgl_mulai &&
+    formData.tgl_selesai === limbah.tgl_selesai &&
+    formData.status === limbah.status &&
+    JSON.stringify(fields) === JSON.stringify(limbah.catatanPeriode);
+
+  if (isDataUnchanged) {
+    showAlert({
+      title: "Tidak Ada Perubahan",
+      text: "Tidak ada perubahan yang dilakukan.",
+      iconType: "warning",
+    });
+    return;
+  }
+
   const payload = {
     id: formData.id,
     limbah_id: formData.limbah_id,
@@ -104,15 +125,15 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center top-16 pt-[22%]">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center lg:top-16 lg:pt-[22%] pt-[40%]">
       <div className="bg-white p-8 rounded-lg w-[60%] my-10 ">
-        <h2 className="text-xl font-semibold mb-4">{`Edit Limbah ID: ${formData.id}`}</h2>
+        
+        <h2 className="text-xl font-semibold mb-4">{`Edit Pengolahan: ${formData.id}`}</h2>
 
-        <div className="flex justify-between">
+        <div className="lg:flex justify-between">
           {/* Preview Gambar Limbah */}
             {limbah && (
               <div className="mb-4 w-full">
-                <label className="block text-sm font-medium text-gray-700">Preview Gambar Limbah</label>
                 <img
                   src={`${config.apiUrlImage}/uploads/${limbah.gambar}`}
                   alt={`Limbah ${formData.id}`}
@@ -140,7 +161,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Target Olahan</label>
+          <label className="block text-sm font-medium text-gray-700">Tenggat Olahan</label>
           <input
             type="date"
             value={formData.tgl_selesai}
@@ -180,7 +201,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                   />
                 </div>
                 <div className="w-1/3">
-                  <label className="block text-sm font-medium text-gray-700">Periode Mulai</label>
+                  <label className="block text-sm font-medium text-gray-700">Mulai</label>
                   <input
                     type="date"
                     value={field.periodeMulai}
@@ -189,7 +210,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                   />
                 </div>
                 <div className="w-1/3">
-                  <label className="block text-sm font-medium text-gray-700">Periode Selesai</label>
+                  <label className="block text-sm font-medium text-gray-700">Selesai</label>
                   <input
                     type="date"
                     value={field.periodeSelesai}

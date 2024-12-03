@@ -50,7 +50,12 @@ const DetailHasilOlahan = ({ isOpen, onClose, title, imgs, deskripsi, idHasil })
         }, 2500); 
     } catch (error) {
       console.error("Error updating hasil olahan:", error.response?.data || error.message);
-      alert("Terjadi kesalahan saat memperbarui hasil olahan.");
+      showAlert({
+        title: "Gagal",
+        text: "tidak ada data yang diubah",
+        iconType: "error",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
     }
   };
 

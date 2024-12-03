@@ -9,15 +9,15 @@ export default function CardVideo(props) {
           <img src={img} className="w-full h-full object-cover" />
         </div>
 
-        <p className="text-black font-bold text-base mt-2 mx-2 text-center lg:text-left">
+        <p className="text-black font-bold text-sm mt-2 mx-2 text-center lg:text-left">
           {judul}
         </p>
 
-        <p className="text-black font-normal text-sm mt-2 mx-2 line-clamp-3 text-justify lg:text-left">
+        <p className="text-black font-normal text-xs mt-2 mx-2 line-clamp-3 text-center lg:text-left">
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 
-        <div className="flex max-w-max m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 px-2 items-center text-xs">
+        <div className="flex max-w-max m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 px-2 items-center">
           <i className="fa-regular fa-bookmark me-3"></i>
           {kategori}
         </div>

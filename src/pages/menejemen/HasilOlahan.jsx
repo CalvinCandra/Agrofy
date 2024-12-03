@@ -14,13 +14,13 @@ export default function HasilOlahan() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-
+  
       const token = sessionStorage.getItem("Token");
       if (!token) {
         console.error("Token tidak ditemukan. Silakan login ulang.");
         return;
       }
-
+  
       try {
         const response = await axios.get(`${config.apiUrl}/olahan`, {
           headers: {
@@ -30,15 +30,12 @@ export default function HasilOlahan() {
         console.log(response.data);
         setLimbahListolah(response.data); // Set the data received from the backend
       } catch (error) {
-        console.error(
-          "Error fetching limbah data:",
-          error.response?.data || error.message
-        );
+        console.error("Error fetching limbah data:", error.response?.data || error.message);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, []);
 
@@ -59,18 +56,14 @@ export default function HasilOlahan() {
                 <CardOlahan
                   key={olahan.id}
                   id={olahan.riwayat_id}
-                  img={
-                    olahan.gambar_olahan
-                      ? `${config.apiUrlImage}/uploads/${olahan.gambar_olahan}`
-                      : "/default-image.jpg"
-                  } // Use default image if not present
+                  img={olahan.gambar_olahan ? `${config.apiUrlImage}/uploads/${olahan.gambar_olahan}` : "/default-image.jpg"} // Use default image if not present
                   judul={olahan.target_olahan}
                   deskripsi={olahan.deskripsi_olahan}
                 />
               ))
             )}
           </div>
-          {/* <Pagination /> */}
+          <Pagination />
         </div>
       </div>
     </div>

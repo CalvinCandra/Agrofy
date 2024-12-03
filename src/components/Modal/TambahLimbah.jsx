@@ -24,6 +24,15 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
   };
 
   const handleSubmit = async () => {
+    if (!namaLimbah || !deskripsi || !file) {
+      showAlert({
+        title: "Peringatan",
+        text: "Harap isi semua field dan unggah gambar sebelum melanjutkan.",
+        iconType: "warning",
+      });
+      return;
+    }
+
     const token = sessionStorage.getItem("Token");
     const formData = new FormData();
     formData.append("nama_limbah", namaLimbah);
@@ -72,11 +81,11 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
           &times;
         </button>
 
-        <div className="flex mb-4 mt-5">
+        <div className="lg:flex lg:mb-4 mt-5">
           <label htmlFor="upload-image" className="cursor-pointer">
             <img
               src={gambar || ImageImport.gambar} // Placeholder jika belum ada gambar
-              className="w-[100%] object-cover bg-gray-400 rounded-md"
+              className="w-[70%] object-cover bg-gray-400 rounded-md"
               alt="Limbah"
             />
           </label>
@@ -87,7 +96,7 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
             className="hidden"
             onChange={handleFileChange}
           />
-          <div className="ml-4 w-full">
+          <div className="lg:ml-4 w-full lg:pt-0 pt-4">
             <input
               type="text"
               className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
