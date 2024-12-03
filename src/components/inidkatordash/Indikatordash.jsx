@@ -57,48 +57,48 @@ export default function Indikatordash() {
   }, []);
 
   return (
-    <div className="flex justify-between">
-      <div className="w-[24%] h-36 bg-main-green rounded-md">
-        <div className="flex flex-row">
-          <div className="pl-6 pt-6">
+    <div className="flex justify-between ">
+      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="lg:flex flex-row">
+          <div className="p-5  lg:pt-6 sm: ">
             <img src={ImageImport.limbahi} alt="Limbah" />
           </div>
-          <div className="pl-8 pt-6 text-white font-bold">
+          <div className=" lg:pt-6 px-7 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahLimbah}</h1>
-            <p className="text-2xl py-2 pr-4">Limbah</p>
+            <p className="text-2xl py-2 pr-4 hidden lg:block ">Limbah</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] h-36 bg-main-green rounded-md">
-        <div className="flex flex-row">
-          <div className="pl-6 pt-6">
+      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="lg:flex flex-row">
+        <div className="p-5  lg:pt-6 ">
             <img src={ImageImport.prosesi} alt="Proses" />
           </div>
-          <div className="pl-8 pt-6 text-white font-bold">
+          <div className="lg:pt-6 px-7 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahProses}</h1>
-            <p className="text-2xl py-2 pr-4">Proses</p>
+            <p className="text-2xl py-2 pr-4 hidden lg:block">Proses</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] h-36 bg-main-green rounded-md">
-        <div className="flex flex-row">
-          <div className="pl-6 pt-6">
+      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="lg:flex flex-row">
+        <div className="p-5  lg:pt-6 ">
             <img src={ImageImport.olahani} alt="Selesai" />
           </div>
-          <div className="pl-8 pt-6 text-white font-bold">
+          <div className="lg:pt-6 px-7 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahSelesai}</h1>
-            <p className="text-2xl py-2 pr-4">Selesai</p>
+            <p className="text-2xl py-2 pr-4 hidden lg:block">Selesai</p>
           </div>
         </div>
       </div>
-      <div className="w-[24%] h-36 bg-main-green rounded-md">
-        <div className="flex flex-row">
-          <div className="pl-6 pt-6">
+      <div className="w-[24%] sm:h-48 lg:h-36 bg-main-green rounded-md overflow-hidden">
+        <div className="lg:flex flex-row">
+        <div className="p-5  lg:pt-6 ">
             <img src={ImageImport.selesais} alt="Olahan" />
           </div>
-          <div className="pl-8 pt-6 text-white font-bold">
+          <div className="lg:pt-6 px-7 text-white font-bold">
             <h1 className="py-0 text-5xl overflow-hidden">{jumlahOlahan}</h1>
-            <p className="text-2xl py-2 pr-4">Olahan</p>
+            <p className="text-2xl py-2 pr-4 hidden lg:block">Olahan</p>
           </div>
         </div>
       </div>

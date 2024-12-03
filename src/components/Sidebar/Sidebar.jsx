@@ -4,12 +4,12 @@ export default function Sidebar() {
   return (
     <div>
       {/* Sidebar */}
-      <aside className=" w-70 bg-dashboard text-white h-[1648px] p-5 pt-28 ">
-        <h2 className="pl-16 pr-14 text-base font-bold mb-6 flex flex-col text-black">
+      <aside className=" lg:w-70 bg-dashboard text-white h-[100%]  pt-20  ">
+        <h2 className="lg:pl-16 hidden lg:block lg:pr-14 text-base font-bold mb-6 lg:flex flex-col text-black">
           <span>Dashboard</span>
           <span>Management</span>
         </h2>
-        <ul className="pl-16 space-y-4">
+        <ul className="lg:pl-16 space-y-4 pl-5 pr-5">
           <li>
             <a
               href="/dashboard"
@@ -22,7 +22,7 @@ export default function Sidebar() {
                   className="fill-current"
                 />
               </span>
-              <span className="text-stroke-gray hover:text-white">
+              <span className="text-stroke-gray hover:text-white hidden lg:block">
                 Dashboard
               </span>
             </a>
@@ -35,7 +35,7 @@ export default function Sidebar() {
               <span>
                 <img src={ImageImport.limbah} alt="" />
               </span>
-              <span className="text-stroke-gray hover:text-white">
+              <span className="text-stroke-gray hover:text-white hidden lg:block">
                 Data Limbah
               </span>
             </a>
@@ -48,7 +48,7 @@ export default function Sidebar() {
               <span>
                 <img src={ImageImport.proses} alt="" />
               </span>
-              <span className="text-stroke-gray hover:text-white">Olah</span>
+              <span className="text-stroke-gray hover:text-white hidden lg:block">Olah</span>
             </a>
           </li>
           <li>
@@ -59,7 +59,7 @@ export default function Sidebar() {
               <span>
                 <img src={ImageImport.riwayat} alt="" />
               </span>
-              <span className="text-stroke-gray hover:text-white">Riwayat</span>
+              <span className="text-stroke-gray hover:text-white hidden lg:block">Riwayat</span>
             </a>
           </li>
           <li>
@@ -70,7 +70,7 @@ export default function Sidebar() {
               <span>
                 <img src={ImageImport.olahan} alt="" />
               </span>
-              <span className="text-stroke-gray hover:text-white">
+              <span className="text-stroke-gray hover:text-white hidden lg:block">
                 Hasil Olahan
               </span>
             </a>

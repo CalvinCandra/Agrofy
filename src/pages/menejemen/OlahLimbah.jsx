@@ -24,7 +24,7 @@ export default function OlahLimbah() {
     <div>
       <div className="bg-dashboard w-full h-auto rounded-md py-5 px-5 space-y-5">
       <div className="bg-white  w-full h-[100%] rounded-md   ">
-          <div class=" lg:p-5 ">
+          <div class=" p-5 ">
           <div className="flex justify-between pb-10">
             <h1 className="font-bold text-3xl py-2">Olah</h1>
             <div className="py-2">

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"; // Import Axios
 import DetailOlahan from "../../components/Modal/DetailOlahan";
 import config from "../../config/config"; // Import konfigurasi
+import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
 export default function Tabledash() {
   const [dataLimbah, setDataLimbah] = useState([]);
@@ -69,21 +70,27 @@ export default function Tabledash() {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Apakah Anda yakin ingin menghapus pengolahan limbah ini?");
-    if (!confirmDelete) return;
-
     const token = sessionStorage.getItem("Token");
-
+  
     try {
       const response = await axios.delete(`${config.apiUrl}/olah/${id}`, {
         headers: {
           Authorization: `${token}`,
         },
       });
-
+  
       if (response.status === 200) {
         setDataLimbah((prevData) => prevData.filter((limbah) => limbah.id !== id));
-        alert("Pengolahan limbah berhasil dihapus.");
+        
+        // Show success SweetAlert after successful deletion
+        showAlert({
+          title: "Berhasil",
+          text: "Limbah berhasil dihapus!",
+          iconType: "success",
+          didClose: () => {
+            // You can call a function here if you want to do something after the alert closes
+          },
+        });
       } else {
         alert("Gagal menghapus pengolahan limbah.");
       }

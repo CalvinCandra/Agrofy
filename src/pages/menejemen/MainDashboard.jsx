@@ -51,7 +51,7 @@ export default function MainDashboard() {
           <p className="flex justify-center text-3xl p-5 font-bold">Limbah</p>
 
           {/* Render Card Dinamis */}
-          <div className="limbah-box pt-2 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-2 lg:px-5">
+          <div className="limbah-box pt-2 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-2 lg:px-5 px-5">
             {loading ? (
               <p>Loading...</p>
             ) : (

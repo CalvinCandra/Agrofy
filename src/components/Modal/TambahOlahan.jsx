@@ -62,6 +62,16 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async () => {
+    if (!formData.target_olahan || !formData.tgl_selesai) {
+      showAlert({
+        title: "Gagal",
+        text: "Target olahan dan tanggal selesai wajib diisi",
+        iconType: "error",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
+      return; // Jangan lanjutkan eksekusi jika validasi gagal
+    }
+
     const payload = {
       ...formData,
       catatanPeriode: fields.map((field) => ({
@@ -94,11 +104,21 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           window.location.reload(); // Refresh halaman setelah 4 detik
         }, 2500); 
       } else {
-        alert(response.data.msg || "Gagal menambahkan pengolahan limbah");
+        showAlert({
+          title: "Gagal",
+          text: "Gagal menambahkan pengolahan limbah",
+          iconType: "error",
+          didClose: onClose, // Tutup modal setelah alert ditutup
+        });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Terjadi kesalahan saat mengirim data.");
+      showAlert({
+        title: "Gagal",
+        text: "Isi form terlebih dahulu",
+        iconType: "error",
+        didClose: onClose, // Tutup modal setelah alert ditutup
+      });
     }
   };
 
@@ -116,7 +136,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         </button>
 
         <h2 className="text-lg font-semibold mb-4">Tambah Pengolahan Limbah</h2>
-        <div className="flex justify-between">
+        <div className="lg:flex justify-between">
           {/* Image Preview */}
           {selectedLimbah && (
             <div className="mb-4 w-full">
@@ -179,7 +199,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
 
         {/* Dynamic Fields for Periode */}
         {fields.map((field, index) => (
-          <div key={field.id} className="flex mb-4 gap-4">
+          <div key={field.id} className="lg:flex mb-4 lg:gap-4 flex col-auto-auto">
             <textarea
               className="w-1/3 border border-gray-300 rounded-lg p-2"
               placeholder="Catatan"
@@ -221,7 +241,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+            className="bg-main-green text-white px-4 py-2 rounded-lg hover:bg-green-600"
             onClick={handleSubmit}
           >
             Simpan
