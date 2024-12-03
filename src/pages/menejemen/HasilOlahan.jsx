@@ -1,54 +1,63 @@
 import { useEffect, useState } from "react";
-import ButtonHref from "../../components/Button/ButtonHref";
 import CardOlahan from "../../components/Card/CardOlahan"; // Update the import to CardOlahan
 import Pagination from "../../components/Pagination/Pagination";
-import TambahLimbah from "../../components/Modal/TambahLimbah";
 import config from "../../config/config";
 import axios from "axios";
 
 export default function HasilOlahan() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [limbahListolah, setLimbahListolah] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalData: 0,
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-  
-      const token = sessionStorage.getItem("Token");
-      if (!token) {
-        console.error("Token tidak ditemukan. Silakan login ulang.");
-        return;
-      }
-  
-      try {
-        const response = await axios.get(`${config.apiUrl}/olahan`, {
+  const fetchData = async (page = 1) => {
+    setLoading(true);
+
+    const token = sessionStorage.getItem("Token");
+    if (!token) {
+      console.error("Token tidak ditemukan. Silakan login ulang.");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `${config.apiUrl}/olah?page=${page}&limit=10`,
+        {
           headers: {
             Authorization: `${token}`, // Add token to the header
           },
-        });
-        console.log(response.data);
-        setLimbahListolah(response.data); // Set the data received from the backend
-      } catch (error) {
-        console.error("Error fetching limbah data:", error.response?.data || error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
+        }
+      );
+      console.log(response.data);
+      setLimbahListolah(response.data.data); // Set the data received from the backend
+      setPagination(response.data.pagination); // Set data pagination dari api untuk pagination
+    } catch (error) {
+      console.error(
+        "Error fetching limbah data:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <div>
-      <div className="bg-dashboard w-full h-full rounded-md p-5">
-        <div className="bg-white w-full rounded-md p-5">
+      <div className="w-full h-full rounded-md">
+        <div className="bg-white w-full rounded-md border-2 border-black">
           <div className="flex justify-between">
-            <h1 className="font-bold text-3xl py-2">Hasil Olahan</h1>
+            <h1 className="font-bold text-3xl p-5">Hasil Olahan</h1>
           </div>
 
           {/* Data Limbah */}
-          <div className="limbah-box pt-16 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-28">
+          <div className="limbah-box grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-4">
             {loading ? (
               <p>Loading...</p>
             ) : (
@@ -56,14 +65,23 @@ export default function HasilOlahan() {
                 <CardOlahan
                   key={olahan.id}
                   id={olahan.riwayat_id}
-                  img={olahan.gambar_olahan ? `${config.apiUrlImage}/uploads/${olahan.gambar_olahan}` : "/default-image.jpg"} // Use default image if not present
+                  img={
+                    olahan.gambar
+                      ? `${config.apiUrlImage}/uploads/${olahan.gambar}`
+                      : "/default-image.jpg"
+                  } // Use default image if not present
                   judul={olahan.target_olahan}
-                  deskripsi={olahan.deskripsi_olahan}
+                  deskripsi={olahan.deskripsi}
                 />
               ))
             )}
           </div>
-          <Pagination />
+          <Pagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            totalData={pagination.totalData}
+            fetchData={fetchData}
+          />
         </div>
       </div>
     </div>

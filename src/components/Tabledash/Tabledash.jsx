@@ -27,7 +27,10 @@ export default function Tabledash() {
         setDataLimbah([]);
       }
     } catch (error) {
-      console.error("Error fetching data:", error.response?.data || error.message);
+      console.error(
+        "Error fetching data:",
+        error.response?.data || error.message
+      );
       setDataLimbah([]);
     } finally {
       setIsLoading(false);
@@ -49,7 +52,10 @@ export default function Tabledash() {
         },
       });
 
-      if (response.status === 200 && response.data.msg === "Berhasil mendapatkan detail pengolahan limbah") {
+      if (
+        response.status === 200 &&
+        response.data.msg === "Berhasil mendapatkan detail pengolahan limbah"
+      ) {
         setSelectedLimbah(response.data.data);
         setIsModalOpenolahan(true);
       } else {
@@ -57,7 +63,10 @@ export default function Tabledash() {
         setSelectedLimbah(null);
       }
     } catch (error) {
-      console.error("Error fetching detail:", error.response?.data || error.message);
+      console.error(
+        "Error fetching detail:",
+        error.response?.data || error.message
+      );
       setSelectedLimbah(null);
     } finally {
       setIsLoading(false);
@@ -71,17 +80,19 @@ export default function Tabledash() {
 
   const handleDelete = async (id) => {
     const token = sessionStorage.getItem("Token");
-  
+
     try {
       const response = await axios.delete(`${config.apiUrl}/olah/${id}`, {
         headers: {
           Authorization: `${token}`,
         },
       });
-  
+
       if (response.status === 200) {
-        setDataLimbah((prevData) => prevData.filter((limbah) => limbah.id !== id));
-        
+        setDataLimbah((prevData) =>
+          prevData.filter((limbah) => limbah.id !== id)
+        );
+
         // Show success SweetAlert after successful deletion
         showAlert({
           title: "Berhasil",
@@ -95,7 +106,10 @@ export default function Tabledash() {
         alert("Gagal menghapus pengolahan limbah.");
       }
     } catch (error) {
-      console.error("Error deleting data:", error.response?.data || error.message);
+      console.error(
+        "Error deleting data:",
+        error.response?.data || error.message
+      );
       alert("Terjadi kesalahan saat menghapus data.");
     }
   };
@@ -110,29 +124,47 @@ export default function Tabledash() {
   }
 
   if (dataLimbah.length === 0) {
-    return <p>No data available</p>;
+    return (
+      <p className="text-center italic text-gray-500 pb-2">No data available</p>
+    );
   }
 
   return (
     <div>
-      <div className="bg-main-green overflow-x-auto rounded-lg">
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
+      <div className="overflow-x-auto rounded-lg">
+        <table className="min-w-full table-auto border-collapse">
+          <thead className="bg-gray-200">
             <tr>
-              <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Tenggat</th>
-              <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Limbah</th>
-              <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Target</th>
-              <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Status</th>
-              <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Aksi</th>
+              <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                Tenggat
+              </th>
+              <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                Limbah
+              </th>
+              <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                Target
+              </th>
+              <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                Status
+              </th>
+              <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                Aksi
+              </th>
             </tr>
           </thead>
           <tbody>
             {dataLimbah.map((limbah) => (
-              <tr key={limbah.id}>
-                <td className="px-4 py-3 border-b text-gray-600">{formatDate(limbah.tgl_selesai)}</td>
-                <td className="px-4 py-3 border-b text-gray-600">{limbah.nama_limbah}</td>
-                <td className="px-4 py-3 border-b text-gray-600">{limbah.target_olahan}</td>
-                <td className="px-4 py-3 border-b">
+              <tr key={limbah.id} className="border">
+                <td className="py-3 px-6 text-gray-600">
+                  {formatDate(limbah.tgl_selesai)}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {limbah.nama_limbah}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
+                  {limbah.target_olahan}
+                </td>
+                <td className="py-3 px-6 text-gray-600">
                   <span
                     className={`px-2 py-1 flex justify-center text-sm font-medium rounded-xl ${
                       limbah.status === "proses"
@@ -145,15 +177,15 @@ export default function Tabledash() {
                     {limbah.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 border-b flex justify-center space-x-2">
+                <td className="py-3 px-6 text-gray-600">
                   <button
-                    className="px-3 py-1 text-sm font-medium text-white bg-main-green rounded-xl hover:bg-main-green-hover"
+                    className="px-3 py-1 text-sm m-1 text-white bg-green-500 rounded hover:bg-green-600 mr-2"
                     onClick={() => handleOpenModalolahan(limbah)}
                   >
                     Edit
                   </button>
                   <button
-                    className="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-xl hover:bg-red-600"
+                    className="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600"
                     onClick={() => handleDelete(limbah.id)}
                   >
                     Hapus

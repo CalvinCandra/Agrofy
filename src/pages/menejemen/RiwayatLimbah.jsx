@@ -45,14 +45,18 @@ export default function RiwayatLimbah() {
     // Tambahkan logo
     doc.addImage(ImageImport.logo, "PNG", 75, 10, 50, 10);
 
-
     // Tambahkan judul laporan
     doc.setFontSize(16);
     doc.text("Laporan Riwayat Limbah", 100, 30, { align: "center" });
 
     // Tambahkan periode laporan
     doc.setFontSize(12);
-    doc.text(`Periode: ${formatDate(startDate)} - ${formatDate(endDate)}`, 100, 40, { align: "center" });
+    doc.text(
+      `Periode: ${formatDate(startDate)} - ${formatDate(endDate)}`,
+      100,
+      40,
+      { align: "center" }
+    );
 
     // Tambahkan tabel
     const tableColumn = ["Tenggat", "Limbah", "Target", "Status"];
@@ -101,14 +105,15 @@ export default function RiwayatLimbah() {
 
   return (
     <div>
-      <div className="bg-dashboard w-full h-auto rounded-md py-5 px-5 space-y-5">
-        <div className="bg-white w-full h-[100%] rounded-md">
-          <div className="p-5">
-            <div className="flex justify-between pb-10">
-              <h1 className="font-bold text-3xl py-2">Riwayat</h1>
+      <div className="w-full h-auto rounded-md py-5 space-y-5">
+        <div className="bg-white w-full h-[100%] rounded-md border-2 border-black">
+          <div className="px-2">
+            <div className="flex justify-between">
+              <h1 className="font-bold text-3xl p-5">Riwayat</h1>
             </div>
-            <div className="flex lg:flex-row sm:flex-col space-x-3 pb-10">
-              <div>
+
+            <div className="flex lg:flex-row flex-col py-5">
+              <div className="mb-1 me-3">
                 <input
                   type="date"
                   className="h-14 w-full rounded-lg border border-gray-300 p-2"
@@ -117,7 +122,7 @@ export default function RiwayatLimbah() {
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="mb-1">
                 <input
                   type="date"
                   className="h-14 w-full rounded-lg border border-gray-300 p-2"
@@ -126,25 +131,39 @@ export default function RiwayatLimbah() {
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
-              
             </div>
-            <div className="bg-main-green overflow-x-auto rounded-lg">
-              <table className="min-w-full bg-white border border-gray-300">
-                <thead>
+
+            <div className="overflow-x-auto rounded-lg">
+              <table className="min-w-full table-auto border-collapse">
+                <thead className="bg-gray-200">
                   <tr>
-                    <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Tenggat</th>
-                    <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Limbah</th>
-                    <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Target</th>
-                    <th className="px-4 py-3 text-center text-gray-700 font-semibold border-b">Status</th>
+                    <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                      Tenggat
+                    </th>
+                    <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                      Limbah
+                    </th>
+                    <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                      Target
+                    </th>
+                    <th className="py-3 px-6 text-left text-gray-700 font-medium">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {riwayatData.map((item) => (
-                    <tr key={item.riwayat_id}>
-                      <td className="px-4 py-3 border-b text-gray-600">{formatDate(item.tgl_selesai_pengelolaan)}</td>
-                      <td className="px-4 py-3 border-b text-gray-600 text-center">{item.nama_limbah}</td>
-                      <td className="px-4 py-3 border-b text-gray-600 text-center">{item.target_olahan}</td>
-                      <td className="px-4 py-3 border-b">
+                    <tr key={item.riwayat_id} className="border">
+                      <td className="py-3 px-6 text-gray-600">
+                        {formatDate(item.tgl_selesai_pengelolaan)}
+                      </td>
+                      <td className="py-3 px-6 text-gray-600">
+                        {item.nama_limbah}
+                      </td>
+                      <td className="py-3 px-6 text-gray-600">
+                        {item.target_olahan}
+                      </td>
+                      <td className="py-3 px-6 text-gray-600">
                         <span
                           className={`px-2 py-1 text-sm font-medium flex justify-center  rounded-xl ${
                             item.status === "selesai"
@@ -161,17 +180,16 @@ export default function RiwayatLimbah() {
                   ))}
                 </tbody>
               </table>
-              
             </div>
-            <div className="py-5">
-            <ButtonHref
+
+            <div className="py-5 mt-5">
+              <ButtonHref
                 href="#"
                 text="Cetak Laporan"
                 variant="primary"
                 onClick={handlePrint}
               />
             </div>
-            
           </div>
         </div>
       </div>

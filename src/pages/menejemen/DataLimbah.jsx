@@ -10,6 +10,11 @@ export default function DataLimbah() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [limbahList, setLimbahList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalData: 0,
+  });
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -19,42 +24,49 @@ export default function DataLimbah() {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    // Ambil data limbah dari backend menggunakan Axios
-    const fetchData = async () => {
-      setLoading(true);
+  // Ambil data limbah dari backend menggunakan Axios
+  const fetchData = async (page = 1) => {
+    setLoading(true);
 
-      // Ambil token dari sessionStorage
-      const token = sessionStorage.getItem("Token");
-      if (!token) {
-        console.error("Token tidak ditemukan. Silakan login ulang.");
-        return;
-      }
+    // Ambil token dari sessionStorage
+    const token = sessionStorage.getItem("Token");
+    if (!token) {
+      console.error("Token tidak ditemukan. Silakan login ulang.");
+      return;
+    }
 
-      try {
-        const response = await axios.get(`${config.apiUrl}/limbah`, {
+    try {
+      const response = await axios.get(
+        `${config.apiUrl}/limbah?page=${page}&limit=10`,
+        {
           headers: {
             Authorization: `${token}`, // Tambahkan token ke header Authorization
           },
-        });
-        setLimbahList(response.data.data); // Sesuaikan struktur respons
-      } catch (error) {
-        console.error("Error fetching limbah data:", error.response?.data || error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+        }
+      );
+      setLimbahList(response.data.data); // Sesuaikan struktur respons
+      setPagination(response.data.pagination); // Set data pagination dari api untuk pagination
+    } catch (error) {
+      console.error(
+        "Error fetching limbah data:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <div>
-      <div className="bg-dashboard w-full h-full rounded-md p-5">
-        <div className="bg-white w-full rounded-md p-5">
+      <div className="w-full h-full rounded-md border-2 border-black">
+        <div className="bg-white w-full rounded-md">
           <div className="flex justify-between">
-            <h1 className="font-bold text-3xl py-2">Limbah</h1>
-            <div className="py-2">
+            <h1 className="font-bold text-3xl p-5 ">Limbah</h1>
+            <div className="p-5">
               <ButtonHref
                 href="#"
                 text="Tambah"
@@ -65,7 +77,7 @@ export default function DataLimbah() {
           </div>
 
           {/* Data Limbah */}
-          <div className="limbah-box pt-16 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-28">
+          <div className="limbah-box pt-10 grid lg:grid-cols-3 sm:grid-cols-1 gap-4 lg:px-5 px-1">
             {loading ? (
               <p>Loading...</p>
             ) : (
@@ -85,7 +97,12 @@ export default function DataLimbah() {
               ))
             )}
           </div>
-          <Pagination />
+          <Pagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            totalData={pagination.totalData}
+            fetchData={fetchData}
+          />
         </div>
       </div>
 

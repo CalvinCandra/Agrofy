@@ -1,11 +1,19 @@
 import ButtonHref from "../../components/Button/ButtonHref";
 import { useState } from "react";
 import axios from "axios"; // Import Axios
-import config from "../../config/config"; 
+import config from "../../config/config";
 import ImageImport from "../../data/ImageImport";
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
 
-const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah }) => {
+const DetailLimbah = ({
+  isOpen,
+  onClose,
+  title,
+  imgs,
+  date,
+  deskripsi,
+  idLimbah,
+}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [newTitle, setNewTitle] = useState(title);
@@ -15,21 +23,22 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
 
   if (!isOpen) return null;
 
-  const isChanged = 
-    newTitle !== title || 
-    newDeskripsi !== deskripsi || 
-    newImage !== null;
+  const isChanged =
+    newTitle !== title || newDeskripsi !== deskripsi || newImage !== null;
 
   const handleDelete = async () => {
     setLoading(true);
     const token = sessionStorage.getItem("Token"); // Get the token from sessionStorage
 
     try {
-      const response = await axios.delete(`${config.apiUrl}/limbah/${idLimbah}`, {
-        headers: {
-          Authorization: `${token}`, // Add token to the Authorization header
-        },
-      });
+      const response = await axios.delete(
+        `${config.apiUrl}/limbah/${idLimbah}`,
+        {
+          headers: {
+            Authorization: `${token}`, // Add token to the Authorization header
+          },
+        }
+      );
 
       if (response.status === 200) {
         showAlert({
@@ -60,35 +69,39 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
       });
       return; // Jangan lanjutkan jika tidak ada perubahan
     }
-    
+
     setLoading(true);
     const token = sessionStorage.getItem("Token");
-  
+
     const formData = new FormData();
     formData.append("nama_limbah", newTitle || ""); // Set to empty string if empty
     formData.append("deskripsi", newDeskripsi || ""); // Set to empty string if empty
     if (newImage) {
       formData.append("gambar", newImage); // Only append new image if present
     }
-  
+
     try {
-      const response = await axios.put(`${config.apiUrl}/limbah/${idLimbah}`, formData, {
-        headers: {
-          Authorization: `${token}`,
-          "Content-Type": "multipart/form-data", // Ensure multipart for file upload
-        },
-      });
-  
+      const response = await axios.put(
+        `${config.apiUrl}/limbah/${idLimbah}`,
+        formData,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "multipart/form-data", // Ensure multipart for file upload
+          },
+        }
+      );
+
       if (response.status === 200) {
         showAlert({
           title: "Berhasil",
           text: "Limbah berhasil diperbarui!",
           iconType: "success",
-          didClose: onClose,  // Tutup modal setelah alert ditutup
+          didClose: onClose, // Tutup modal setelah alert ditutup
         });
         setTimeout(() => {
           window.location.reload(); // Refresh halaman setelah 4 detik
-        }, 2500);// Close the modal after updating
+        }, 2500); // Close the modal after updating
       } else {
         setError(response.data.msg || "Gagal memperbaharui limbah.");
       }
@@ -98,7 +111,6 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
       setLoading(false);
     }
   };
-  
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -110,7 +122,7 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-1/2 shadow-lg relative">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative">
         <button
           className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
           onClick={onClose}
@@ -161,7 +173,11 @@ const DetailLimbah = ({ isOpen, onClose, title, imgs, date, deskripsi, idLimbah 
         {error && <p className="text-red-600">{error}</p>}
 
         <div className="flex">
-          <ButtonHref text="Perbaharui" variant="primary" onClick={handleEdit} />
+          <ButtonHref
+            text="Perbaharui"
+            variant="primary"
+            onClick={handleEdit}
+          />
           <ButtonHref text="Hapus" variant="primary" onClick={handleDelete} />
         </div>
       </div>
