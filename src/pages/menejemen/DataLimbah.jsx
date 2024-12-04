@@ -37,7 +37,7 @@ export default function DataLimbah() {
 
     try {
       const response = await axios.get(
-        `${config.apiUrl}/limbah?page=${page}&limit=10`,
+        `${config.apiUrl}/limbah?page=${page}&limit=6`,
         {
           headers: {
             Authorization: `${token}`, // Tambahkan token ke header Authorization

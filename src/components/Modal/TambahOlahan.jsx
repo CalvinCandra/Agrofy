@@ -61,9 +61,30 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
   };
 
   const handleFieldChange = (index, fieldName, value) => {
-    const updatedFields = fields.map((field, i) =>
-      i === index ? { ...field, [fieldName]: value } : field
-    );
+    const updatedFields = fields.map((field, i) => {
+      if (i === index) {
+        // Validasi untuk periodeSelesai
+        if (fieldName === "periodeSelesai" && value > formData.tgl_selesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode selesai tidak boleh lebih besar dari tenggat olahan.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+        // Validasi untuk periodeMulai agar tidak melebihi periodeSelesai
+        if (fieldName === "periodeMulai" && value > field.periodeSelesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode mulai tidak boleh lebih besar dari periode selesai.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+        return { ...field, [fieldName]: value };
+      }
+      return field;
+    });
     setFields(updatedFields);
   };
 

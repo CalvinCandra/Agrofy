@@ -19,6 +19,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
     ]
   );
 
+  const isDisabled = formData.status === "selesai" || formData.status === "gagal";
+
   useEffect(() => {
     if (isOpen && limbah) {
       setFormData({
@@ -62,11 +64,33 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
   };
 
   const handleFieldChange = (index, fieldName, value) => {
-    const updatedFields = fields.map((field, i) =>
-      i === index ? { ...field, [fieldName]: value } : field
-    );
+    const updatedFields = fields.map((field, i) => {
+      if (i === index) {
+        // Validasi untuk periodeSelesai
+        if (fieldName === "periodeSelesai" && value > formData.tgl_selesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode selesai tidak boleh lebih besar dari tenggat olahan.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+        // Validasi untuk periodeMulai agar tidak melebihi periodeSelesai
+        if (fieldName === "periodeMulai" && value > field.periodeSelesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode mulai tidak boleh lebih besar dari periode selesai.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+        return { ...field, [fieldName]: value };
+      }
+      return field;
+    });
     setFields(updatedFields);
   };
+  
 
   const handleRemoveField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
@@ -167,6 +191,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                   setFormData({ ...formData, target_olahan: e.target.value })
                 }
                 className="mt-2 p-2 w-full border border-gray-300 rounded-md"
+                disabled={isDisabled}
               />
             </div>
             {/* Menampilkan Nama Limbah di atas Preview Gambar */}
@@ -192,6 +217,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
               setFormData({ ...formData, tgl_selesai: e.target.value })
             }
             className="mt-2 p-2 w-full border border-gray-300 rounded-md"
+            disabled={isDisabled}
           />
         </div>
 
@@ -229,6 +255,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                       handleFieldChange(index, "catatan", e.target.value)
                     }
                     className="mt-2 p-2 w-full border border-gray-300 rounded-md"
+                    disabled={isDisabled}
                   />
                 </div>
 
@@ -244,6 +271,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                         handleFieldChange(index, "periodeMulai", e.target.value)
                       }
                       className="mt-2 p-2 w-full border border-gray-300 rounded-md"
+                      disabled={isDisabled}
                     />
                   </div>
 
@@ -262,12 +290,14 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                         )
                       }
                       className="mt-2 p-2 w-full border border-gray-300 rounded-md"
+                      disabled={isDisabled}
                     />
                   </div>
 
                   <button
                     onClick={() => handleRemoveField(index)}
                     className="text-red-500 text-sm mt-7"
+                    disabled={isDisabled}
                   >
                     Remove Field
                   </button>
@@ -278,6 +308,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
           <button
             onClick={handleAddField}
             className="bg-main-green text-white p-2 rounded-md mt-2 mb-5 lg:mb-0"
+            disabled={isDisabled}
           >
             + Tambah Catatan
           </button>
