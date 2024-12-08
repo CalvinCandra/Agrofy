@@ -483,7 +483,7 @@ export default function TableArtikel({ artikels }) {
 
                 {/* Tombol Submit */}
                 <div className="mt-6 w-40 m-auto">
-                  <ButtonSubmit text="Update Artikel" variant="primary" />
+                  <ButtonSubmit text="Edit" variant="primary" />
                 </div>
               </form>
             </div>

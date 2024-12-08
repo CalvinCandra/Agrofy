@@ -19,7 +19,7 @@ export default function CardArtikel(props) {
           {judul}
         </h1>
 
-        <p className="lg:ml-1 w-full font-medium text-sm lg:text-base text-center lg:text-justify mt-3 lg:mt-2 line-clamp-3">
+        <p className="lg:ml-1 w-full font-medium text-sm lg:text-base text-center lg:text-justify mt-3 lg:mt-2 line-clamp-3 pr-2">
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 

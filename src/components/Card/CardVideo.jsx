@@ -13,7 +13,7 @@ export default function CardVideo(props) {
           {judul}
         </p>
 
-        <p className="text-black font-normal text-xs mt-2 mx-2 line-clamp-3 text-center lg:text-left">
+        <p className="text-black font-normal text-xs mt-2 mx-2 line-clamp-3 text-center lg:text-justify">
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 
