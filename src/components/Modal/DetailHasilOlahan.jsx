@@ -3,6 +3,7 @@ import ButtonHref from "../../components/Button/ButtonHref";
 import axios from "axios";
 import config from "../../config/config";
 import { showAlert } from "../../components/SweetAlert/SweetAlert.js";
+import ImageImport from "../../data/ImageImport";
 
 const DetailHasilOlahan = ({
   isOpen,
@@ -14,7 +15,7 @@ const DetailHasilOlahan = ({
 }) => {
   const [newDeskripsi, setNewDeskripsi] = useState(deskripsi);
   const [newImage, setNewImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(imgs); // Store the image preview
+  const [imagePreview, setImagePreview] = useState(imgs || ImageImport.gambar); // Store the image preview
 
   // Handle image file selection
   const handleImageChange = (event) => {
@@ -27,6 +28,16 @@ const DetailHasilOlahan = ({
 
   // Handle save button (upload the new image and description)
   const handleSave = async () => {
+    if (!newDeskripsi && !newImage) {
+      showAlert({
+        title: "Tidak ada perubahan",
+        text: "Tidak ada data yang diubah",
+        iconType: "info",
+        didClose: onClose,
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append("deskripsi_olahan", newDeskripsi || "");
     if (newImage) {
@@ -46,14 +57,16 @@ const DetailHasilOlahan = ({
           "Content-Type": "multipart/form-data",
         },
       });
+
       showAlert({
         title: "Berhasil",
         text: "Hasil Olahan berhasil diperbarui!",
         iconType: "success",
         didClose: onClose, // Tutup modal setelah alert ditutup
       });
+
       setTimeout(() => {
-        window.location.reload(); // Refresh halaman setelah 4 detik
+        window.location.reload(); // Refresh halaman setelah 2,5 detik
       }, 2500);
     } catch (error) {
       console.error(
@@ -62,9 +75,9 @@ const DetailHasilOlahan = ({
       );
       showAlert({
         title: "Gagal",
-        text: "tidak ada data yang diubah",
+        text: "Terjadi kesalahan saat mengupdate data",
         iconType: "error",
-        didClose: onClose, // Tutup modal setelah alert ditutup
+        didClose: onClose,
       });
     }
   };
@@ -73,16 +86,19 @@ const DetailHasilOlahan = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative overflow-y-auto h-[40rem]">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative overflow-y-auto">
         <button
-          className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-5 text-gray-600 hover:text-gray-800"
           onClick={onClose}
-          aria-label="Close"
         >
-          &times;
+          <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <div className="flex flex-col lg:flex-row mb-4 mt-5">
+        <h2 className="text-xl font-bold pt-4 text-center">
+          Data Hasil Olahan
+        </h2>
+
+        <div className="flex flex-col lg:flex-row mb-4 mt-8">
           <div className="w-full lg:w-[60%]">
             <img
               src={imagePreview}
@@ -100,24 +116,25 @@ const DetailHasilOlahan = ({
           </div>
 
           <div className="mt-5 lg:mt-0 lg:ml-4 w-full">
+            <h1 className="font-semibold">Nama Hasil Olahan</h1>
             <input
               type="text"
-              className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
+              className="h-12 w-full mb-6 rounded-lg border border-gray-300 p-2 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
               value={title}
               disabled // Disable input field for title
             />
+            <h1 className="font-semibold">Deskripsi</h1>
             <textarea
               name="deskripsi"
-              className="w-full h-40 border border-gray-300 rounded-lg p-2"
+              className="w-full h-32 border border-gray-300 rounded-lg p-2"
               value={newDeskripsi}
               onChange={(e) => setNewDeskripsi(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="flex justify-end space-x-2">
+        <div className="flex justify-end space-x-2 my-3">
           <ButtonHref text="Simpan" variant="primary" onClick={handleSave} />
-          <ButtonHref text="Tutup" variant="secondary" onClick={onClose} />
         </div>
       </div>
     </div>

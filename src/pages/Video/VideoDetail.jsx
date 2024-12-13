@@ -53,7 +53,7 @@ export default function VideoDetail() {
   }
 
   return (
-    <section className="bg-white pt-10 lg:pt-28">
+    <section className="bg-white pt-10 lg:pt-28 max-w-screen-xl mx-auto">
       {video ? (
         <div className="w-full lg:w-konten mx-auto mb-10 pt-10 lg:pt-0 p-2 lg:p-0">
           {/* Video */}
@@ -73,7 +73,7 @@ export default function VideoDetail() {
 
           {/* Judul */}
           <div className="my-10">
-            <h1 className="font-bold text-3xl lg:text-5xl py-3">
+            <h1 className="font-bold text-3xl lg:text-4xl py-3">
               {video.judul_video}
             </h1>
 

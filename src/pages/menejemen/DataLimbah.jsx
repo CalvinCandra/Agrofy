@@ -64,8 +64,8 @@ export default function DataLimbah() {
     <div>
       <div className="w-full h-full rounded-md border-2 border-black">
         <div className="bg-white w-full rounded-md">
-          <div className="flex justify-between">
-            <h1 className="font-bold text-3xl p-5 ">Limbah</h1>
+          <div className="flex justify-between px-4">
+            <h1 className="font-bold text-3xl p-5 ">Data Limbah</h1>
             <div className="p-5">
               <ButtonHref
                 href="#"
@@ -77,7 +77,7 @@ export default function DataLimbah() {
           </div>
 
           {/* Data Limbah */}
-          <div className="limbah-box pt-10 grid lg:grid-cols-3 sm:grid-cols-1 gap-4 lg:px-5 px-1">
+          <div className="limbah-box pt-2 grid lg:grid-cols-3 sm:grid-cols-1 gap-4 lg:px-5 px-1">
             {loading ? (
               <p>Loading...</p>
             ) : (

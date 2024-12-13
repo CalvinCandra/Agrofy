@@ -21,7 +21,7 @@ export default function OlahLimbah() {
         <div className="bg-white  w-full h-[100%] rounded-md   ">
           <div className="">
             <div className="flex justify-between pb-10">
-              <h1 className="font-bold text-3xl py-2">Olah</h1>
+              <h1 className="font-bold text-3xl py-2">Olah Limbah</h1>
               <div className="py-2">
                 <ButtonHref
                   href="#"

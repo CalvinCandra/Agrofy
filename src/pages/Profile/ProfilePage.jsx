@@ -17,11 +17,16 @@ export default function ProfilePage() {
 
   //  navigation
   const navigate = useNavigate();
-  // State untuk fungsi eye password
+  // State untuk fungsi eye
   const [Password, setPassword] = useState(true);
+  const [KonfirmasiPassword, setKonfirmasiPassword] = useState(true);
   // Fungsi untuk toggle tipe input
   const togglePasswordVisibility = () => {
     setPassword((prevPassword) => !prevPassword);
+  };
+  // Fungsi untuk toggle tipe input
+  const toggleKonfirmasiPasswordVisibility = () => {
+    setKonfirmasiPassword((prevKonfirmasiPassword) => !prevKonfirmasiPassword);
   };
 
   // State untuk menyimpan data pengguna
@@ -130,6 +135,32 @@ export default function ProfilePage() {
   const updatePassword = async (event) => {
     event.preventDefault();
     setLoading(true);
+
+    // Validasi panjang password minimal 8 karakter
+    if (user.newPassword.length < 8) {
+      // Tampilkan alert untuk kesalahan panjang password
+      showAlert({
+        title: "Error",
+        text: "Password harus terdiri dari minimal 8 karakter.",
+        iconType: "error",
+      });
+
+      // Tandai input yang bermasalah
+      setErrors({
+        newPassword: true,
+        confirmPassword: false, // Hanya highlight newPassword
+      });
+
+      // Kosongkan input password
+      setUser({
+        ...user,
+        newPassword: "",
+        confirmPassword: "",
+      });
+
+      setLoading(false);
+      return;
+    }
 
     if (user.newPassword !== user.confirmPassword) {
       setNotification("Password Tidak Sama");
@@ -318,7 +349,7 @@ export default function ProfilePage() {
 
         {/* Username Section */}
         <div className="pb-6">
-          <h2 className="text-lg font-semibold">Username</h2>
+          <h2 className="text-lg font-semibold">Nama Lengkap</h2>
           <input
             type="text"
             name="nama_lengkap"
@@ -348,22 +379,12 @@ export default function ProfilePage() {
           <div className="flex justify-between">
             <div className="relative flex-grow">
               <input
-                type={`${Password ? "password" : "text"}`} //jika Password true, maka akan menampilkan password, jika false akan menampilkan text
+                type="password"
                 name="password"
                 id="password"
                 className="w-full h-10 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled
               />
-              <span
-                className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
-                onClick={togglePasswordVisibility}
-              >
-                <i
-                  className={`fa-regular ${
-                    Password ? "fa-eye" : "fa-eye-slash" //jika Password true, maka akan menampilkan gambar mata, jika false akan menampilkan mata kecoret
-                  }`}
-                ></i>
-              </span>
             </div>
             <div className="pl-2">
               <button
@@ -442,7 +463,7 @@ export default function ProfilePage() {
                 </label>
                 <div className="relative">
                   <input
-                    type={`${Password ? "password" : "text"}`}
+                    type={`${KonfirmasiPassword ? "password" : "text"}`}
                     name="confirmPassword"
                     value={user.confirmPassword}
                     onChange={handleInputChange}
@@ -459,11 +480,11 @@ export default function ProfilePage() {
                   ) : (
                     <span
                       className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
-                      onClick={togglePasswordVisibility}
+                      onClick={toggleKonfirmasiPasswordVisibility}
                     >
                       <i
                         className={`fa-regular ${
-                          Password ? "fa-eye" : "fa-eye-slash"
+                          KonfirmasiPassword ? "fa-eye" : "fa-eye-slash"
                         }`}
                       ></i>
                     </span>

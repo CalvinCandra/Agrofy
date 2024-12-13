@@ -1,4 +1,11 @@
+import { useLocation } from "react-router-dom";
+
 export default function SidebarAdmin() {
+  const location = useLocation();
+
+  // Fungsi untuk mengecek apakah halaman aktif
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
@@ -8,45 +15,53 @@ export default function SidebarAdmin() {
           <li>
             <a
               href="/dashboard-admin"
-              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
+              className={`flex items-center p-2 rounded-md text-black ${
+                isActive("/dashboard-admin")
+                  ? "bg-main-green text-white"
+                  : "hover:bg-main-green-hover hover:text-white"
+              }`}
             >
-              <i className="fa-solid fa-user-tie  text-lg text-black"></i>
-              <span className="text-black hover:text-white ml-4">
-                Data Admin
-              </span>
+              <i className="fa-solid fa-user-tie text-lg"></i>
+              <span className="ml-4">Data Admin</span>
             </a>
           </li>
           <li>
             <a
               href="/dashboard-admin/kategori-admin"
-              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
+              className={`flex items-center p-2 rounded-md text-black ${
+                isActive("/dashboard-admin/kategori-admin")
+                  ? "bg-main-green text-white"
+                  : "hover:bg-main-green-hover hover:text-white"
+              }`}
             >
-              <i className="fa-solid fa-bookmark text-black text-lg"></i>
-              <span className="text-black hover:text-white ml-4">
-                Data Kategori
-              </span>
+              <i className="fa-solid fa-bookmark text-lg"></i>
+              <span className="ml-4">Data Kategori</span>
             </a>
           </li>
           <li>
             <a
               href="/dashboard-admin/artikel-admin"
-              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
+              className={`flex items-center p-2 rounded-md text-black ${
+                isActive("/dashboard-admin/artikel-admin")
+                  ? "bg-main-green text-white"
+                  : "hover:bg-main-green-hover hover:text-white"
+              }`}
             >
-              <i className="fa-solid fa-newspaper text-lg text-black"></i>
-              <span className="text-black hover:text-white ml-4">
-                Data Artikel
-              </span>
+              <i className="fa-solid fa-newspaper text-lg"></i>
+              <span className="ml-4">Data Artikel</span>
             </a>
           </li>
           <li>
             <a
               href="/dashboard-admin/video-admin"
-              className="flex items-center p-2 rounded-md hover:bg-main-green-hover"
+              className={`flex items-center p-2 rounded-md text-black ${
+                isActive("/dashboard-admin/video-admin")
+                  ? "bg-main-green text-white"
+                  : "hover:bg-main-green-hover hover:text-white"
+              }`}
             >
-              <i className="fa-solid fa-video text-lg text-black"></i>
-              <span className="text-black hover:text-white ml-4">
-                Data Video
-              </span>
+              <i className="fa-solid fa-video text-lg"></i>
+              <span className="ml-4">Data Video</span>
             </a>
           </li>
         </ul>

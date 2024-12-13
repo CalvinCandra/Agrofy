@@ -243,14 +243,14 @@ export default function Komunitas() {
 
   return (
     <section className="bg-brown-light lg:pt-20 pt-10 relative section-komunitas">
-      <div className="w-konten mx-auto p-2">
-        <h1 className="text-3xl lg:text-5xl font-bold py-5 text-center my-10">
+      <div className="w-konten max-w-screen-md mx-auto p-2">
+        <h1 className="text-3xl lg:text-4xl font-bold py-5 text-center my-10">
           Komunitas Agrofy
         </h1>
 
         {/* Kolom Input */}
         <button
-          className="h-14 w-14 bg-main-green rounded-full fixed right-5 flex justify-center items-center z-50 shadow-lg"
+          className="h-20 w-20 bg-main-green rounded-full fixed right-60 flex justify-center items-center z-50 shadow-xl"
           style={{ bottom: `${position.bottom}px` }}
           onClick={() => setShowModalPost(true)}
         >
@@ -328,7 +328,7 @@ export default function Komunitas() {
                       {/* Icon Comment */}
                       <div className="flex items-center w-full">
                         <i
-                          className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[10%]"
+                          className="fa-regular fa-comment-dots text-xl lg:text-2xl cursor-pointer w-[15%]"
                           onClick={() => {
                             setSelectedCommentId(data.id);
                             setShowModalKomen(true);
@@ -353,7 +353,7 @@ export default function Komunitas() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-5 rounded-lg w-full max-w-lg mx-4 lg:mx-0 lg:max-w-2xl overflow-y-auto max-h-[80vh]">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-bold">Posting</h3>
+                <h3 className="text-lg font-bold">Buat Postingan</h3>
 
                 <button onClick={() => setShowModalPost(false)}>
                   <i className="fa-solid fa-xmark"></i>
@@ -365,7 +365,7 @@ export default function Komunitas() {
                 <form onSubmit={handelTambahPost} encType="multipart/form-data">
                   <div className="mt-4 mb-4 max-h-[600px] overflow-y-auto">
                     <label className="block mb-2 text-sm font-medium text-black">
-                      Tuliskan apa yang mau diposting
+                      Tuliskan apa yang ingin diposting
                     </label>
                     <CKEditor
                       editor={ClassicEditor}
@@ -472,7 +472,7 @@ export default function Komunitas() {
                   ></textarea>
 
                   <div className="mt-6 w-40 m-auto">
-                    <ButtonSubmit text="Komentar" variant="primary" />
+                    <ButtonSubmit text="Kirim" variant="primary" />
                   </div>
                 </form>
               </div>

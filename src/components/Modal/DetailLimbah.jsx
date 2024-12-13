@@ -122,63 +122,69 @@ const DetailLimbah = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative">
+      <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-2/4 shadow-lg relative">
         <button
-          className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-5 text-gray-600 hover:text-gray-800"
           onClick={onClose}
-          aria-label="Close"
         >
-          &times; {/* Cross icon */}
+          <i className="fa-solid fa-xmark"></i>
         </button>
+        <h2 className="text-xl font-semibold mb-8 text-center">
+          Detail Limbah
+        </h2>
 
-        <div className="lg:flex lg:mb-4 mt-5 ">
-          <img
-            src={newImagePreview || ImageImport.gambar}
-            className="w-[60%] object-cover bg-gray-400 rounded-md"
-            alt="Preview"
-            onClick={() => document.getElementById("imageInput").click()} // Trigger file input
-          />
-          <div className="lg:ml-4 lg:pt-0 pt-5 w-full">
+        <div className="lg:flex gap-6 mb-6">
+          {/* Foto Limbah */}
+          <div className="lg:w-1/3 w-full">
+            <img
+              src={newImagePreview || ImageImport.gambar}
+              className="w-full h-[250px] object-cover bg-gray-400 rounded-md"
+              alt="Preview"
+              onClick={() => document.getElementById("imageInput").click()} // Trigger file input
+            />
+            <input
+              id="imageInput"
+              type="file"
+              accept="image/jpeg, image/png, image/jpg"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </div>
+
+          {/* Informasi Limbah */}
+          <div className="lg:w-2/3 w-full">
+            <h1 className="font-semibold pb-2">Nama Limbah</h1>
             <input
               type="text"
-              className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
+              className="h-14 w-full mb-4 rounded-lg border border-gray-300 p-2"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
-            <input
-              type="date"
-              className="h-14 w-full rounded-lg border border-gray-300 p-2 hidden"
-              value={date}
+
+            <h1 className="font-semibold pb-2">Deskripsi</h1>
+            <textarea
+              name="deskripsi"
+              className="w-full h-[150px] border border-gray-300 rounded-lg p-2 mb-4"
+              value={newDeskripsi}
+              onChange={(e) => setNewDeskripsi(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="mb-4">
-          <textarea
-            name="deskripsi"
-            className="w-full h-40 border border-gray-300 rounded-lg p-2"
-            value={newDeskripsi}
-            onChange={(e) => setNewDeskripsi(e.target.value)}
-          />
-        </div>
+        {error && <p className="text-red-600 mb-4">{error}</p>}
 
-        <input
-          id="imageInput"
-          type="file"
-          accept="image/jpeg, image/png, image/jpg"
-          className="hidden"
-          onChange={handleImageChange}
-        />
-
-        {error && <p className="text-red-600">{error}</p>}
-
-        <div className="flex">
+        <div className="flex justify-between gap-2">
           <ButtonHref
             text="Perbaharui"
             variant="primary"
             onClick={handleEdit}
           />
-          <ButtonHref text="Hapus" variant="primary" onClick={handleDelete} />
+          <button
+            className="w-full text-white bg-red-500 rounded hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
+            onClick={handleDelete}
+          >
+            Hapus
+          </button>
         </div>
       </div>
     </div>

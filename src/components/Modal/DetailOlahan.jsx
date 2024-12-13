@@ -19,7 +19,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
     ]
   );
 
-  const isDisabled = formData.status === "selesai" || formData.status === "gagal";
+  const isDisabled =
+    formData.status === "selesai" || formData.status === "gagal";
 
   useEffect(() => {
     if (isOpen && limbah) {
@@ -90,7 +91,6 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
     });
     setFields(updatedFields);
   };
-  
 
   const handleRemoveField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
@@ -164,24 +164,41 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-lg w-full mx-1 lg:w-[60%] overflow-y-auto h-[40rem]">
-        <h2 className="text-xl font-semibold mb-4">{`Edit Pengolahan: ${formData.id}`}</h2>
+      <div className="relative bg-white p-8 rounded-lg w-full mx-1 lg:w-[60%] overflow-y-auto h-[40rem]">
+        <button
+          className="absolute top-4 right-5 text-gray-600 hover:text-gray-800"
+          onClick={onClose}
+        >
+          <i className="fa-solid fa-xmark"></i>
+        </button>
+        <h2 className="text-xl font-semibold mb-8 text-center">
+          Edit Pengolahan Limbah
+        </h2>
 
-        <div className="lg:flex justify-between">
+        <div className="lg:flex justify-between mb-6 gap-x-8">
           {/* Preview Gambar Limbah */}
           {limbah && (
-            <div className="mb-4 w-full">
+            <div className="lg:w-1/4 w-full mb-4">
               <img
                 src={`${config.apiUrlImage}/uploads/${limbah.gambar}`}
                 alt={`Limbah ${formData.id}`}
-                className="mt-2 w-[80%] max-w-sm object-cover rounded-md"
+                className="w-full max-w-sm object-cover rounded-md"
               />
             </div>
           )}
-          <div className="flex flex-col-reverse w-full start-0 ">
+
+          <div className="lg:w-3/4 w-full">
+            {/* Nama Limbah */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold">Nama Limbah</label>
+              <p className="mt-2 text-gray-900">
+                {limbah?.nama_limbah || "Nama limbah tidak tersedia"}
+              </p>
+            </div>
+
             {/* Target Olahan */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-semibold">
                 Target Olahan
               </label>
               <input
@@ -194,21 +211,12 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                 disabled={isDisabled}
               />
             </div>
-            {/* Menampilkan Nama Limbah di atas Preview Gambar */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Nama Limbah
-              </label>
-              <p className="mt-2 text-gray-900">
-                {limbah?.nama_limbah || "Nama limbah tidak tersedia"}
-              </p>
-            </div>
           </div>
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Tenggat Olahan
+          <label className="block text-sm font-semibold">
+            Tenggat Proses Pengolahan
           </label>
           <input
             type="date"
@@ -223,8 +231,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
 
         {/* Status */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Status
+          <label className="block text-sm font-semibold">
+            Status Pengolahan
           </label>
           <select
             value={formData.status}
@@ -245,8 +253,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
             <div key={index} className="mb-4">
               <div className="lg:flex mb-4 lg:gap-2 flex-col">
                 <div className="w-full">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Catatan
+                  <label className="block text-sm font-semibold">
+                    Catatan {index + 1}
                   </label>
                   <input
                     type="text"
@@ -261,8 +269,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
 
                 <div className="flex lg:flex-row flex-col">
                   <div className="lg:w-1/3 mt-3 lg:mt-0 lg:me-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Mulai
+                    <label className="block text-sm font-semibold">
+                      Tanggal Mulai
                     </label>
                     <input
                       type="date"
@@ -276,8 +284,8 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
                   </div>
 
                   <div className="lg:w-1/3 mt-3 lg:mt-0 lg:me-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Selesai
+                    <label className="block text-sm font-semibold">
+                      Tanggal Selesai
                     </label>
                     <input
                       type="date"
@@ -307,7 +315,7 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
           ))}
           <button
             onClick={handleAddField}
-            className="bg-main-green text-white p-2 rounded-md mt-2 mb-5 lg:mb-0"
+            className="bg-main-green text-white p-2 rounded-md mt-2 mb-5 lg:mb-0 hover:bg-main-green-hover"
             disabled={isDisabled}
           >
             + Tambah Catatan
@@ -315,18 +323,18 @@ const DetailOlahan = ({ isOpen, onClose, limbah, onSubmitSuccess }) => {
         </div>
 
         {/* Submit and Close buttons */}
-        <div className="flex justify-end space-x-4">
-          <button
+        <div className="flex justify-end space-x-2">
+          {/* <button
             onClick={onClose}
-            className="bg-gray-300 text-gray-800 p-2 rounded-md"
+            className="bg-gray-300 text-gray-800 p-2 rounded-md hover:bg-gray-400 px-5"
           >
             Close
-          </button>
+          </button> */}
           <button
             onClick={handleSubmit}
-            className="bg-main-green text-white p-2 rounded-md"
+            className="bg-main-green text-white p-2 rounded-md hover:bg-main-green-hover px-12"
           >
-            Save
+            Simpan
           </button>
         </div>
       </div>

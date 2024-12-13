@@ -155,14 +155,15 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-[60%] shadow-lg relative overflow-y-auto h-[40rem]">
         <button
-          className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-5 text-gray-600 hover:text-gray-800"
           onClick={onClose}
-          aria-label="Close"
         >
-          &times;
+          <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <h2 className="text-lg font-semibold mb-4">Tambah Pengolahan Limbah</h2>
+        <h2 className="text-xl font-bold mb-4 pt-4 pb-3 text-center">
+          Tambah Pengolahan Limbah
+        </h2>
         <div className="lg:flex justify-between">
           {/* Image Preview */}
           {selectedLimbah && (
@@ -176,6 +177,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           )}
           {/* Dropdown Limbah */}
           <div className="mb-4 w-full">
+            <h1 className="font-semibold">Nama Limbah</h1>
             <select
               className="h-14 w-full rounded-lg border border-gray-300 p-2"
               onChange={(e) => {
@@ -200,6 +202,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
 
         {/* Form Fields */}
         <div className="mb-4">
+          <h1 className="font-semibold">Target Olahan</h1>
           <input
             type="text"
             className="h-14 w-full rounded-lg border border-gray-300 p-2"
@@ -210,8 +213,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           />
         </div>
 
-        <p className="pb-2">Masukan Tanggal selesai Pengolahan</p>
-
+        <h1 className="font-semibold">Perkiraan tanggal selesai Pengolahan</h1>
         <div className="flex gap-4 mb-4">
           <input
             type="date" // Changed to date input to remove time
@@ -232,11 +234,14 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           />
         </div>
 
-        <p className="pb-2">Masukan cacatan atau tahapan pengolahan</p>
+        <h1 className="font-semibold">Catatan atau Tahapan Pengolahan</h1>
 
         {/* Dynamic Fields for Periode */}
         {fields.map((field, index) => (
           <div key={field.id} className="lg:flex mb-4 lg:gap-2 flex-col">
+            <h1 className="text-gray-700 italic text-sm">
+              *Tahapan {index + 1}
+            </h1>
             <textarea
               className="w-full border border-gray-300 rounded-lg p-2"
               placeholder="Catatan"
@@ -246,30 +251,47 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
               }
             />
             <div>
-              <input
-                type="date"
-                className="w-1/3 rounded-lg border border-gray-300 p-2 me-2"
-                value={field.periodeMulai}
-                onChange={(e) =>
-                  handleFieldChange(index, "periodeMulai", e.target.value)
-                }
-              />
-              <input
-                type="date"
-                className="w-1/3 rounded-lg border border-gray-300 p-2 me-2"
-                value={field.periodeSelesai}
-                onChange={(e) =>
-                  handleFieldChange(index, "periodeSelesai", e.target.value)
-                }
-              />
-              {fields.length > 1 && (
-                <button
-                  className="text-red-500 hover:underline"
-                  onClick={() => handleRemoveField(index)}
-                >
-                  Hapus
-                </button>
-              )}
+              <div className="flex gap-6 items-center">
+                {/* Input tanggal mulai */}
+                <div className="flex flex-col">
+                  <h1 className="text-gray-700 italic text-sm">
+                    *tanggal mulai
+                  </h1>
+                  <input
+                    type="date"
+                    className="w-full rounded-lg border border-gray-300 p-2"
+                    value={field.periodeMulai}
+                    onChange={(e) =>
+                      handleFieldChange(index, "periodeMulai", e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* Input tanggal selesai */}
+                <div className="flex flex-col">
+                  <h1 className="text-gray-700 italic text-sm">
+                    *tanggal selesai
+                  </h1>
+                  <input
+                    type="date"
+                    className="w-full rounded-lg border border-gray-300 p-2"
+                    value={field.periodeSelesai}
+                    onChange={(e) =>
+                      handleFieldChange(index, "periodeSelesai", e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* Tombol hapus */}
+                {fields.length > 1 && (
+                  <button
+                    className="text-red-500 hover:underline items-end"
+                    onClick={() => handleRemoveField(index)}
+                  >
+                    Hapus
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -286,7 +308,7 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
-            className="bg-main-green text-white px-4 py-2 rounded-lg hover:bg-green-600"
+            className="bg-main-green text-white px-12 py-2 rounded-lg hover:bg-green-600"
             onClick={handleSubmit}
           >
             Simpan

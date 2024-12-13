@@ -3,28 +3,46 @@ import ButtonHref from "../../components/Button/ButtonHref";
 export default function CardVideo(props) {
   const { img, judul, deskripsi, href, kategori } = props;
   return (
-    <div className="shadow-sm-light shadow-gray-500 w-full lg:w-[30%] my-2 lg:m-4 flex flex-col justify-between">
-      <div>
-        <div className="w-full h-[220px] overflow-hidden">
-          <img src={img} className="w-full h-full object-cover" />
-        </div>
+    <div className="shadow-md shadow-gray-300 rounded-lg overflow-hidden w-full lg:w-[30%] my-4 flex flex-col justify-between bg-white">
+      {/* Gambar */}
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ paddingBottom: "56.25%" }}
+      >
+        <img
+          src={img}
+          alt="Thumbnail"
+          className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300"
+        />
+      </div>
 
-        <p className="text-black font-bold text-sm mt-2 mx-2 text-center lg:text-left">
+      {/* Konten */}
+      <div className="px-4 pt-4 flex flex-col gap-3">
+        {/* Judul */}
+        <p className="text-black font-bold text-sm lg:text-base line-clamp-2 text-center lg:text-left">
           {judul}
         </p>
 
-        <p className="text-black font-normal text-xs mt-2 mx-2 line-clamp-3 text-center lg:text-justify">
+        {/* Deskripsi */}
+        <p className="text-gray-600 font-normal text-xs lg:text-sm line-clamp-3 text-center lg:text-justify">
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 
-        <div className="flex max-w-max m-auto lg:m-0 lg:ml-1 mt-3 lg:mt-2 border-2 border-main-green py-1 px-2 items-center">
-          <i className="fa-regular fa-bookmark me-3"></i>
-          {kategori}
+        {/* Kategori */}
+        <div className="flex items-center justify-center lg:justify-start gap-2 text-sm text-main-green font-medium mt-2">
+          <i className="fa-regular fa-bookmark"></i>
+          <span>{kategori}</span>
         </div>
       </div>
 
-      <div className="lg:w-[80%] py-5 mt-2 lg:m-0 m-auto">
-        <ButtonHref href={href} text="Tonton Sekarang" variant="primary" />
+      {/* Tombol */}
+      <div className="p-4 -ml-1 mb-4">
+        <ButtonHref
+          href={href}
+          text="Tonton Sekarang"
+          variant="primary"
+          className="w-full lg:w-[80%] mx-auto"
+        />
       </div>
     </div>
   );
