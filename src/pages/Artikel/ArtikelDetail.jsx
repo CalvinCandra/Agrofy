@@ -53,16 +53,16 @@ export default function ArtikelDetail() {
   }
 
   return (
-    <section className="bg-white lg:pt-28 pt-12">
+    <section className="bg-white lg:pt-28 pt-12 max-w-screen-md mx-auto">
       {artikel ? (
         <div className="w-konten m-auto">
           {/* Judul */}
           <div className="my-10">
-            <h1 className="font-bold text-3xl lg:text-5xl py-3">
+            <h1 className="font-bold text-3xl lg:text-4xl py-3">
               {artikel.judul_artikel}
             </h1>
 
-            <div className="mt-1 flex items-center text-gray-500">
+            <div className="mt-2 flex items-center text-gray-500">
               <i className="fa-solid fa-calendar-days me-2"></i>
               <h5 className="mt-0.5">
                 {new Date(artikel.created_at).toLocaleDateString("id-ID", {
@@ -79,7 +79,7 @@ export default function ArtikelDetail() {
           </div>
 
           {/*Gambar*/}
-          <div className="w-full p-1 h-[200px] lg:h-[500px] mb-10">
+          <div className="w-full h-[200px] lg:h-[400px] mb-10">
             <img
               src={`${config.apiUrlImage}/artikel/${artikel.thumbnail}`}
               className="h-full w-full"

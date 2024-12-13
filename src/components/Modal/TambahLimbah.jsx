@@ -76,56 +76,72 @@ const TambahLimbah = ({ isOpen, onClose, title }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-md p-5 w-full mx-1 lg:w-1/2 shadow-lg relative">
+        {/* Tombol Close */}
         <button
-          className="absolute top-2 right-3 text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-5 text-gray-600 hover:text-gray-800"
           onClick={onClose}
-          aria-label="Close"
         >
-          &times;
+          <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <div className="lg:flex lg:mb-4 mt-5">
-          <label htmlFor="upload-image" className="cursor-pointer">
-            <img
-              src={gambar || ImageImport.gambar} // Placeholder jika belum ada gambar
-              className="w-[70%] object-cover bg-gray-400 rounded-md"
-              alt="Limbah"
+        {/* Judul Modal */}
+        <h2 className="text-xl font-bold pt-4 text-center">
+          Tambah Data Limbah
+        </h2>
+
+        {/* Konten Utama */}
+        <div className="lg:flex lg:space-x-4 mt-8">
+          {/* Input Gambar */}
+          <div className="w-full lg:w-1/3">
+            <label htmlFor="upload-image" className="cursor-pointer">
+              <img
+                src={gambar || ImageImport.gambar}
+                className="w-full object-cover bg-gray-400 rounded-md"
+                alt="Limbah"
+              />
+            </label>
+            <input
+              id="upload-image"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
             />
-          </label>
-          <input
-            id="upload-image"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div className="lg:ml-4 w-full lg:pt-0 pt-4">
+          </div>
+
+          {/* Input Teks dan Deskripsi */}
+          <div className="w-full lg:w-2/3 mt-4 lg:mt-0">
+            {/* Input Nama Limbah */}
+            <h1 className="font-semibold pb-2">Nama Limbah</h1>
             <input
               type="text"
               className="h-14 w-full mb-6 rounded-lg border border-gray-300 p-2"
-              placeholder="Nama Limbah"
+              placeholder="Masukkan Nama Limbah"
               value={namaLimbah}
               onChange={(e) => setNamaLimbah(e.target.value)}
             />
+
+            {/* Input Tanggal (Tersembunyi) */}
             <input
               type="date"
               className="h-14 w-full rounded-lg border border-gray-300 p-2 hidden"
               value={tanggalMasuk}
               onChange={(e) => setTanggalMasuk(e.target.value)}
             />
+
+            {/* Input Deskripsi */}
+            <h1 className="font-semibold pb-2">Deskripsi</h1>
+            <textarea
+              className="w-full h-40 border border-gray-300 rounded-lg p-2"
+              placeholder="Masukkan deskripsi"
+              value={deskripsi}
+              onChange={(e) => setDeskripsi(e.target.value)}
+            />
           </div>
         </div>
 
-        <div className="mb-4">
-          <textarea
-            className="w-full h-40 border border-gray-300 rounded-lg p-2"
-            placeholder="Deskripsi"
-            value={deskripsi}
-            onChange={(e) => setDeskripsi(e.target.value)}
-          />
-        </div>
-
-        <div className="flex justify-end">
+        {/* Tombol Aksi */}
+        <div className="flex justify-end mt-5">
           <ButtonHref text="Tambah" variant="primary" onClick={handleSubmit} />
         </div>
       </div>

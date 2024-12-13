@@ -28,7 +28,7 @@ import _video from "../assets/img/pemberdayaan/video.png";
 //dashboard
 import _sidebardash from "../assets/img/dashboard/dashboard.png";
 import _sidebardash1 from "../assets/img/dashboard/limbah.png";
-import _sidebardash2 from "../assets/img/dashboard/laporan.png";
+// import _sidebardash2 from "../assets/img/dashboard/laporan.png";
 import _sidebardash3 from "../assets/img/dashboard/olahan.png";
 import _sidebardash4 from "../assets/img/dashboard/proses.png";
 import _sidebardash5 from "../assets/img/dashboard/riwayat.png";
@@ -39,6 +39,12 @@ import _indikator4 from "../assets/img/dashboard/olahani.png";
 import _sekam from "../assets/img/dashboard/sekam.jpeg";
 import _jerami from "../assets/img/dashboard/konten/jerami.png";
 import _gambar from "../assets/img/dashboard/gambar.png";
+import _sidebardashactive from "../assets/img/dashboard/dashboard-active.png";
+import _sidebardash1active from "../assets/img/dashboard/limbah-active.png";
+// import _sidebardash2active from "../assets/img/dashboard/laporan.png";
+import _sidebardash3active from "../assets/img/dashboard/olahan-active.png";
+import _sidebardash4active from "../assets/img/dashboard/proses-active.png";
+import _sidebardash5active from "../assets/img/dashboard/riwayat-active.png";
 
 // profile
 import _default from "../assets/img/profile/default.png";
@@ -79,7 +85,7 @@ const ImageImport = {
   //dashboard
   dashboard: _sidebardash,
   limbah: _sidebardash1,
-  laporan: _sidebardash2,
+  // laporan: _sidebardash2,
   olahan: _sidebardash3,
   proses: _sidebardash4,
   riwayat: _sidebardash5,
@@ -90,6 +96,12 @@ const ImageImport = {
   sekam: _sekam,
   jerami: _jerami,
   gambar: _gambar,
+  dashboard_active: _sidebardashactive,
+  limbah_active: _sidebardash1active,
+  // laporan_active: _sidebardash2active,
+  olahan_active: _sidebardash3active,
+  proses_active: _sidebardash4active,
+  riwayat_active: _sidebardash5active,
 
   // profile
   default: _default,

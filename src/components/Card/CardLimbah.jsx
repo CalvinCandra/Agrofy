@@ -15,24 +15,28 @@ export default function CardLimbah(props) {
   };
 
   return (
-    <div>
-      <div className="bg-white rounded-md border-2 drop-shadow-md shadow-gray-400 overflow-hidden mx-2 h-[480px]">
+    <div className="flex flex-wrap justify-center gap-4 px-4 py-4">
+      <div className="bg-white rounded-md border-2 drop-shadow-md shadow-gray-400 overflow-hidden w-full max-w-sm flex flex-col">
         <div className="w-full">
           <img
-            className="px-3 py-3 w-full h-[20rem] object-cover"
+            className="w-full h-[250px] object-cover"
             src={img}
-            alt=""
+            alt={judul}
           />
         </div>
-        <p className="px-3 font-semibold text-lg">{judul}</p>
-        <p className="px-3 text-base line-clamp-2">{deskripsi}</p>
-        <div className="w-full px-10 pt-2 flex justify-center">
-          <ButtonHref
-            href="#"
-            text="Lihat"
-            variant="primary"
-            onClick={handleOpenModal} // Open modal on button click
-          />
+        <div className="flex flex-col justify-between flex-grow p-4">
+          <div>
+            <p className="font-semibold text-lg line-clamp-1 mb-2">{judul}</p>
+            <p className="text-base text-gray-600 line-clamp-2">{deskripsi}</p>
+          </div>
+          <div className="flex justify-center mt-4">
+            <ButtonHref
+              href="#"
+              text="Lihat"
+              variant="primary"
+              onClick={handleOpenModal} // Open modal on button click
+            />
+          </div>
         </div>
       </div>
 

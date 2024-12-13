@@ -76,7 +76,7 @@ export default function Footer() {
               <i className="fa-brands fa-instagram"></i>
             </a>
             <a href="#" className="text-white ms-5">
-              <i className="fa-brands fa-twitter"></i>
+              <i className="fa-brands fa-x-twitter"></i>
             </a>
             <a href="#" className="text-white ms-5">
               <i className="fa-brands fa-discord"></i>

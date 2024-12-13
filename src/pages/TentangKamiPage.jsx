@@ -4,7 +4,7 @@ import CardTeam from "../components/Card/CardTeam";
 
 export default function TentangKamiPage() {
   return (
-    <section className="bg-white pt-20 lg:pt-28">
+    <section className="bg-white pt-20 lg:pt-28 max-w-screen-xl mx-auto">
       <div className="w-konten m-auto flex justify-center items-center flex-col">
         <img
           src={ImageImport.logo}
@@ -12,7 +12,7 @@ export default function TentangKamiPage() {
           alt="Logo Agrofy"
         />
 
-        <h5 className="text-justify my-10 font-normal text-sm lg:text-lg">
+        <h5 className="text-justify my-10 font-normal text-sm lg:text-lg ">
           Agrofy adalah platform digital komprehensif yang dirancang untuk
           membantu petani dalam mengoptimalkan pengelolaan limbah pertanian
           melalui pemberdayaan dan kolaborasi. Dengan fokus utama pada edukasi,
@@ -44,7 +44,7 @@ export default function TentangKamiPage() {
               <h1 className="font-extrabold text-2xl py-1 text-center lg:text-left">
                 Visi
               </h1>
-              <p className="font-normal text-sm lg:text-lg text-justify lg:text-left">
+              <p className="font-normal text-sm lg:text-lg text-justify">
                 Menjadi tim merge yang inovatif, kreatif, dan kolaborasi yang
                 harmonis untuk menciptakan produk yang berkualitas tinggi.
               </p>

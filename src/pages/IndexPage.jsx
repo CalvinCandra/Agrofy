@@ -5,23 +5,23 @@ import Loading from "../components/Loading/Loading";
 
 export default function IndexPage() {
   return (
-    <div className="bg-bg-body">
+    <div className="bg-bg-body ">
       {/* Hero Section */}
       <section
         className="bg-brown-light pt-32 lg:pt-32 pb-14 lg:pb-26 flex items-center"
         id="hero"
       >
-        <div className="w-full lg:w-konten mx-auto flex flex-col lg:flex-row justify-between items-center lg:h-[35rem]">
+        <div className=" mx-auto flex flex-col lg:flex-row justify-between items-center lg:h-[35rem] max-w-screen-xl">
           <div className="w-[55%] md:w-[40%] lg:w-[60%] flex justify-center lg:hidden">
             <img src={ImageImport.hero} className="w-full"></img>
           </div>
 
-          {/* Kanan */}
-          <div className="p-2 lg:pt-0 w-[80%] lg:w-[60%] overflow-hidden">
+          {/* Kiri */}
+          <div className="p-2 lg:pt-0 w-[80%] lg:w-[60%] overflow-hidden pr-10">
             <h1 className="text-3xl lg:text-6xl text-center lg:text-start font-extrabold text-black overflow-hidden">
               Ayo cari tau manfaat limbah pertanian.{" "}
             </h1>
-            <h4 className="font-medium text-sm lg:text-xl text-center lg:text-left text-black mb-6 mt-3">
+            <h4 className="font-medium text-sm lg:text-xl text-center lg:text-justify text-black mb-6 mt-3">
               Temukan cara-cara praktis mengubah limbah pertanian menjadi produk
               bermanfaat. Dapatkan informasi dan tips untuk menjaga lingkungan
               sekaligus meningkatkan kesejahteraan. Mulai sekarang, kelola
@@ -35,8 +35,8 @@ export default function IndexPage() {
               />
             </div>
           </div>
-          {/* Kiri */}
-          <div className="lg:w-[40%] hidden lg:block overflow-hidden">
+          {/* Kanan */}
+          <div className="lg:w-[38%] hidden lg:block overflow-hidden">
             <img src={ImageImport.hero} className="w-full"></img>
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function IndexPage() {
               Manfaatkan Fitur Pemberdayaan untuk Pengelolaan Limbah Pertanian
               Organik
             </h1>
-            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-left">
+            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-justify">
               Fitur pemberdayaan ini membantu kamu belajar dalam mengelola
               limbah pertanian organik secara efektif. Dengan panduan dan
               pelatihan yang tersedia, Kamu dapat belajar cara mengolah limbah
@@ -157,7 +157,7 @@ export default function IndexPage() {
               Bergabung dengan Komunitas untuk Kolaborasi Pengelolaan Limbah
               Pertanian Organik
             </h1>
-            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-left">
+            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-justify">
               Di sini, kamu bisa berbagi cerita, tips, dan pengalaman dengan
               banyak orang tentang cara sederhana mengelola limbah organik.
               Lewat komunitas ini, kita bisa saling mendukung, bertanya, dan
@@ -200,7 +200,7 @@ export default function IndexPage() {
             <h1 className="text-xl lg:text-3xl text-center lg:text-left font-extrabold text-black p-2 lg:w-[80%]">
               Kelola Limbah dengan Mudah Lewat Fitur Manajemen Pengelolaan
             </h1>
-            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-left">
+            <p className="p-2 font-medium lg:text-lg text-sm text-center lg:text-justify">
               Fitur ini memudahkan kamu dalam mengelola limbah secara teratur
               dan efisien. Kamu bisa memantau, mencatat, dan mengatur seluruh
               proses pengolahan limbah, mulai dari pengumpulan hingga pengubahan

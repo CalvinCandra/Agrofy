@@ -53,25 +53,25 @@ export default function VideoList() {
   };
 
   return (
-    <section className="pt-20 bg-white">
+    <section className="pt-20 bg-white max-w-screen-xl mx-auto">
       <div className="w-konten mx-auto p-2 mb-10">
-        <h1 className="text-black text-4xl lg:text-5xl font-bold mt-10 mb-5 text-center py-4">
+        <h1 className="text-black text-3xl lg:text-4xl font-bold mt-10 mb-5 text-center py-4">
           Video Pemberdayaan
         </h1>
 
-        <p className="w-full lg:w-[50%] m-auto text-center text-sm md:text-base">
+        <p className="w-full lg:w-[80%] m-auto text-center text-sm md:text-base">
           Video-video informatif tentang pengolahan limbah. Temukan langkah
           praktis dan solusi kreatif untuk mendukung keberlanjutan lingkungan
           melalui inovasi pengolahan limbah pertanian yang efisien.
         </p>
 
         {/* Search */}
-        <div className="w-full my-10">
+        <div className="w-full lg my-10">
           <Search placeholder="Cari video..." onSearch={handleSearch} />
         </div>
 
         {/* Card */}
-        <div className="flex flex-col lg:flex-row justify-center lg:items-stretch flex-wrap p-2 w-full">
+        <div className="flex flex-col lg:flex-row flex-wrap w-full justify-around gap-4">
           {loading ? (
             <Loading />
           ) : video && video.length > 0 ? (

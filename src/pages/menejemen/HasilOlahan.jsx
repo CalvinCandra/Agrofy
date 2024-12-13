@@ -53,11 +53,11 @@ export default function HasilOlahan() {
     <div>
       <div className="w-full h-full rounded-md border-2 border-black p-5">
         <div className="bg-white w-full rounded-md">
-          <div className="flex justify-between">
-            <h1 className="font-bold text-3xl py-2">Hasil Olahan</h1>
+          <div className="flex justify-center">
+            <h1 className="font-bold text-3xl py-2">Hasil Olahan Limbah</h1>
           </div>
 
-          <div className="limbah-box pt-16 grid lg:grid-cols-3 sm:grid-cols-1 gap-16 pb-28">
+          <div className="limbah-box pt-8 grid lg:grid-cols-3 sm:grid-cols-1 gap-4 pb-14">
             {loading ? (
               <p>Loading...</p>
             ) : (
