@@ -101,7 +101,7 @@ const DetailHasilOlahan = ({
         <div className="flex flex-col lg:flex-row mb-4 mt-8">
           <div className="w-full lg:w-[60%]">
             <img
-              src={imagePreview}
+              src={imagePreview || ImageImport.logo}
               className="w-full h-[250px] object-cover bg-gray-400 rounded-md cursor-pointer"
               alt="Preview"
               onClick={() => document.getElementById("fileInput").click()} // Trigger file input when clicking image

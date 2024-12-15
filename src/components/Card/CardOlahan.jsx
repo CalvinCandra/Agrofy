@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ButtonHref from "../../components/Button/ButtonHref";
 import DetailHasilOlahan from "../../components/Modal/DetailHasilOlahan"; // Use DetailHasilOlahan
+import ImageImport from "../../data/ImageImport";
 
 export default function CardOlahan(props) {
   const { img, judul, deskripsi, id } = props;
@@ -20,7 +21,7 @@ export default function CardOlahan(props) {
         <div className="w-full">
           <img
             className="w-full h-[250px] object-cover"
-            src={img}
+            src={img || ImageImport.logo}
             alt={judul}
           />
         </div>
