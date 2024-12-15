@@ -72,8 +72,17 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           });
           return field; // Kembalikan field lama tanpa mengubahnya
         }
+        // Validasi untuk periodeMulai
+        if (fieldName === "periodeMulai" && value > formData.tgl_selesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode mulai tidak boleh lebih besar dari tenggat olahan.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
         // Validasi untuk periodeMulai agar tidak melebihi periodeSelesai
-        if (fieldName === "periodeMulai" && value > field.periodeSelesai) {
+        if (fieldName === "periodeMulai" && field.periodeSelesai && value > field.periodeSelesai) {
           showAlert({
             title: "Kesalahan",
             text: "Periode mulai tidak boleh lebih besar dari periode selesai.",
@@ -81,10 +90,32 @@ const PengolahanLimbah = ({ isOpen, onClose }) => {
           });
           return field; // Kembalikan field lama tanpa mengubahnya
         }
+        
+        // Validasi untuk periodeSelesai agar tidak lebih besar dari tenggat olahan
+        if (fieldName === "periodeSelesai" && value > formData.tgl_selesai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode selesai tidak boleh lebih besar dari tenggat olahan.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+        
+        // Validasi untuk periodeSelesai agar tidak lebih kecil dari periodeMulai
+        if (fieldName === "periodeSelesai" && field.periodeMulai && value < field.periodeMulai) {
+          showAlert({
+            title: "Kesalahan",
+            text: "Periode selesai tidak boleh lebih kecil dari periode mulai.",
+            iconType: "error",
+          });
+          return field; // Kembalikan field lama tanpa mengubahnya
+        }
+  
         return { ...field, [fieldName]: value };
       }
       return field;
     });
+  
     setFields(updatedFields);
   };
 
