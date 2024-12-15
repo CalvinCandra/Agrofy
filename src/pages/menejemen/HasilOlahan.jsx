@@ -5,6 +5,7 @@ import TambahLimbah from "../../components/Modal/TambahLimbah";
 import config from "../../config/config";
 import axios from "axios";
 import Paginationhasil from "../../components/Pagination/Paginationhasil";
+import ImageImport from "../../data/ImageImport";
 
 export default function HasilOlahan() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,7 +69,7 @@ export default function HasilOlahan() {
                   img={
                     olahan.gambar_olahan
                       ? `${config.apiUrlImage}/uploads/${olahan.gambar_olahan}`
-                      : "/default-image.jpg"
+                      : ImageImport.gambar
                   }
                   judul={olahan.target_olahan}
                   deskripsi={olahan.deskripsi_olahan}

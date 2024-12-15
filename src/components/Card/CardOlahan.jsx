@@ -21,7 +21,7 @@ export default function CardOlahan(props) {
         <div className="w-full">
           <img
             className="w-full h-[250px] object-cover"
-            src={img || ImageImport.logo}
+            src={img}
             alt={judul}
           />
         </div>
