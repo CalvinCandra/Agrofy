@@ -15,20 +15,20 @@ export default function CardArtikel(props) {
 
       {/* Right */}
       <div className="lg:ml-10 flex flex-col justify-between lg:h-[220px] pt-1">
-        <h1 className="ml-1 w-full font-semibold text-lg line-clamp-2 text-center lg:text-left lg:mt-0 overflow-hidden">
+        <h1 className="lg:ml-1 w-full font-semibold text-base lg:text-lg line-clamp-2 text-center lg:text-left mb-3 lg:mb-1 lg:mt-0 overflow-hidden">
           {judul}
         </h1>
 
-        <p className="ml-1 w-full font-normal text-sm text-center lg:text-justify line-clamp-2 pr-2">
+        <p className="text-gray-600 ml-1 w-full font-normal text-sm text-center lg:text-justify line-clamp-2 pr-2">
           {deskripsi.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
 
-        <div className="flex items-center justify-start ml-1 gap-2 text-sm text-main-green font-medium mt-2">
+        <div className="flex items-center justify-center lg:justify-start ml-1 gap-2 text-sm text-main-green font-medium mt-2">
           <i className="fa-regular fa-bookmark"></i>
           <span>{kategori}</span>
         </div>
 
-        <div className="py-4 lg:w-[30%] overflow-hidden">
+        <div className="py-4 lg:w-[30%] overflow-hidden flex justify-center lg:justify-start">
           <ButtonHref href={href} text="Baca Sekarang" variant="primary" />
         </div>
       </div>

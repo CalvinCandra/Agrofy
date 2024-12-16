@@ -36,7 +36,7 @@ export default function CardVideo(props) {
       </div>
 
       {/* Tombol */}
-      <div className="p-4 -ml-1 mb-4">
+      <div className="p-4 -ml-1 mb-4 flex lg:justify-start justify-center">
         <ButtonHref
           href={href}
           text="Tonton Sekarang"

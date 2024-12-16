@@ -515,7 +515,12 @@ export default function TableArtikel({ artikels }) {
               <form onSubmit={handelHapusArtikel}>
                 <div className="flex justify-center mt-4">
                   <div className="w-40 me-2">
-                    <ButtonSubmit text="Batal" variant="secondary" />
+                    <button
+                      onClick={() => setShowModalHapus(false)}
+                      className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Batal
+                    </button>
                   </div>
                   <div className="w-40">
                     <ButtonSubmit text="Hapus" variant="primary" />

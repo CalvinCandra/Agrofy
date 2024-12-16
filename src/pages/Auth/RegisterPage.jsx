@@ -98,9 +98,9 @@ export default function RegisterPage() {
                 Nama Lengkap
               </label>
               <input
-                type="text" // Mengganti tipe input untuk nama lengkap
+                type="text"
                 name="nama_lengkap"
-                id="nama_lengkap" // Mengubah id menjadi 'fullName' agar unik
+                id="nama_lengkap"
                 className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                 placeholder="Masukan nama lengkap"
                 value={nama_lengkap}
@@ -120,7 +120,7 @@ export default function RegisterPage() {
               <input
                 type="email"
                 name="email"
-                id="email" // Pastikan ID ini unik di halaman
+                id="email"
                 className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                 placeholder="Masukan email"
                 value={email}
@@ -129,7 +129,6 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Input untuk Password */}
             <div>
               <label
                 htmlFor="password"
@@ -139,9 +138,9 @@ export default function RegisterPage() {
               </label>
               <div className="relative">
                 <input
-                  type={Password ? "password" : "text"} // Menggunakan kondisi Password untuk menentukan tipe input
+                  type={Password ? "password" : "text"}
                   name="password"
-                  id="password" // ID unik untuk password
+                  id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
                   value={password}
