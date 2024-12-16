@@ -3,7 +3,6 @@ import ImageImport from "../../data/ImageImport";
 import ButtonSubmit from "../../components/Button/ButtonSubmit";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import Pagination from "../../components/Pagination/Pagination";
 import { showAlert } from "../../components/SweetAlert/SweetAlert";
 import Loading from "../../components/Loading/Loading.jsx";
 import axios from "axios";
@@ -24,11 +23,6 @@ export default function Komunitas() {
   // set state
   const [selectKomunitas, setSelectKomunitas] = useState([]);
   const [selectBalasan, setSelectBalasan] = useState([]);
-  const [pagination, setPagination] = useState({
-    currentPage: 1,
-    totalPages: 1,
-    totalData: 0,
-  });
 
   // set state inputan
   const [gambar, setGambar] = useState("");
@@ -250,7 +244,7 @@ export default function Komunitas() {
 
         {/* Kolom Input */}
         <button
-          className="h-20 w-20 bg-main-green rounded-full fixed right-60 flex justify-center items-center z-50 shadow-xl"
+          className="h-20 w-20 bg-main-green rounded-full fixed right-2 lg:right-60 flex justify-center items-center z-50 shadow-xl"
           style={{ bottom: `${position.bottom}px` }}
           onClick={() => setShowModalPost(true)}
         >

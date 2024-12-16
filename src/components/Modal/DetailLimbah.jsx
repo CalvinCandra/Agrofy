@@ -180,7 +180,7 @@ const DetailLimbah = ({
             onClick={handleEdit}
           />
           <button
-            className="w-full text-white bg-red-500 rounded hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
+            className="w-full m-1 text-white bg-red-500 border border-red hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             onClick={handleDelete}
           >
             Hapus

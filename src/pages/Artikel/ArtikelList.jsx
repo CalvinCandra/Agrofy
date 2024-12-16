@@ -58,7 +58,7 @@ export default function ArtikelList() {
           Artikel Pemberdayaan
         </h1>
 
-        <p className="w-full text-base m-auto text-center">
+        <p className="w-full lg:w-[80%] m-auto text-center text-sm md:text-base">
           Baca berbagai artikel inspiratif tentang pengelolaan limbah pertanian.
           Tingkatkan pengetahuan dan temukan wawasan baru untuk menciptakan
           solusi berkelanjutan bagi lingkungan.

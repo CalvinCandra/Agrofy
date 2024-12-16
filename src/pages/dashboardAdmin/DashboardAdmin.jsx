@@ -20,6 +20,17 @@ export default function DashboardAdmin() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // Set Modal Tambah
   const [showModalTambah, setShowModalTambah] = useState(false);
+  // State untuk fungsi eye
+  const [Password, setPassword] = useState(true);
+  const [KonfirmasiPassword, setKonfirmasiPassword] = useState(true);
+  // Fungsi untuk toggle tipe input
+  const togglePasswordVisibility = () => {
+    setPassword((prevPassword) => !prevPassword);
+  };
+  // Fungsi untuk toggle tipe input
+  const toggleKonfirmasiPasswordVisibility = () => {
+    setKonfirmasiPassword((prevKonfirmasiPassword) => !prevKonfirmasiPassword);
+  };
 
   // set variabel
   const [users, setUsers] = useState([]);
@@ -32,6 +43,7 @@ export default function DashboardAdmin() {
   const [nama_lengkap, setNamaLengkap] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpasswordInput] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // get token
   const token = sessionStorage.getItem("Token");
@@ -81,6 +93,7 @@ export default function DashboardAdmin() {
           nama_lengkap,
           email,
           password,
+          confirmPassword,
           role: "admin",
         },
         {
@@ -260,19 +273,65 @@ export default function DashboardAdmin() {
                 </div>
 
                 <div className="mt-4">
-                  <label className="block mb-2 text-sm font-medium text-black">
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-black"
+                  >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
-                    placeholder="Masukan password"
-                    value={password}
-                    onChange={(e) => setpasswordInput(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type={Password ? "password" : "text"}
+                      name="password"
+                      id="password"
+                      placeholder="••••••••"
+                      className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
+                      value={password}
+                      onChange={(e) => setpasswordInput(e.target.value)}
+                      required
+                    />
+                    <span
+                      className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <i
+                        className={`fa-regular ${
+                          Password ? "fa-eye" : "fa-eye-slash"
+                        }`}
+                      ></i>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block mb-2 text-sm font-medium text-black"
+                  >
+                    Konfirmasi Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={KonfirmasiPassword ? "password" : "text"}
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      placeholder="••••••••"
+                      className="bg-gray-50 border border-stroke-gray text-black rounded-lg block w-full p-2.5 focus:ring-0 focus:outline-none focus:border-main-green"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                    />
+                    <span
+                      className="absolute end-2.5 bottom-[8px] cursor-pointer icon"
+                      onClick={toggleKonfirmasiPasswordVisibility}
+                    >
+                      <i
+                        className={`fa-regular ${
+                          KonfirmasiPassword ? "fa-eye" : "fa-eye-slash"
+                        }`}
+                      ></i>
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex justify-end mt-4">
