@@ -136,52 +136,6 @@ export default function ProfilePage() {
     event.preventDefault();
     setLoading(true);
 
-    // Validasi panjang password minimal 8 karakter
-    if (user.newPassword.length < 8) {
-      // Tampilkan alert untuk kesalahan panjang password
-      showAlert({
-        title: "Error",
-        text: "Password harus terdiri dari minimal 8 karakter.",
-        iconType: "error",
-      });
-
-      // Tandai input yang bermasalah
-      setErrors({
-        newPassword: true,
-        confirmPassword: false, // Hanya highlight newPassword
-      });
-
-      // Kosongkan input password
-      setUser({
-        ...user,
-        newPassword: "",
-        confirmPassword: "",
-      });
-
-      setLoading(false);
-      return;
-    }
-
-    if (user.newPassword !== user.confirmPassword) {
-      setNotification("Password Tidak Sama");
-
-      // Tandai input yang bermasalah
-      setErrors({
-        newPassword: true,
-        confirmPassword: true,
-      });
-
-      // Kosongkan input
-      setUser({
-        ...user,
-        newPassword: "",
-        confirmPassword: "",
-      });
-
-      setLoading(false);
-      return;
-    }
-
     try {
       const response = await axios.put(
         `${config.apiUrl}/profile/password`,
@@ -215,15 +169,21 @@ export default function ProfilePage() {
       // Menangani error yang dikirimkan oleh server
       let errorMessage = "Gagal memperbarui password. Silakan coba lagi.";
 
+      if (error.response && error.response.data) {
+        // Jika error dari server ada di response.data
+        if (error.response.data.msg) {
+          errorMessage = error.response.data.msg; // Tampilkan pesan dari server jika ada
+        }
+      } else {
+        // Jika error tidak ada response dari server
+        errorMessage = error.message;
+      }
+
       // Menampilkan alert dengan pesan error spesifik
       showAlert({
         title: "Oppss",
         text: `${errorMessage}`,
         iconType: "error",
-        didClose: () => {
-          navigate("/profile");
-          window.location.reload();
-        },
       });
     } finally {
       setLoading(false);

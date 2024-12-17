@@ -70,10 +70,6 @@ export default function RegisterPage() {
         title: "Oppss",
         text: `${errorMessage}`,
         iconType: "error",
-        didClose: () => {
-          navigate("/register");
-          window.location.reload();
-        },
       });
     } finally {
       setLoading(false);
