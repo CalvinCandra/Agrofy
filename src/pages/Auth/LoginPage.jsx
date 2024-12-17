@@ -72,10 +72,6 @@ export default function LoginPage() {
         title: "Oppss",
         text: `${errorMessage}`,
         iconType: "error",
-        didClose: () => {
-          navigate("/login");
-          window.location.reload();
-        },
       });
     } finally {
       setLoading(false);

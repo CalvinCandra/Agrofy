@@ -135,10 +135,6 @@ export default function DashboardAdmin() {
         title: "Oppss",
         text: `${errorMessage}`,
         iconType: "error",
-        didClose: () => {
-          navigate("/dashboard-admin");
-          window.location.reload();
-        },
       });
       fetchUsers(); // refresh table
     } finally {
